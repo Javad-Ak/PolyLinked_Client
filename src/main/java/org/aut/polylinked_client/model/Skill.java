@@ -1,6 +1,6 @@
 package org.aut.polylinked_client.model;
 
-import org.aut.utils.exceptions.NotAcceptableException;
+import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
 import org.json.JSONObject;
 
 import java.util.Random;

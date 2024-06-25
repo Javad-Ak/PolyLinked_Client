@@ -1,7 +1,6 @@
 package org.aut.polylinked_client.model;
 
-import org.aut.utils.exceptions.NotAcceptableException;
-import org.aut.utils.exceptions.NotFoundException;
+import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,7 +31,7 @@ public class CallInfo implements JsonSerializable {
         this.socialMedia = socialMedia;
     }
 
-    public CallInfo(JSONObject jsonObject) throws NotAcceptableException, NotFoundException {
+    public CallInfo(JSONObject jsonObject) throws NotAcceptableException {
         try {
             userId = jsonObject.getString("userId");
             email = jsonObject.getString("emailAddress");
