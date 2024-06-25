@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
@@ -28,17 +28,17 @@
             </Label>
             <VBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
-                  <JFXTextField fx:id="emailText" promptText="Email">
+                  <JFXTextField promptText="Email">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                   </JFXTextField>
-                  <JFXTextField fx:id="passwordText" promptText="Password">
+                  <JFXTextField promptText="Password">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                   </JFXTextField>
-                  <Hyperlink onAction="#forgotPasswordClicked" text="Forgot password?">
+                  <Hyperlink text="Forgot password?">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -48,7 +48,7 @@
                   <Insets bottom="30.0" top="30.0" />
                </VBox.margin>
             </VBox>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loginClicked" text="Login">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Login">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -56,7 +56,7 @@
             <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <children>
                   <Label text="Don't have an account?" />
-                  <Hyperlink onAction="#signupClicked" text="Signup" />
+                  <Hyperlink text="Signup" />
                </children>
             </HBox>
          </children>

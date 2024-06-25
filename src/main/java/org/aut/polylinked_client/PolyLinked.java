@@ -39,12 +39,13 @@ public class PolyLinked extends Application {
 
     public enum SceneLevel {
         login("fxmls/login.fxml"),
+        signup("fxmls/signup.fxml"),
         home("fxmls/home.fxml");
 
         private final URL fxmlURL;
 
         SceneLevel(String path) {
-            fxmlURL = PolyLinked.class.getResource(path);
+            fxmlURL = Launcher.class.getResource(path);
         }
 
         Scene getScene() {
@@ -52,7 +53,7 @@ public class PolyLinked extends Application {
                 FXMLLoader loader = new FXMLLoader(fxmlURL);
                 return new Scene(loader.load());
             } catch (IOException e) {
-                return null;
+                throw new RuntimeException(e);
             }
         }
     }
