@@ -4,15 +4,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import org.aut.polylinked_client.PolyLinked;
 
-public class LoginController {
+public class SignupController {
     @FXML
     void loginPressed(ActionEvent event) {
-        PolyLinked.setScene(PolyLinked.SceneLevel.HOME);
+        PolyLinked.setScene(PolyLinked.SceneLevel.LOGIN);
     }
 
     @FXML
     void signupPressed(ActionEvent event) {
-        PolyLinked.setScene(PolyLinked.SceneLevel.SIGNUP);
+        PolyLinked.setScene(PolyLinked.SceneLevel.HOME);
     }
-
 }
