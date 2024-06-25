@@ -1,22 +1,59 @@
 package org.aut.polylinked_client;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.net.URL;
+
+/**
+ * PolyLinked_Client is a LinkedIn clone Application. (in pair with PolyLinked_Server)
+ *
+ * @author AliReza AthariFard
+ * @author MohammadJavd Akbari
+ * @version 1.0
+ */
 public class PolyLinked extends Application {
+    private static Stage primaryStage;
+
     @Override
     public void start(Stage stage) {
-        Pane pane = new Pane();
-        pane.setPrefSize(800, 600);
-        Scene scene = new Scene(pane);
+        primaryStage = stage;
         stage.setTitle("PolyLinked");
-        stage.setScene(scene);
+        setScene(SceneLevel.login);
         stage.show();
     }
 
     public static void launchApp(String[] args) {
         launch(args);
+    }
+
+    public static void setScene(SceneLevel sceneLevel) {
+        Scene scene = sceneLevel.getScene();
+        if (primaryStage == null || scene == null) return;
+
+        primaryStage.setScene(scene);
+    }
+
+    public enum SceneLevel {
+        login("fxmls/login.fxml"),
+        home("fxmls/home.fxml");
+
+        private final URL fxmlURL;
+
+        SceneLevel(String path) {
+            fxmlURL = PolyLinked.class.getResource(path);
+        }
+
+        Scene getScene() {
+            try {
+                FXMLLoader loader = new FXMLLoader(fxmlURL);
+                return new Scene(loader.load());
+            } catch (IOException e) {
+                return null;
+            }
+        }
     }
 }
