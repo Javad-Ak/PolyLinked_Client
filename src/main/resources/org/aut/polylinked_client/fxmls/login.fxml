@@ -1,8 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: blue;" xmlns="http://javafx.com/javafx/11.0.14-internal">
-
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginController">
+   <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/appIcon.png" />
+               </image>
+            </ImageView>
+            <Label text="PolyLinked">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Label>
+            <VBox alignment="CENTER_LEFT">
+               <children>
+                  <JFXTextField promptText="email">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </JFXTextField>
+                  <JFXTextField promptText="password">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </JFXTextField>
+                  <Hyperlink onAction="#forgotPasswordClicked" text="Forgot password?">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Hyperlink>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="30.0" top="30.0" />
+               </VBox.margin>
+            </VBox>
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loginClicked" text="Login">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Button>
+            <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+               <children>
+                  <Label text="Not a Member?" />
+                  <Hyperlink onAction="#signupClicked" text="Signup" />
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+         </padding>
+      </VBox>
+   </center>
+   <right>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Welcome To PolyLinked!" />
+            <ImageView fitHeight="350.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/login.png" />
+               </image>
+            </ImageView>
+         </children>
+      </VBox>
+   </right>
+</BorderPane>
