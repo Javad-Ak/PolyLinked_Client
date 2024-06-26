@@ -58,7 +58,7 @@ public class DataAccess {
 
     public static String getPrivacyState() {
         try {
-            return readData().getString("jwt");
+            return readData().getString("privacyState");
         } catch (JSONException e) {
             return "null";
         }
@@ -66,7 +66,7 @@ public class DataAccess {
 
     public static String getJWT() {
         try {
-            return readData().getString("privacyState");
+            return readData().getString("jwt");
         } catch (JSONException e) {
             return "null";
         }
@@ -75,16 +75,19 @@ public class DataAccess {
     public static void setTheme(Theme theme) {
         JSONObject data = readData();
         data.put("theme", theme.value);
+        writeData(data);
     }
 
     public static void setPrivacyState(String privacyState) {
         JSONObject data = readData();
         data.put("privacyState", privacyState);
+        writeData(data);
     }
 
     public static void setJWT(String jwt) {
         JSONObject data = readData();
         data.put("jwt", jwt);
+        writeData(data);
     }
 
     private static void writeData(JSONObject object) {

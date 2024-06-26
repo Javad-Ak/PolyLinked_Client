@@ -26,9 +26,6 @@ public class LoginController {
     private JFXToggleButton themeToggle;
 
     @FXML
-    private BorderPane borderPane;
-
-    @FXML
     private Label messageText;
 
     @FXML
