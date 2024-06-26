@@ -22,7 +22,7 @@ public class PolyLinked extends Application {
     public void start(Stage stage) {
         primaryStage = stage;
         stage.setTitle("PolyLinked");
-        setScene(SceneLevel.login);
+        setScene(SceneLevel.LOGIN);
         stage.show();
     }
 
@@ -38,9 +38,9 @@ public class PolyLinked extends Application {
     }
 
     public enum SceneLevel {
-        login("fxmls/login.fxml"),
-        signup("fxmls/signup.fxml"),
-        home("fxmls/home.fxml");
+        LOGIN("fxmls/login.fxml"),
+        SIGNUP("fxmls/signup.fxml"),
+        HOME("fxmls/home.fxml");
 
         private final URL fxmlURL;
 

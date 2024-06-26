@@ -7,6 +7,6 @@ module org.aut.polylinked_client {
     requires org.jetbrains.annotations;
 
 
-    opens org.aut.polylinked_client to javafx.fxml;
+    opens org.aut.polylinked_client.control to javafx.fxml;
     exports org.aut.polylinked_client;
 }
