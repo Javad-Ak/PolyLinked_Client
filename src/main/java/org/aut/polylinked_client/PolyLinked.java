@@ -2,8 +2,11 @@ package org.aut.polylinked_client;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import org.aut.polylinked_client.utils.DataAccess;
 
 import java.io.IOException;
 import java.net.URL;
@@ -16,45 +19,28 @@ import java.net.URL;
  * @version 1.0
  */
 public class PolyLinked extends Application {
-    private static Stage primaryStage;
+    private static SceneManager sceneManager;
 
     @Override
     public void start(Stage stage) {
-        primaryStage = stage;
+        DataAccess.initiate();
+
+        sceneManager = new SceneManager(stage);
+        sceneManager.setScene();
         stage.setTitle("PolyLinked");
-        setScene(SceneLevel.login);
+
         stage.show();
+    }
+
+    public static void setScene(SceneManager.SceneLevel sceneLevel) {
+        sceneManager.setScene(sceneLevel);
+    }
+
+    public static void changeTheme(DataAccess.Theme theme, String themeId) {
+        sceneManager.changeTheme(theme, themeId);
     }
 
     public static void launchApp(String[] args) {
         launch(args);
-    }
-
-    public static void setScene(SceneLevel sceneLevel) {
-        Scene scene = sceneLevel.getScene();
-        if (primaryStage == null || scene == null) return;
-
-        primaryStage.setScene(scene);
-    }
-
-    public enum SceneLevel {
-        login("fxmls/login.fxml"),
-        signup("fxmls/signup.fxml"),
-        home("fxmls/home.fxml");
-
-        private final URL fxmlURL;
-
-        SceneLevel(String path) {
-            fxmlURL = Launcher.class.getResource(path);
-        }
-
-        Scene getScene() {
-            try {
-                FXMLLoader loader = new FXMLLoader(fxmlURL);
-                return new Scene(loader.load());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
     }
 }
