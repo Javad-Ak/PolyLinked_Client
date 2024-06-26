@@ -1,9 +1,7 @@
 package org.aut.polylinked_client.utils;
 
 import org.json.JSONObject;
-
 import java.io.*;
-import java.util.ArrayList;
 
 public class JsonHandler {
     private JsonHandler() {

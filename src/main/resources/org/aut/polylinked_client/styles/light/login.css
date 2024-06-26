@@ -4,7 +4,7 @@
 .root {
     -fx-background-color: white;
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    -fx-font-size: 13; /* Relative font size */
+    -fx-text-fill: Black;
 }
 
 /* Header Label */

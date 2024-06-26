@@ -4,7 +4,6 @@
 .root {
     -fx-background-color: #2e2e2e; /* Dark background color */
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    -fx-font-size: 13; /* Relative font size */
     -fx-text-fill: white; /* Default text color */
 }
 
