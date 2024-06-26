@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.aut.polylinked_client.utils.DataAccess;
+
 import java.io.IOException;
 import java.net.URL;
 
@@ -18,8 +19,10 @@ public class SceneManager {
 
     public void changeTheme(DataAccess.Theme theme, String themeId) {
         DataAccess.setTheme(theme);
-        stage.getScene().getStylesheets().clear();
-        stage.getScene().getStylesheets().add("src/main/resources/styles/" + theme + "/" + themeId + ".css");
+        URL css = PolyLinked.class.getResource("styles/" + theme.value + "/" + themeId + ".css");
+        if (css != null && !stage.getScene().getStylesheets().isEmpty()) {
+            stage.getScene().getStylesheets().set(0, css.toExternalForm());
+        }
     }
 
     public void setScene() {
@@ -30,7 +33,7 @@ public class SceneManager {
     }
 
     public void setScene(SceneLevel sceneLevel) {
-        Scene scene = sceneLevel.createScene();
+        Scene scene = sceneLevel.getScene();
         if (stage == null) {
             System.out.println("Primary stage not set");
             System.exit(1);
@@ -45,13 +48,17 @@ public class SceneManager {
         double height = Screen.getPrimary().getBounds().getHeight();
         String theme = DataAccess.getTheme();
 
+        URL css = PolyLinked.class.getResource("styles/" + theme + "/" + themeId + ".css");
         Parent parent = scene.getRoot();
-        parent.getStylesheets().clear();
-        parent.getStylesheets().add("src/main/resources/styles/" + theme + "/" + themeId + ".css");
+
+        if (css != null) {
+            parent.getStylesheets().clear();
+            scene.getStylesheets().add(css.toExternalForm());
+        }
 
         parent.setStyle("-fx-font-size: " + (int) (13 * width * height / 1920 / 1080) + ";");
-        parent.setStyle("-fx-pref-width: " + (int) (720 * width / 1920) + ";");
-        parent.setStyle("-fx-pref-height: " + (int) (480 * height / 1080) + ";");
+        parent.setStyle("-fx-pref-width: " + (int) (800 * width / 1920) + ";");
+        parent.setStyle("-fx-pref-height: " + (int) (600 * height / 1080) + ";");
     }
 
     public enum SceneLevel {
@@ -67,7 +74,7 @@ public class SceneManager {
             fxmlURL = PolyLinked.class.getResource("fxmls/" + id + ".fxml");
         }
 
-        Scene createScene() {
+        Scene getScene() {
             try {
                 FXMLLoader loader = new FXMLLoader(fxmlURL);
                 return new Scene(loader.load());

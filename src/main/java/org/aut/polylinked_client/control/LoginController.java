@@ -30,10 +30,10 @@ public class LoginController {
     @FXML
     public void initialize() {
         String theme = DataAccess.getTheme();
-        themeToggle.setSelected(!theme.equalsIgnoreCase("light"));
+        themeToggle.setSelected(theme.equalsIgnoreCase("dark"));
 
         themeToggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            String val = newValue ? "dark" : "light";
+            String val = newValue ? "DARK" : "LIGHT";
             PolyLinked.changeTheme(DataAccess.Theme.valueOf(val), SceneManager.SceneLevel.LOGIN.id);
         });
     }
