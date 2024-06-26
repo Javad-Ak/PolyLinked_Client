@@ -12,7 +12,7 @@
             <children>
                 <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../images/appIcon.png" />
+                        <Image url="@../images/app-icon.png" />
                     </image>
                 </ImageView>
                 <Label text="PolyLinked">

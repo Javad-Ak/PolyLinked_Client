@@ -34,7 +34,6 @@
     -jfx-unfocus-color: #BDBDBD; /* Light grey for unfocused state */
     -fx-prompt-text-fill: #BDBDBD; /* Light grey prompt text */
     -fx-text-fill: white; /* Text color */
-    -fx-background-color: #424242; /* Dark grey background */
     -fx-font-size: 1em; /* Relative font size */
 }
 
@@ -68,5 +67,5 @@
 }
 
 #sideBox {
-    -fx-background-color: #001943; /* Dark blue background */
+    -fx-background-color: #333333;
 }

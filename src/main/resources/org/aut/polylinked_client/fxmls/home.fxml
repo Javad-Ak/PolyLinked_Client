@@ -26,7 +26,7 @@
                <children>
                   <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/appIcon.png" />
+                        <Image url="@../images/app-icon.png" />
                      </image>
                   </ImageView>
                   <ToggleButton contentDisplay="TOP" mnemonicParsing="false" text="Home">

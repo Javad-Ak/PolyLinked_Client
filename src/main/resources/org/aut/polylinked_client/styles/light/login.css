@@ -29,7 +29,7 @@
     -jfx-focus-color: #0A74DA; /* Blue focus color */
     -jfx-unfocus-color: #BDBDBD; /* Light grey for unfocused state */
     -fx-prompt-text-fill: #757575; /* Grey prompt text */
-    -fx-text-fill: #0A74DA; /* Blue text color */
+    -fx-text-fill: black; /* Blue text color */
     -fx-background-color: white;
     -fx-font-size: 1em; /* Relative font size */
 }
@@ -67,7 +67,7 @@
     -fx-spacing: 1em; /* Relative spacing */
 }
 #sideBox {
-    -fx-background-color: #87CEFA;
+    -fx-background-color: #ccffff;
 }
 
 /* Custom Insets for padding */

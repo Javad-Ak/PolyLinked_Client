@@ -5,6 +5,7 @@ module org.aut.polylinked_client {
     requires com.jfoenix;
     requires org.json;
     requires org.jetbrains.annotations;
+    requires java.net.http;
 
 
     opens org.aut.polylinked_client.control to javafx.fxml;
