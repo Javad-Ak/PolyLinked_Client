@@ -4,8 +4,8 @@
     -fx-font-size: 13;
 }
 
-#gridPane{
-    -fx-background-color: #e0ebeb;
+#gridPane {
+    -fx-background-color: #d5e3e3;
 }
 
 .image-view {
@@ -20,12 +20,12 @@
     -fx-font-size: 1em;
 }
 
-#icon{
+#icon {
     -fx-font-size: 1.2em;
     -fx-fill: black;
 }
 
-.toggle-button:selected, .toggle-button:selected #icon{
+.toggle-button:selected, .toggle-button:selected #icon {
     -fx-background-color: transparent;
     -fx-fill: #0050a1;
     -fx-text-fill: #0050a1;
@@ -35,5 +35,18 @@
 }
 
 .toggle-button:hover {
-    -fx-background-color: #e1efff;
+    -fx-background-color: #c0cccc;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.menu-button:hover {
+    -fx-background-color: #c0cccc; /* Darker background on hover */
+}
+
+.context-menu {
+    -fx-background-color: white;
 }

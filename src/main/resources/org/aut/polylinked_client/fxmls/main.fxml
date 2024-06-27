@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ToggleButton?>
@@ -21,13 +20,14 @@
       <GridPane id="gridPane" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="30.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints vgrow="NEVER" />
         </rowConstraints>
          <children>
-            <HBox spacing="6.0">
+            <HBox alignment="BOTTOM_LEFT" spacing="6.0">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
@@ -37,26 +37,10 @@
                         <Image url="@../images/app-icon.png" />
                      </image>
                      <HBox.margin>
-                        <Insets />
+                        <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
                      </HBox.margin>
                   </ImageView>
-                  <Button maxHeight="1.7976931348623157E308" mnemonicParsing="false">
-                     <graphic>
-                        <FontIcon id="side-icon" iconLiteral="mdi-information-outline">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </FontIcon>
-                     </graphic>
-                  </Button>
-               </children>
-               <padding>
-                  <Insets bottom="8.0" />
-               </padding>
-            </HBox>
-            <HBox alignment="TOP_RIGHT" spacing="6.0" GridPane.columnIndex="1">
-               <children>
-                  <ToggleButton contentDisplay="TOP" mnemonicParsing="false" text="Home">
+                  <ToggleButton contentDisplay="TOP" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Home">
                      <toggleGroup>
                         <ToggleGroup fx:id="tabs" />
                      </toggleGroup>
@@ -68,7 +52,7 @@
                         </FontIcon>
                      </graphic>
                   </ToggleButton>
-                  <ToggleButton contentDisplay="TOP" mnemonicParsing="false" text="Messaging" toggleGroup="$tabs">
+                  <ToggleButton contentDisplay="TOP" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Messaging" toggleGroup="$tabs">
                      <graphic>
                         <FontIcon id="icon" iconLiteral="mdi-message-outline">
                            <font>
@@ -77,7 +61,7 @@
                         </FontIcon>
                      </graphic>
                   </ToggleButton>
-                  <ToggleButton contentDisplay="TOP" mnemonicParsing="false" text="Notifications" toggleGroup="$tabs">
+                  <ToggleButton contentDisplay="TOP" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Notifications" toggleGroup="$tabs">
                      <graphic>
                         <FontIcon id="icon" iconLiteral="mdi-bell-outline">
                            <font>
@@ -86,7 +70,7 @@
                         </FontIcon>
                      </graphic>
                   </ToggleButton>
-                  <ToggleButton contentDisplay="TOP" mnemonicParsing="false" text="Profile" toggleGroup="$tabs">
+                  <ToggleButton contentDisplay="TOP" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Profile" toggleGroup="$tabs">
                      <graphic>
                         <FontIcon id="icon" iconLiteral="mdi-account-outline">
                            <font>
@@ -95,33 +79,46 @@
                         </FontIcon>
                      </graphic>
                   </ToggleButton>
-                  <MenuButton alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" popupSide="TOP">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Switch theme" />
-                      <MenuItem mnemonicParsing="false" text="Log out" />
-                        <MenuItem mnemonicParsing="false" text="Delete acoount" />
-                        <MenuItem mnemonicParsing="false" text="About us" />
-                    </items>
+                  <ToggleButton contentDisplay="TOP" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Search" toggleGroup="$tabs">
                      <graphic>
-                        <FontIcon id="side-icon" iconLiteral="mdi-settings">
+                        <FontIcon id="icon" iconLiteral="mdi-magnify">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </FontIcon>
                      </graphic>
-                     <HBox.margin>
-                        <Insets bottom="8.0" />
-                     </HBox.margin>
+                  </ToggleButton>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="6.0" GridPane.columnIndex="2">
+               <children>
+                  <MenuButton alignment="CENTER" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT">
+                     <graphic>
+                        <FontIcon id="icon" iconLiteral="mdi-settings">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </FontIcon>
+                     </graphic>
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Switch theme" />
+                        <MenuItem mnemonicParsing="false" text="Log out" />
+                        <MenuItem mnemonicParsing="false" text="Delete acoount" />
+                        <MenuItem mnemonicParsing="false" text="About PolyLinked" />
+                     </items>
                   </MenuButton>
                </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+               <padding>
+                  <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+               </padding>
             </HBox>
          </children>
          <BorderPane.margin>
-            <Insets />
+            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
          </BorderPane.margin>
-         <padding>
-            <Insets left="8.0" right="8.0" top="8.0" />
-         </padding>
       </GridPane>
    </top>
 </BorderPane>
