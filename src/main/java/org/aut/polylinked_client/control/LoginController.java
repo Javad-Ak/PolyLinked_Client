@@ -85,7 +85,7 @@ public class LoginController {
             InputStream inputStream = con.getInputStream();
             String JWT = JsonHandler.getObject(inputStream).getString("Authorization");
             DataAccess.setJWT(JWT);
-            PolyLinked.setScene(SceneManager.SceneLevel.HOME);
+            PolyLinked.setScene(SceneManager.SceneLevel.MAIN);
         } else if (con.getResponseCode() == 401) {
             throw new UnauthorizedException("Invalid email or password");
         } else {

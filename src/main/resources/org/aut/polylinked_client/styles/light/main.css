@@ -1,0 +1,39 @@
+.root {
+    -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -fx-background-color: #ffffff;
+    -fx-font-size: 13;
+}
+
+#gridPane{
+    -fx-background-color: #e0ebeb;
+}
+
+.image-view {
+    -fx-fit-height: 40px;
+    -fx-fit-width: 40px;
+    -fx-preserve-ratio: true;
+}
+
+.toggle-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-size: 1em;
+}
+
+#icon{
+    -fx-font-size: 1.2em;
+    -fx-fill: black;
+}
+
+.toggle-button:selected, .toggle-button:selected #icon{
+    -fx-background-color: transparent;
+    -fx-fill: #0050a1;
+    -fx-text-fill: #0050a1;
+    -fx-border-color: transparent transparent #0078d7 transparent;
+    -fx-border-width: 0 0 2px 0;
+    -fx-border-radius: 0;
+}
+
+.toggle-button:hover {
+    -fx-background-color: #e1efff;
+}
