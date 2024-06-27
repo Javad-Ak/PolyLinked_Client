@@ -1,11 +1,11 @@
 .root {
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     -fx-background-color: #ffffff;
-    -fx-font-size: 13;
+    -fx-font-size: 1em;
 }
 
-#gridPane{
-    -fx-background-color: #e0ebeb;
+#gridPane {
+    -fx-background-color: #d2ddfa;
 }
 
 .image-view {
@@ -17,15 +17,15 @@
 .toggle-button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-font-size: 1em;
+    -fx-font-size: 0.9em;
 }
 
-#icon{
-    -fx-font-size: 1.2em;
+#icon {
+    -fx-font-size: 1.5em;
     -fx-fill: black;
 }
 
-.toggle-button:selected, .toggle-button:selected #icon{
+.toggle-button:selected, .toggle-button:selected #icon {
     -fx-background-color: transparent;
     -fx-fill: #0050a1;
     -fx-text-fill: #0050a1;
@@ -35,5 +35,18 @@
 }
 
 .toggle-button:hover {
-    -fx-background-color: #e1efff;
+    -fx-background-color: #c8d5f7;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.menu-button:hover {
+    -fx-background-color: #c8d5f7;
+}
+
+.context-menu {
+    -fx-background-color: white;
 }

@@ -1,16 +1,13 @@
-/* dark-login.css */
-
-/* Root style for the application */
 .root {
-    -fx-background-color: #2e2e2e; /* Dark background color */
+    -fx-background-color: #1f1f1f;
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    -fx-text-fill: white; /* Default text color */
+    -fx-text-fill: white;
+    -fx-font-size: 1em;
 }
 
-/* Header Label */
 .header-label {
-    -fx-text-fill: #64B5F6; /* Light blue text color */
-    -fx-font-size: 1.5em; /* Relative font size */
+    -fx-text-fill: #64B5F6;
+    -fx-font-size: 1.5em;
     -fx-font-weight: bold;
 }
 
@@ -18,61 +15,57 @@
     -fx-text-fill: white;
 }
 
-/* Label styles */
+
 .label {
-    -fx-font-size: 1em; /* Relative font size */
+    -fx-font-size: 1em;
     -fx-font-weight: bold;
-    -fx-text-fill: white; /* Text color */
+    -fx-text-fill: white;
 }
 #messageText{
     -fx-text-fill: #ff3333;
 }
 
-/* JFXTextField styles */
 .jfx-text-field {
-    -jfx-focus-color: #64B5F6; /* Blue focus color */
-    -jfx-unfocus-color: #BDBDBD; /* Light grey for unfocused state */
-    -fx-prompt-text-fill: #BDBDBD; /* Light grey prompt text */
-    -fx-text-fill: white; /* Text color */
-    -fx-font-size: 1em; /* Relative font size */
+    -jfx-focus-color: #64B5F6;
+    -jfx-unfocus-color: #BDBDBD;
+    -fx-prompt-text-fill: #BDBDBD;
+    -fx-text-fill: white;
+    -fx-font-size: 1em;
 }
 
 .jfx-password-field {
-    -jfx-focus-color: #64B5F6; /* Blue focus color */
-    -jfx-unfocus-color: #BDBDBD; /* Light grey for unfocused state */
-    -fx-prompt-text-fill: #BDBDBD; /* Light grey prompt text */
-    -fx-text-fill: white; /* Text color */
-    -fx-font-size: 1em; /* Relative font size */
+    -jfx-focus-color: #64B5F6;
+    -jfx-unfocus-color: #BDBDBD;
+    -fx-prompt-text-fill: #BDBDBD;
+    -fx-text-fill: white;
+    -fx-font-size: 1em;
 }
-/* Hyperlink styles */
+
 .hyperlink {
-    -fx-text-fill: #64B5F6; /* Light blue color */
-    -fx-font-size: 1em; /* Relative font size */
+    -fx-text-fill: #64B5F6;
+    -fx-font-size: 1em;
 }
 
 .hyperlink:hover {
-    -fx-text-fill: #42A5F5; /* Lighter blue on hover */
+    -fx-text-fill: #42A5F5;
 }
 
-/* Button styles */
 .button {
-    -fx-background-color: #64B5F6; /* Light blue color */
-    -fx-text-fill: white; /* Text color */
-    -fx-font-size: 1.2em; /* Relative font size */
+    -fx-background-color: #64B5F6;
+    -fx-text-fill: white;
+    -fx-font-size: 1.2em;
     -fx-font-weight: bold;
-    -fx-background-radius: 4; /* Rounded corners */
-    -fx-padding: 0.8em 1.5em; /* Relative padding */
+    -fx-background-radius: 4;
 }
 
 .button:hover {
-    -fx-background-color: #42A5F5; /* Lighter blue on hover */
+    -fx-background-color: #42A5F5;
 }
 
-/* HBox and VBox styles */
 .vbox {
-    -fx-spacing: 1em; /* Relative spacing */
+    -fx-spacing: 1em;
 }
 
 #sideBox {
-    -fx-background-color: #333333;
+    -fx-background-color: #353535;
 }

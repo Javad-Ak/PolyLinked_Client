@@ -51,9 +51,15 @@ public class SignupController {
         String theme = DataAccess.getTheme();
         themeToggle.setSelected(theme.equalsIgnoreCase("dark"));
 
+        // theme changer
         themeToggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
             String val = newValue ? "DARK" : "LIGHT";
-            PolyLinked.changeTheme(DataAccess.Theme.valueOf(val), SceneManager.SceneLevel.SIGNUP.id);
+            SceneManager.setThemeProperty(SceneManager.Theme.valueOf(val));
+        });
+
+        // theme observation
+        SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
+            SceneManager.activateTheme(SceneManager.SceneLevel.LOGIN.id);
         });
     }
 

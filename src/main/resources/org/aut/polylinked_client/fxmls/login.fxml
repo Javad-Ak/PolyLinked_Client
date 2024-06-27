@@ -13,28 +13,28 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../styles/light/login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.LoginController">
+<BorderPane prefHeight="600.0" prefWidth="800.0" stylesheets="@../styles/light/login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.LoginController">
     <center>
-        <VBox alignment="CENTER" maxWidth="400.0" spacing="6.0" BorderPane.alignment="CENTER">
+        <VBox alignment="CENTER" maxWidth="500.0" minWidth="300.0" spacing="6.0" BorderPane.alignment="CENTER">
             <children>
-                <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../images/app-icon.png" />
                     </image>
                 </ImageView>
-                <Label text="PolyLinked">
+                <Label minHeight="-Infinity" minWidth="-Infinity" text="PolyLinked">
                     <VBox.margin>
                         <Insets />
                     </VBox.margin>
                 </Label>
                 <VBox alignment="CENTER_LEFT" spacing="10.0">
                     <children>
-                        <JFXTextField fx:id="emailText" promptText="Email">
+                        <JFXTextField fx:id="emailText" maxWidth="1.7976931348623157E308" promptText="Email">
                             <VBox.margin>
                                 <Insets />
                             </VBox.margin>
                         </JFXTextField>
-                  <JFXPasswordField fx:id="passwordText" promptText="Password" />
+                  <JFXPasswordField fx:id="passwordText" maxWidth="1.7976931348623157E308" promptText="Password" />
                         <Hyperlink onAction="#forgotPasswordPressed" text="Forgot password?">
                             <VBox.margin>
                                 <Insets />
@@ -53,8 +53,8 @@
                 </Button>
                 <HBox alignment="CENTER">
                     <children>
-                        <Label text="Don't have an account?" />
-                        <Hyperlink onAction="#signupPressed" text="Signup" />
+                        <Label minHeight="-Infinity" minWidth="-Infinity" text="Don't have an account?" />
+                        <Hyperlink minHeight="-Infinity" minWidth="-Infinity" onAction="#signupPressed" text="Signup" />
                     </children>
                 </HBox>
             </children>
@@ -66,8 +66,8 @@
    <right>
       <VBox id="sideBox" alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-                <Label alignment="TOP_LEFT" contentDisplay="BOTTOM" text="Welcome To PolyLinked!" wrapText="true" />
-            <JFXToggleButton fx:id="themeToggle" text="theme" toggleColor="#949393" toggleLineColor="BLACK" unToggleLineColor="#e7e7e7" />
+                <Label alignment="TOP_LEFT" contentDisplay="BOTTOM" minHeight="-Infinity" minWidth="-Infinity" text="Welcome To PolyLinked!" wrapText="true" />
+            <JFXToggleButton fx:id="themeToggle" minHeight="-Infinity" minWidth="-Infinity" text="theme" toggleColor="#949393" toggleLineColor="BLACK" unToggleLineColor="#e7e7e7" />
                 <ImageView fitHeight="360.0" fitWidth="360.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../images/login.png" />

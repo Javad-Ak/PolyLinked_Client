@@ -13,37 +13,40 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../styles/light/signup.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.SignupController">
+<BorderPane prefHeight="600.0" prefWidth="800.0" stylesheets="@../styles/light/signup.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.SignupController">
    <left>
-      <VBox id="sideBox" alignment="CENTER" prefHeight="500.0" prefWidth="382.0" BorderPane.alignment="CENTER">
+      <VBox id="sideBox" alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Welcome To PolyLinked!" />
-            <JFXToggleButton fx:id="themeToggle" text="theme" toggleColor="#949393" toggleLineColor="BLACK" unToggleLineColor="#e7e7e7" />
-            <ImageView fitHeight="367.0" fitWidth="425.0" pickOnBounds="true" preserveRatio="true">
+            <Label minHeight="-Infinity" minWidth="-Infinity" text="Welcome To PolyLinked!" />
+            <JFXToggleButton fx:id="themeToggle" minHeight="-Infinity" minWidth="-Infinity" text="theme" toggleColor="#949393" toggleLineColor="BLACK" unToggleLineColor="#e7e7e7" />
+            <ImageView fitHeight="360.0" fitWidth="360.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/signup.png" />
                </image>
             </ImageView>
          </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+         </padding>
       </VBox>
    </left>
    <center>
-      <VBox alignment="CENTER" maxWidth="428.0" prefHeight="500.0" prefWidth="428.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" maxWidth="500.0" minWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="134.0" fitWidth="152.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/app-icon.png" />
                </image>
-               <VBox.margin>
-                  <Insets top="-50.0" />
-               </VBox.margin>
             </ImageView>
-            <Label minHeight="-Infinity" minWidth="-Infinity" text="Join PolyLinked now and establish a professional network" textAlignment="CENTER" wrapText="true">
+            <Label text="Join PolyLinked now and establish a professional network" textAlignment="CENTER" wrapText="true">
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />
                </VBox.margin>
             </Label>
-            <VBox alignment="CENTER_LEFT" maxWidth="400.0" spacing="12.0">
+            <VBox alignment="CENTER_LEFT" spacing="12.0">
                <children>
                   <JFXTextField fx:id="firstNameTF" promptText="First Name" />
                   <JFXTextField fx:id="lastNameTF" promptText="Last Name" />
@@ -69,7 +72,7 @@
             <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <children>
                   <Label text="Already have an account?" />
-                  <Hyperlink onAction="#loginPressed" text="Login" />
+                  <Hyperlink minHeight="-Infinity" minWidth="-Infinity" onAction="#loginPressed" text="Login" />
                </children>
             </HBox>
          </children>

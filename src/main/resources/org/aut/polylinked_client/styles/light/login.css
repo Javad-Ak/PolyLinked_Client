@@ -1,20 +1,16 @@
-/* login.css */
-
-/* Root style for the application */
 .root {
     -fx-background-color: white;
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     -fx-text-fill: Black;
+    -fx-font-size: 1em;
 }
 
-/* Header Label */
 .header-label {
     -fx-text-fill: #0A74DA;
     -fx-font-size: 1.5em; /* Relative font size */
     -fx-font-weight: bold;
 }
 
-/* Label styles */
 .label {
     -fx-font-size: 1em; /* Relative font size */
     -fx-font-weight: bold;
@@ -24,7 +20,6 @@
     -fx-text-fill: #800000;
 }
 
-/* JFXTextField styles */
 .jfx-text-field {
     -jfx-focus-color: #0A74DA; /* Blue focus color */
     -jfx-unfocus-color: #BDBDBD; /* Light grey for unfocused state */
@@ -42,7 +37,7 @@
     -fx-background-color: white;
     -fx-font-size: 1em; /* Relative font size */
 }
-/* Hyperlink styles */
+
 .hyperlink {
     -fx-text-fill: #0A74DA; /* Primary blue color */
     -fx-font-size: 1em; /* Relative font size */
@@ -52,14 +47,12 @@
     -fx-text-fill: #084B8A; /* Darker blue on hover */
 }
 
-/* Button styles */
 .button {
     -fx-background-color: #0A74DA; /* Primary blue color */
     -fx-text-fill: white;
     -fx-font-size: 1.2em; /* Relative font size */
     -fx-font-weight: bold;
     -fx-background-radius: 4;
-    -fx-padding: 0.8em 1.5em; /* Relative padding */
 }
 
 .toggle-button{
@@ -67,18 +60,9 @@
 }
 
 .button:hover {
-    -fx-background-color: #084B8A; /* Darker blue on hover */
+    -fx-background-color: #084B8A;
 }
 
-/* HBox and VBox styles */
-.vbox {
-    -fx-spacing: 1em; /* Relative spacing */
-}
 #sideBox {
     -fx-background-color: #ccffff;
-}
-
-/* Custom Insets for padding */
-.padding {
-    -fx-padding: 1em; /* Relative padding */
 }

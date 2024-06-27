@@ -6,7 +6,6 @@ import com.jfoenix.controls.JFXToggleButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import org.aut.polylinked_client.PolyLinked;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.utils.DataAccess;
@@ -40,9 +39,15 @@ public class LoginController {
         String theme = DataAccess.getTheme();
         themeToggle.setSelected(theme.equalsIgnoreCase("dark"));
 
+        // theme observation
+        SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
+            SceneManager.activateTheme(SceneManager.SceneLevel.LOGIN.id);
+        });
+
+        // theme changer
         themeToggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
             String val = newValue ? "DARK" : "LIGHT";
-            PolyLinked.changeTheme(DataAccess.Theme.valueOf(val), SceneManager.SceneLevel.LOGIN.id);
+            SceneManager.setThemeProperty(SceneManager.Theme.valueOf(val));
         });
     }
 

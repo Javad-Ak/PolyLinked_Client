@@ -28,10 +28,6 @@ public class PolyLinked extends Application {
         sceneManager.setScene(sceneLevel);
     }
 
-    public static void changeTheme(DataAccess.Theme theme, String themeId) {
-        sceneManager.changeTheme(theme, themeId);
-    }
-
     public static void launchApp(String[] args) {
         launch(args);
     }
