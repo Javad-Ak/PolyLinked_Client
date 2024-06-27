@@ -1,8 +1,10 @@
+/* dark-login.css */
+
+/* Root style for the application */
 .root {
-    -fx-background-color: #2e2e2e;
+    -fx-background-color: #2e2e2e; /* Dark background color */
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    -fx-text-fill: white;
-    -fx-font-size: 1em;
+    -fx-text-fill: white; /* Default text color */
 }
 
 .header-label {
@@ -33,6 +35,13 @@
     -fx-font-size: 1em;
 }
 
+.jfx-password-field {
+    -jfx-focus-color: #64B5F6;
+    -jfx-unfocus-color: #BDBDBD;
+    -fx-prompt-text-fill: #BDBDBD;
+    -fx-text-fill: white;
+    -fx-font-size: 1em;
+}
 
 .hyperlink {
     -fx-text-fill: #64B5F6;
