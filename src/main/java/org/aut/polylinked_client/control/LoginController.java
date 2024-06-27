@@ -53,28 +53,9 @@ public class LoginController {
     @FXML
     void loginPressed(ActionEvent event) {
         try {
-            JSONObject headers = new JSONObject();
-            headers.put("Content-Type", "application/json");
-            HttpURLConnection con = RequestBuilder.buildConnection("POST", "users/login",
-                    headers, true);
-
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("email", emailText.getText());
-            jsonObject.put("password", passwordText.getText());
-            OutputStream outputStream = con.getOutputStream();
-            JsonHandler.sendObject(outputStream, jsonObject);
-            outputStream.close();
-
-            if (con.getResponseCode() / 100 == 2) {
-                InputStream inputStream = con.getInputStream();
-                String JWT = JsonHandler.getObject(inputStream).getString("Authorization");
-                DataAccess.setJWT(JWT);
-                PolyLinked.setScene(SceneManager.SceneLevel.HOME);
-            } else if (con.getResponseCode() == 401) {
-                throw new UnauthorizedException("Invalid email or password");
-            } else {
-                throw new NotAcceptableException("Unknown");
-            }
+            String email = emailText.getText();
+            String password = passwordText.getText();
+            loginRequest(email, password);
         } catch (IOException | NotAcceptableException e) {
             messageText.setText("Something went wrong!");
         } catch (UnauthorizedException e) {
@@ -85,5 +66,30 @@ public class LoginController {
     @FXML
     void signupPressed(ActionEvent event) {
         PolyLinked.setScene(SceneManager.SceneLevel.SIGNUP);
+    }
+
+    public static void loginRequest(String email, String password) throws IOException, NotAcceptableException, UnauthorizedException {
+        JSONObject headers = new JSONObject();
+        headers.put("Content-Type", "application/json");
+        HttpURLConnection con = RequestBuilder.buildConnection("POST", "users/login",
+                headers, true);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("email", email);
+        jsonObject.put("password", password);
+        OutputStream outputStream = con.getOutputStream();
+        JsonHandler.sendObject(outputStream, jsonObject);
+        outputStream.close();
+
+        if (con.getResponseCode() / 100 == 2) {
+            InputStream inputStream = con.getInputStream();
+            String JWT = JsonHandler.getObject(inputStream).getString("Authorization");
+            DataAccess.setJWT(JWT);
+            PolyLinked.setScene(SceneManager.SceneLevel.MAIN);
+        } else if (con.getResponseCode() == 401) {
+            throw new UnauthorizedException("Invalid email or password");
+        } else {
+            throw new NotAcceptableException("Unknown");
+        }
     }
 }

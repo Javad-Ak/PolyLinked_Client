@@ -1,4 +1,4 @@
-/* login.css */
+/* signup.css */
 
 /* Root style for the application */
 .root {
@@ -20,7 +20,7 @@
     -fx-font-weight: bold;
 }
 
-#messageText{
+#messageT {
     -fx-text-fill: #800000;
 }
 
@@ -29,7 +29,7 @@
     -jfx-focus-color: #0A74DA; /* Blue focus color */
     -jfx-unfocus-color: #BDBDBD; /* Light grey for unfocused state */
     -fx-prompt-text-fill: #757575; /* Grey prompt text */
-    -fx-text-fill: black; /* Blue text color */
+    -fx-text-fill: black; /* Black text color */
     -fx-background-color: white;
     -fx-font-size: 1em; /* Relative font size */
 }
@@ -38,10 +38,11 @@
     -jfx-focus-color: #0A74DA; /* Blue focus color */
     -jfx-unfocus-color: #BDBDBD; /* Light grey for unfocused state */
     -fx-prompt-text-fill: #757575; /* Grey prompt text */
-    -fx-text-fill: black; /* Blue text color */
+    -fx-text-fill: black; /* Black text color */
     -fx-background-color: white;
     -fx-font-size: 1em; /* Relative font size */
 }
+
 /* Hyperlink styles */
 .hyperlink {
     -fx-text-fill: #0A74DA; /* Primary blue color */
@@ -62,7 +63,7 @@
     -fx-padding: 0.8em 1.5em; /* Relative padding */
 }
 
-.toggle-button{
+.toggle-button {
     -fx-text-fill: black;
 }
 
@@ -74,6 +75,11 @@
 .vbox {
     -fx-spacing: 1em; /* Relative spacing */
 }
+
+.hbox {
+    -fx-spacing: 1em; /* Relative spacing */
+}
+
 #sideBox {
     -fx-background-color: #ccffff;
 }

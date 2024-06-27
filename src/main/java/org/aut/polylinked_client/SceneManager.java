@@ -29,7 +29,7 @@ public class SceneManager {
         if (DataAccess.getJWT().equals("null"))
             setScene(SceneLevel.LOGIN);
         else
-            setScene(SceneLevel.HOME);
+            setScene(SceneLevel.MAIN);
     }
 
     public void setScene(SceneLevel sceneLevel) {
@@ -64,7 +64,7 @@ public class SceneManager {
     public enum SceneLevel {
         LOGIN("login"),
         SIGNUP("signup"),
-        HOME("home");
+        MAIN("main");
 
         private final URL fxmlURL;
         public final String id;

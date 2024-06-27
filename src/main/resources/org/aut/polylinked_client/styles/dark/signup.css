@@ -1,4 +1,4 @@
-/* dark-login.css */
+/* signup.css */
 
 /* Root style for the application */
 .root {
@@ -14,7 +14,8 @@
     -fx-font-weight: bold;
 }
 
-.toggle-button{
+/* ToggleButton styles */
+.toggle-button {
     -fx-text-fill: white;
 }
 
@@ -24,8 +25,9 @@
     -fx-font-weight: bold;
     -fx-text-fill: white; /* Text color */
 }
-#messageText{
-    -fx-text-fill: #ff3333;
+
+#messageT {
+    -fx-text-fill: #ff3333; /* Message label text color */
 }
 
 /* JFXTextField styles */
@@ -44,6 +46,7 @@
     -fx-text-fill: white; /* Text color */
     -fx-font-size: 1em; /* Relative font size */
 }
+
 /* Hyperlink styles */
 .hyperlink {
     -fx-text-fill: #64B5F6; /* Light blue color */
@@ -69,10 +72,10 @@
 }
 
 /* HBox and VBox styles */
-.vbox {
+.hbox {
     -fx-spacing: 1em; /* Relative spacing */
 }
 
 #sideBox {
-    -fx-background-color: #333333;
+    -fx-background-color: #333333; /* Dark background color */
 }
