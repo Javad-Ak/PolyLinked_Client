@@ -80,6 +80,7 @@ public class SceneManager {
                 return new Scene(loader.load());
             } catch (IOException e) {
                 System.err.println("Error loading fxml: " + fxmlURL);
+                e.printStackTrace();
                 System.exit(1);
             }
             return null;

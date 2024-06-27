@@ -24,7 +24,6 @@ public class PolyLinked extends Application {
     @Override
     public void start(Stage stage) {
         DataAccess.initiate();
-
         sceneManager = new SceneManager(stage);
         sceneManager.setScene();
         stage.setTitle("PolyLinked");
