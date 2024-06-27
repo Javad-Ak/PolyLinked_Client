@@ -1,5 +1,6 @@
 package org.aut.polylinked_client.control;
 
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.event.ActionEvent;
@@ -34,10 +35,10 @@ public class SignupController {
     private JFXTextField emailTF;
 
     @FXML
-    private JFXTextField passwordTF;
+    private JFXPasswordField passwordTF;
 
     @FXML
-    private JFXTextField confirmPasswordTF;
+    private JFXPasswordField confirmPasswordTF;
 
     @FXML
     private JFXToggleButton themeToggle;
@@ -136,7 +137,6 @@ public class SignupController {
             headers.put("Content-Type", "application/json");
             HttpURLConnection con = RequestBuilder.buildConnection("POST", "users",
                     headers, true);
-
             JSONObject jsonObj = user.toJson();
             OutputStream os = con.getOutputStream();
             JsonHandler.sendObject(os, jsonObj);

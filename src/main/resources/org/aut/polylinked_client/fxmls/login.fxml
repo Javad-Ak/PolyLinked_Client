@@ -34,7 +34,7 @@
                                 <Insets />
                             </VBox.margin>
                         </JFXTextField>
-                  <JFXPasswordField promptText="Password" />
+                  <JFXPasswordField fx:id="passwordText" promptText="Password" />
                         <Hyperlink onAction="#forgotPasswordPressed" text="Forgot password?">
                             <VBox.margin>
                                 <Insets />
