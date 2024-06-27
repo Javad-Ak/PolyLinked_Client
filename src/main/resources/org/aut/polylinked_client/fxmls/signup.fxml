@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
@@ -52,12 +53,8 @@
                         <Insets />
                      </VBox.margin>
                   </JFXTextField>
-                  <JFXTextField fx:id="passwordTF" promptText="Password">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </JFXTextField>
-                  <JFXTextField fx:id="confirmPasswordTF" promptText="Confirm Password" />
+                  <JFXPasswordField promptText="Password" />
+                  <JFXPasswordField promptText="Confirm Password" />
                </children>
                <VBox.margin>
                   <Insets bottom="30.0" top="30.0" />
