@@ -76,7 +76,7 @@ public class SignupController {
             messageT.setVisible(true);
             return;
         }
-        if (!lastNameTF.getText().matches("(?i)^[a-z]{1,40}$")) {
+        if (lastNameTF.getText().matches("(?i)^[a-z]{1,40}$")) {
             messageT.setVisible(false);
         } else {
             messageT.setText("Last name must be a maximum of 40 characters and consist of only letters");

@@ -77,11 +77,9 @@ public class SceneManager {
         Scene getScene() {
             try {
                 FXMLLoader loader = new FXMLLoader(fxmlURL);
-                System.out.println(fxmlURL);
                 return new Scene(loader.load());
             } catch (IOException e) {
                 System.err.println("Error loading fxml: " + fxmlURL);
-                e.printStackTrace();
                 System.exit(1);
             }
             return null;

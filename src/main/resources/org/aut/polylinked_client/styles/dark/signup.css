@@ -2,80 +2,72 @@
 
 /* Root style for the application */
 .root {
-    -fx-background-color: white;
+    -fx-background-color: #2e2e2e; /* Dark background color */
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    -fx-text-fill: Black;
+    -fx-text-fill: white; /* Default text color */
 }
 
 /* Header Label */
 .header-label {
-    -fx-text-fill: #0A74DA;
+    -fx-text-fill: #64B5F6; /* Light blue text color */
     -fx-font-size: 1.5em; /* Relative font size */
     -fx-font-weight: bold;
+}
+
+/* ToggleButton styles */
+.toggle-button {
+    -fx-text-fill: white;
 }
 
 /* Label styles */
 .label {
     -fx-font-size: 1em; /* Relative font size */
     -fx-font-weight: bold;
+    -fx-text-fill: white; /* Text color */
 }
 
 #messageT {
-    -fx-text-fill: #800000;
+    -fx-text-fill: #ff3333; /* Message label text color */
 }
 
 /* JFXTextField styles */
 .jfx-text-field {
-    -jfx-focus-color: #0A74DA; /* Blue focus color */
+    -jfx-focus-color: #64B5F6; /* Blue focus color */
     -jfx-unfocus-color: #BDBDBD; /* Light grey for unfocused state */
-    -fx-prompt-text-fill: #757575; /* Grey prompt text */
-    -fx-text-fill: black; /* Black text color */
-    -fx-background-color: white;
+    -fx-prompt-text-fill: #BDBDBD; /* Light grey prompt text */
+    -fx-text-fill: white; /* Text color */
     -fx-font-size: 1em; /* Relative font size */
 }
 
 /* Hyperlink styles */
 .hyperlink {
-    -fx-text-fill: #0A74DA; /* Primary blue color */
+    -fx-text-fill: #64B5F6; /* Light blue color */
     -fx-font-size: 1em; /* Relative font size */
 }
 
 .hyperlink:hover {
-    -fx-text-fill: #084B8A; /* Darker blue on hover */
+    -fx-text-fill: #42A5F5; /* Lighter blue on hover */
 }
 
 /* Button styles */
 .button {
-    -fx-background-color: #0A74DA; /* Primary blue color */
-    -fx-text-fill: white;
+    -fx-background-color: #64B5F6; /* Light blue color */
+    -fx-text-fill: white; /* Text color */
     -fx-font-size: 1.2em; /* Relative font size */
     -fx-font-weight: bold;
-    -fx-background-radius: 4;
+    -fx-background-radius: 4; /* Rounded corners */
     -fx-padding: 0.8em 1.5em; /* Relative padding */
 }
 
-.toggle-button {
-    -fx-text-fill: black;
-}
-
 .button:hover {
-    -fx-background-color: #084B8A; /* Darker blue on hover */
+    -fx-background-color: #42A5F5; /* Lighter blue on hover */
 }
 
 /* HBox and VBox styles */
-.vbox {
-    -fx-spacing: 1em; /* Relative spacing */
-}
-
 .hbox {
     -fx-spacing: 1em; /* Relative spacing */
 }
 
 #sideBox {
-    -fx-background-color: #ccffff;
-}
-
-/* Custom Insets for padding */
-.padding {
-    -fx-padding: 1em; /* Relative padding */
+    -fx-background-color: #333333; /* Dark background color */
 }
