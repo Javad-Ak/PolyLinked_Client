@@ -1,15 +1,8 @@
 package org.aut.polylinked_client;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.aut.polylinked_client.utils.DataAccess;
-
-import java.io.IOException;
-import java.net.URL;
 
 /**
  * PolyLinked_Client is a LinkedIn clone Application. (in pair with PolyLinked_Server)

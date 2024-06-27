@@ -44,21 +44,12 @@ public class DataAccess {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("theme", Theme.LIGHT.value);
         jsonObject.put("jwt", "null");
-        jsonObject.put("privacyState", "null");
         if (FILE_PATH.toFile().length() < 1) writeData(jsonObject);
     }
 
     public static String getTheme() {
         try {
             return readData().getString("theme");
-        } catch (JSONException e) {
-            return "null";
-        }
-    }
-
-    public static String getPrivacyState() {
-        try {
-            return readData().getString("privacyState");
         } catch (JSONException e) {
             return "null";
         }
@@ -75,12 +66,6 @@ public class DataAccess {
     public static void setTheme(Theme theme) {
         JSONObject data = readData();
         data.put("theme", theme.value);
-        writeData(data);
-    }
-
-    public static void setPrivacyState(String privacyState) {
-        JSONObject data = readData();
-        data.put("privacyState", privacyState);
         writeData(data);
     }
 

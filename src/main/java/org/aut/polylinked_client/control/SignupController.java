@@ -13,6 +13,6 @@ public class SignupController {
 
     @FXML
     void signupPressed(ActionEvent event) {
-        PolyLinked.setScene(SceneManager.SceneLevel.HOME);
+        PolyLinked.setScene(SceneManager.SceneLevel.MAIN);
     }
 }

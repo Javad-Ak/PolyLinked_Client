@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXToggleButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import org.aut.polylinked_client.PolyLinked;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.utils.DataAccess;
@@ -69,7 +68,7 @@ public class LoginController {
                 InputStream inputStream = con.getInputStream();
                 String JWT = JsonHandler.getObject(inputStream).getString("Authorization");
                 DataAccess.setJWT(JWT);
-                PolyLinked.setScene(SceneManager.SceneLevel.HOME);
+                PolyLinked.setScene(SceneManager.SceneLevel.MAIN);
             } else if (con.getResponseCode() == 401) {
                 throw new UnauthorizedException("Invalid email or password");
             } else {
