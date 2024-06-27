@@ -1,28 +1,43 @@
 package org.aut.polylinked_client;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.aut.polylinked_client.utils.DataAccess;
-
 import java.io.IOException;
 import java.net.URL;
 
 public class SceneManager {
-    private final Stage stage;
+    private static  Stage stage;
+    private static final StringProperty theme = new SimpleStringProperty();
 
-    public SceneManager(Stage stage) {
-        this.stage = stage;
+    public SceneManager(Stage primaryStage) {
+        stage = primaryStage;
+        theme.set(DataAccess.getTheme());
     }
 
-    public void changeTheme(DataAccess.Theme theme, String themeId) {
-        DataAccess.setTheme(theme);
-        URL css = PolyLinked.class.getResource("styles/" + theme.value + "/" + themeId + ".css");
-        if (css != null && !stage.getScene().getStylesheets().isEmpty()) {
-            stage.getScene().getStylesheets().set(0, css.toExternalForm());
+    public static void activateTheme(String cssID) { // on current scene
+        activateTheme(stage.getScene().getRoot(), cssID);
+    }
+
+    public static void activateTheme(Parent root, String cssID) {
+        URL css = PolyLinked.class.getResource("styles/" + theme.getValue() + "/" + cssID + ".css");
+        if (css != null) {
+            root.getStylesheets().set(0, css.toExternalForm());
         }
+    }
+
+    public static StringProperty getThemeProperty() {
+        return theme;
+    }
+
+    public static void setThemeProperty(SceneManager.Theme newTheme) {
+        theme.set(newTheme.value);
+        DataAccess.setTheme(newTheme);
     }
 
     public void setScene() {
@@ -46,19 +61,18 @@ public class SceneManager {
     private void makeResponsive(Scene scene, String themeId) {
         double width = Screen.getPrimary().getBounds().getWidth();
         double height = Screen.getPrimary().getBounds().getHeight();
-        String theme = DataAccess.getTheme();
 
+//        scene.getStylesheets().add("-fx-font-size: " + (int) (13 * width * height / 1920 / 1080) + ";");
+//        scene.getStylesheets().add("-fx-pref-width: " + (int) (800 * width / 1920) + ";");
+//        scene.getStylesheets().add("-fx-pref-height: " + (int) (600 * height / 1080) + ";");
+
+        String theme = DataAccess.getTheme();
         URL css = PolyLinked.class.getResource("styles/" + theme + "/" + themeId + ".css");
         Parent parent = scene.getRoot();
-
         if (css != null) {
             parent.getStylesheets().clear();
-            scene.getStylesheets().add(css.toExternalForm());
+            parent.getStylesheets().add(css.toExternalForm());
         }
-
-        parent.setStyle("-fx-font-size: " + (int) (13 * width * height / 1920 / 1080) + ";");
-        parent.setStyle("-fx-pref-width: " + (int) (800 * width / 1920) + ";");
-        parent.setStyle("-fx-pref-height: " + (int) (600 * height / 1080) + ";");
     }
 
     public enum SceneLevel {
@@ -83,6 +97,16 @@ public class SceneManager {
                 System.exit(1);
             }
             return null;
+        }
+    }
+
+    public enum Theme {
+        LIGHT("light"), DARK("dark");
+
+        public final String value;
+
+        Theme(String value) {
+            this.value = value;
         }
     }
 }

@@ -1,10 +1,8 @@
-/* login.css */
-
-/* Root style for the application */
 .root {
     -fx-background-color: white;
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     -fx-text-fill: Black;
+    -fx-font-size: 1em;
 }
 
 /* Header Label */

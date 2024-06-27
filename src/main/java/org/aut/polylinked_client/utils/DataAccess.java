@@ -1,5 +1,6 @@
 package org.aut.polylinked_client.utils;
 
+import org.aut.polylinked_client.SceneManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,16 +16,6 @@ public class DataAccess {
             "src/main/resources/org/aut/polylinked_client/styles"};
 
     private static final Path FILE_PATH = Path.of("src/main/resources/org/aut/polylinked_client/data/data.bin");
-
-    public enum Theme {
-        LIGHT("light"), DARK("dark");
-
-        public final String value;
-
-        Theme(String value) {
-            this.value = value;
-        }
-    }
 
     private DataAccess() {
     }
@@ -42,7 +33,7 @@ public class DataAccess {
         }
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("theme", Theme.LIGHT.value);
+        jsonObject.put("theme", SceneManager.Theme.LIGHT.value);
         jsonObject.put("jwt", "null");
         if (FILE_PATH.toFile().length() < 1) writeData(jsonObject);
     }
@@ -63,7 +54,7 @@ public class DataAccess {
         }
     }
 
-    public static void setTheme(Theme theme) {
+    public static void setTheme(SceneManager.Theme theme) {
         JSONObject data = readData();
         data.put("theme", theme.value);
         writeData(data);

@@ -1,8 +1,8 @@
 .root {
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     -fx-background-color: #1f1f1f;
-    -fx-font-size: 13;
     -fx-text-fill: white;
+    -fx-font-size: 1em;
 }
 
 #gridPane {
@@ -18,12 +18,12 @@
 .toggle-button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-font-size: 1em;
+    -fx-font-size: 0.9em;
     -fx-text-fill: white;
 }
 
 #icon {
-    -fx-font-size: 1.2em;
+    -fx-font-size: 1.5em;
     -fx-fill: white;
 }
 

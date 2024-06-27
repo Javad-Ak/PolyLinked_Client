@@ -1,11 +1,11 @@
 .root {
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     -fx-background-color: #ffffff;
-    -fx-font-size: 13;
+    -fx-font-size: 1em;
 }
 
 #gridPane {
-    -fx-background-color: #d5e3e3;
+    -fx-background-color: #d2ddfa;
 }
 
 .image-view {
@@ -17,11 +17,11 @@
 .toggle-button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-font-size: 1em;
+    -fx-font-size: 0.9em;
 }
 
 #icon {
-    -fx-font-size: 1.2em;
+    -fx-font-size: 1.5em;
     -fx-fill: black;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .toggle-button:hover {
-    -fx-background-color: #c0cccc;
+    -fx-background-color: #c8d5f7;
 }
 
 .menu-button {
@@ -44,7 +44,7 @@
 }
 
 .menu-button:hover {
-    -fx-background-color: #c0cccc; /* Darker background on hover */
+    -fx-background-color: #c8d5f7; /* Darker background on hover */
 }
 
 .context-menu {

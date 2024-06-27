@@ -19,9 +19,9 @@
    <top>
       <GridPane id="gridPane" BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
+          <ColumnConstraints hgrow="SOMETIMES" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="30.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
+          <ColumnConstraints hgrow="SOMETIMES" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints vgrow="NEVER" />
@@ -37,10 +37,10 @@
                         <Image url="@../images/app-icon.png" />
                      </image>
                      <HBox.margin>
-                        <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                      </HBox.margin>
                   </ImageView>
-                  <ToggleButton contentDisplay="TOP" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Home">
+                  <ToggleButton fx:id="homeToggle" contentDisplay="TOP" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Home">
                      <toggleGroup>
                         <ToggleGroup fx:id="tabs" />
                      </toggleGroup>
@@ -52,7 +52,7 @@
                         </FontIcon>
                      </graphic>
                   </ToggleButton>
-                  <ToggleButton contentDisplay="TOP" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Messaging" toggleGroup="$tabs">
+                  <ToggleButton fx:id="messagingToggle" contentDisplay="TOP" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Messaging" toggleGroup="$tabs">
                      <graphic>
                         <FontIcon id="icon" iconLiteral="mdi-message-outline">
                            <font>
@@ -61,7 +61,7 @@
                         </FontIcon>
                      </graphic>
                   </ToggleButton>
-                  <ToggleButton contentDisplay="TOP" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Notifications" toggleGroup="$tabs">
+                  <ToggleButton fx:id="notifToggle" contentDisplay="TOP" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Notifications" toggleGroup="$tabs">
                      <graphic>
                         <FontIcon id="icon" iconLiteral="mdi-bell-outline">
                            <font>
@@ -70,7 +70,7 @@
                         </FontIcon>
                      </graphic>
                   </ToggleButton>
-                  <ToggleButton contentDisplay="TOP" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Profile" toggleGroup="$tabs">
+                  <ToggleButton fx:id="profileToggle" contentDisplay="TOP" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Profile" toggleGroup="$tabs">
                      <graphic>
                         <FontIcon id="icon" iconLiteral="mdi-account-outline">
                            <font>
@@ -79,7 +79,7 @@
                         </FontIcon>
                      </graphic>
                   </ToggleButton>
-                  <ToggleButton contentDisplay="TOP" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Search" toggleGroup="$tabs">
+                  <ToggleButton fx:id="searchToggle" contentDisplay="TOP" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Search" toggleGroup="$tabs">
                      <graphic>
                         <FontIcon id="icon" iconLiteral="mdi-magnify">
                            <font>
@@ -101,10 +101,10 @@
                         </FontIcon>
                      </graphic>
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Switch theme" />
-                        <MenuItem mnemonicParsing="false" text="Log out" />
-                        <MenuItem mnemonicParsing="false" text="Delete acoount" />
-                        <MenuItem mnemonicParsing="false" text="About PolyLinked" />
+                        <MenuItem mnemonicParsing="false" onAction="#switchThemePressed" text="Switch theme" />
+                        <MenuItem mnemonicParsing="false" onAction="#logOutPressed" text="Log out" />
+                        <MenuItem mnemonicParsing="false" onAction="#deleteAccountPressed" text="Delete acoount" />
+                        <MenuItem mnemonicParsing="false" onAction="#aboutAppPressed" text="About PolyLinked" />
                      </items>
                   </MenuButton>
                </children>
@@ -112,12 +112,12 @@
                   <Insets />
                </GridPane.margin>
                <padding>
-                  <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                </padding>
             </HBox>
          </children>
          <BorderPane.margin>
-            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+            <Insets />
          </BorderPane.margin>
       </GridPane>
    </top>
