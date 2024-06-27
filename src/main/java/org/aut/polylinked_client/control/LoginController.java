@@ -1,5 +1,6 @@
 package org.aut.polylinked_client.control;
 
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.event.ActionEvent;
@@ -32,7 +33,7 @@ public class LoginController {
     private JFXTextField emailText;
 
     @FXML
-    private JFXTextField passwordText;
+    private JFXPasswordField passwordText;
 
     @FXML
     public void initialize() {

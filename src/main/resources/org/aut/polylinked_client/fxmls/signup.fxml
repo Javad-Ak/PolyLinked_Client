@@ -53,8 +53,8 @@
                         <Insets />
                      </VBox.margin>
                   </JFXTextField>
-                  <JFXPasswordField promptText="Password" />
-                  <JFXPasswordField promptText="Confirm Password" />
+                  <JFXPasswordField fx:id="passwordTF" promptText="Password" />
+                  <JFXPasswordField fx:id="confirmPasswordTF" promptText="Confirm Password" />
                </children>
                <VBox.margin>
                   <Insets bottom="30.0" top="30.0" />
