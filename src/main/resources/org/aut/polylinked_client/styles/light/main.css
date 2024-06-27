@@ -44,7 +44,7 @@
 }
 
 .menu-button:hover {
-    -fx-background-color: #c8d5f7; /* Darker background on hover */
+    -fx-background-color: #c8d5f7;
 }
 
 .context-menu {

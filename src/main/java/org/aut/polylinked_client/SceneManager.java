@@ -8,11 +8,12 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.aut.polylinked_client.utils.DataAccess;
+
 import java.io.IOException;
 import java.net.URL;
 
 public class SceneManager {
-    private static  Stage stage;
+    private static Stage stage;
     private static final StringProperty theme = new SimpleStringProperty();
 
     public SceneManager(Stage primaryStage) {
@@ -48,23 +49,30 @@ public class SceneManager {
     }
 
     public void setScene(SceneLevel sceneLevel) {
-        Scene scene = sceneLevel.getScene();
         if (stage == null) {
             System.out.println("Primary stage not set");
             System.exit(1);
         }
 
+        double width = 0;
+        double height = 0;
+        if (stage.getScene() != null) {
+            width = stage.getWidth();
+            height = stage.getHeight();
+        }
+
+        Scene scene = sceneLevel.getScene();
         makeResponsive(scene, sceneLevel.id);
         stage.setScene(scene);
+        if (width > 0 && height > 0) {
+            stage.setWidth(width);
+            stage.setHeight(height);
+        }
     }
 
     private void makeResponsive(Scene scene, String themeId) {
         double width = Screen.getPrimary().getBounds().getWidth();
         double height = Screen.getPrimary().getBounds().getHeight();
-
-//        scene.getStylesheets().add("-fx-font-size: " + (int) (13 * width * height / 1920 / 1080) + ";");
-//        scene.getStylesheets().add("-fx-pref-width: " + (int) (800 * width / 1920) + ";");
-//        scene.getStylesheets().add("-fx-pref-height: " + (int) (600 * height / 1080) + ";");
 
         String theme = DataAccess.getTheme();
         URL css = PolyLinked.class.getResource("styles/" + theme + "/" + themeId + ".css");
@@ -73,6 +81,10 @@ public class SceneManager {
             parent.getStylesheets().clear();
             parent.getStylesheets().add(css.toExternalForm());
         }
+
+        parent.setStyle("-fx-font-size: " + (int) (13 * width * height / 1920 / 1080) + ";");
+        parent.setStyle("-fx-pref-width: " + (int) (800 * width / 1920) + ";");
+        parent.setStyle("-fx-pref-height: " + (int) (600 * height / 1080) + ";");
     }
 
     public enum SceneLevel {

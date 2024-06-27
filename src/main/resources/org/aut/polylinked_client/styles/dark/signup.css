@@ -1,25 +1,19 @@
-/* signup.css */
-
-/* Root style for the application */
 .root {
-    -fx-background-color: #2e2e2e; /* Dark background color */
+    -fx-background-color: #1f1f1f; /* Dark background color */
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     -fx-text-fill: white; /* Default text color */
 }
 
-/* Header Label */
 .header-label {
     -fx-text-fill: #64B5F6; /* Light blue text color */
     -fx-font-size: 1.5em; /* Relative font size */
     -fx-font-weight: bold;
 }
 
-/* ToggleButton styles */
 .toggle-button {
     -fx-text-fill: white;
 }
 
-/* Label styles */
 .label {
     -fx-font-size: 1em; /* Relative font size */
     -fx-font-weight: bold;
@@ -30,7 +24,6 @@
     -fx-text-fill: #ff3333; /* Message label text color */
 }
 
-/* JFXTextField styles */
 .jfx-text-field {
     -jfx-focus-color: #64B5F6; /* Blue focus color */
     -jfx-unfocus-color: #BDBDBD; /* Light grey for unfocused state */
@@ -47,7 +40,6 @@
     -fx-font-size: 1em; /* Relative font size */
 }
 
-/* Hyperlink styles */
 .hyperlink {
     -fx-text-fill: #64B5F6; /* Light blue color */
     -fx-font-size: 1em; /* Relative font size */
@@ -57,25 +49,18 @@
     -fx-text-fill: #42A5F5; /* Lighter blue on hover */
 }
 
-/* Button styles */
 .button {
     -fx-background-color: #64B5F6; /* Light blue color */
     -fx-text-fill: white; /* Text color */
     -fx-font-size: 1.2em; /* Relative font size */
     -fx-font-weight: bold;
     -fx-background-radius: 4; /* Rounded corners */
-    -fx-padding: 0.8em 1.5em; /* Relative padding */
 }
 
 .button:hover {
     -fx-background-color: #42A5F5; /* Lighter blue on hover */
 }
 
-/* HBox and VBox styles */
-.hbox {
-    -fx-spacing: 1em; /* Relative spacing */
-}
-
 #sideBox {
-    -fx-background-color: #333333; /* Dark background color */
+    -fx-background-color: #353535; /* Dark background color */
 }

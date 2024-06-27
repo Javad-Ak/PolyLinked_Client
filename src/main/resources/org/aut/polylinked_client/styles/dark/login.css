@@ -1,10 +1,8 @@
-/* dark-login.css */
-
-/* Root style for the application */
 .root {
-    -fx-background-color: #2e2e2e; /* Dark background color */
+    -fx-background-color: #1f1f1f;
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    -fx-text-fill: white; /* Default text color */
+    -fx-text-fill: white;
+    -fx-font-size: 1em;
 }
 
 .header-label {
@@ -58,18 +56,16 @@
     -fx-font-size: 1.2em;
     -fx-font-weight: bold;
     -fx-background-radius: 4;
-    -fx-padding: 0.8em 1.5em;
 }
 
 .button:hover {
     -fx-background-color: #42A5F5;
 }
 
-
 .vbox {
     -fx-spacing: 1em;
 }
 
 #sideBox {
-    -fx-background-color: #333333;
+    -fx-background-color: #353535;
 }

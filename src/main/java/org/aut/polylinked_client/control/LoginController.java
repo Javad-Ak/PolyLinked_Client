@@ -36,15 +36,15 @@ public class LoginController {
 
     @FXML
     public void initialize() {
-        // 1. theme initialization
         String theme = DataAccess.getTheme();
         themeToggle.setSelected(theme.equalsIgnoreCase("dark"));
 
-        // 2. theme observation
+        // theme observation
         SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
             SceneManager.activateTheme(SceneManager.SceneLevel.LOGIN.id);
         });
 
+        // theme changer
         themeToggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
             String val = newValue ? "DARK" : "LIGHT";
             SceneManager.setThemeProperty(SceneManager.Theme.valueOf(val));
