@@ -7,7 +7,11 @@ import javafx.scene.layout.BorderPane;
 import org.aut.polylinked_client.PolyLinked;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.utils.DataAccess;
+import org.aut.polylinked_client.utils.RequestBuilder;
+import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.Optional;
 
 public class MainController {
@@ -61,8 +65,21 @@ public class MainController {
 
     @FXML
     void deleteAccountPressed(ActionEvent event) {
-//        TODO
-        logOutPressed(event);
+        Dialog<ButtonType> dialog = createDialogue("Confirm", "Are you sure you want to Delete this Account?", ButtonType.OK, ButtonType.CANCEL);
+        Optional<ButtonType> result = dialog.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+
+            JSONObject json = new JSONObject();
+            json.put("Authorization", DataAccess.getJWT());
+            try {
+                RequestBuilder.buildConnection("DELETE", "users", json, false).getResponseCode();
+            } catch (IOException ignored) {
+            }
+
+            DataAccess.setUserId("none");
+            DataAccess.setJWT("none");
+            SceneManager.setScene(SceneManager.SceneLevel.SIGNUP);
+        }
     }
 
     @FXML
@@ -72,7 +89,7 @@ public class MainController {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             DataAccess.setUserId("none");
             DataAccess.setJWT("none");
-            SceneManager.setScene(SceneManager.SceneLevel.SIGNUP);
+            SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
         }
     }
 
