@@ -24,7 +24,7 @@ public class Post implements MediaLinked {
         }
 
         postId = "post" + new Random().nextInt(99999) + UUID.randomUUID().toString().substring(10, 23);
-        repostFrom = "null";
+        repostFrom = "none";
         this.userId = userId;
         this.text = text.trim();
         date = new Date(System.currentTimeMillis());
