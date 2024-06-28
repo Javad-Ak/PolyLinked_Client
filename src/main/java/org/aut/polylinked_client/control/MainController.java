@@ -42,7 +42,7 @@ public class MainController {
 
         // theme observation
         SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
-            SceneManager.activateTheme(SceneManager.SceneLevel.LOGIN.id);
+            SceneManager.activateTheme(SceneManager.SceneLevel.MAIN.id);
         });
     }
 
@@ -50,9 +50,9 @@ public class MainController {
     void aboutAppPressed(ActionEvent event) {
         String message = """
                 PolyLinked is a LinkedIn clone desktop Application developed in javafx.\
-                                
+                               \s
                 This Application was the project of 2024 AP course at @AUT-CE.)\
-                                
+                               \s
                 Authors: Alireza Atharifard, MohammadJavad Akbari""";
 
         Dialog<ButtonType> dialog = createDialogue("About PolyLinked", message, ButtonType.CLOSE);

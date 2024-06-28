@@ -1,18 +1,7 @@
 .root {
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     -fx-background-color: #1f1f1f;
-    -fx-text-fill: white;
     -fx-font-size: 1em;
-}
-
-#gridPane {
-    -fx-background-color: #353535;
-}
-
-.image-view {
-    -fx-fit-height: 40px;
-    -fx-fit-width: 40px;
-    -fx-preserve-ratio: true;
 }
 
 .toggle-button {
@@ -22,20 +11,14 @@
     -fx-text-fill: white;
 }
 
-#icon {
-    -fx-font-size: 1.5em;
-    -fx-fill: white;
-}
-
 .toggle-button:selected, .toggle-button:selected #icon{
     -fx-background-color: transparent;
     -fx-fill: #64b5f6;
     -fx-text-fill: #64b5f6;
     -fx-border-color: transparent transparent #64b5f6 transparent;
-    -fx-border-width: 0 0 2px 0;
+    -fx-border-width: 0 0 3px 0;
     -fx-border-radius: 0;
 }
-
 
 .toggle-button:hover {
     -fx-background-color: #424242;
@@ -58,4 +41,13 @@
 
 .context-menu {
     -fx-background-color: #535353;
+}
+
+#gridPane {
+    -fx-background-color: #353535;
+}
+
+#icon {
+    -fx-font-size: 1.5em;
+    -fx-fill: white;
 }

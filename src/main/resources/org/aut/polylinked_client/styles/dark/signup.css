@@ -20,10 +20,6 @@
     -fx-text-fill: white; /* Text color */
 }
 
-#messageT {
-    -fx-text-fill: #ff3333; /* Message label text color */
-}
-
 .jfx-text-field {
     -jfx-focus-color: #64B5F6; /* Blue focus color */
     -jfx-unfocus-color: #BDBDBD; /* Light grey for unfocused state */
@@ -63,4 +59,8 @@
 
 #sideBox {
     -fx-background-color: #353535; /* Dark background color */
+}
+
+#messageT {
+    -fx-text-fill: #ff3333; /* Message label text color */
 }

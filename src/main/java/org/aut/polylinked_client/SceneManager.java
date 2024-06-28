@@ -5,10 +5,9 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Screen;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.aut.polylinked_client.utils.DataAccess;
-
 import java.io.IOException;
 import java.net.URL;
 
@@ -23,11 +22,12 @@ public class SceneManager {
 
     public static void activateTheme(String cssID) { // on current scene
         activateTheme(stage.getScene().getRoot(), cssID);
+        stage.getScene().getRoot().setStyle("-fx-font-size: " + Font.getDefault().getSize() + ";");
     }
 
     public static void activateTheme(Parent root, String cssID) {
         URL css = PolyLinked.class.getResource("styles/" + theme.getValue() + "/" + cssID + ".css");
-        if (css != null) {
+        if (css != null && !root.getStylesheets().isEmpty()) {
             root.getStylesheets().set(0, css.toExternalForm());
         }
     }
@@ -71,20 +71,14 @@ public class SceneManager {
     }
 
     private static void makeResponsive(Scene scene, String themeId) {
-        double width = Screen.getPrimary().getBounds().getMaxX();
-        double height = Screen.getPrimary().getBounds().getMaxY();
-
         String theme = DataAccess.getTheme();
         URL css = PolyLinked.class.getResource("styles/" + theme + "/" + themeId + ".css");
         Parent parent = scene.getRoot();
         if (css != null) {
             parent.getStylesheets().clear();
             parent.getStylesheets().add(css.toExternalForm());
+            parent.setStyle("-fx-font-size: " + Font.getDefault().getSize() + ";");
         }
-
-        parent.setStyle("-fx-font-size: " + (int) (13 * width * height / 1920 / 1080) + ";");
-        parent.setStyle("-fx-pref-width: " + (int) (700 * width / 1920) + ";");
-        parent.setStyle("-fx-pref-height: " + (int) (700 * height / 1080) + ";");
     }
 
     public enum SceneLevel {
