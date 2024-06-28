@@ -11,7 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class DataAccess {
-    private static final String[] RESOURCES_PATH = {"src/main/resources/org/aut/polylinked_client/data",
+    private static final String[] RESOURCES_PATHS = {"src/main/resources/org/aut/polylinked_client/data",
             "src/main/resources/org/aut/polylinked_client/fxmls", "src/main/resources/org/aut/polylinked_client/images",
             "src/main/resources/org/aut/polylinked_client/styles"};
 
@@ -22,7 +22,7 @@ public class DataAccess {
 
     public static void initiate() {
         try {
-            for (String folder : RESOURCES_PATH) {
+            for (String folder : RESOURCES_PATHS) {
                 if (!Files.isDirectory(Path.of(folder)))
                     throw new IOException(folder + " not found");
             }
@@ -34,24 +34,21 @@ public class DataAccess {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("theme", SceneManager.Theme.LIGHT.value);
-        jsonObject.put("jwt", "null");
+        jsonObject.put("jwt", "none");
+        jsonObject.put("userId", "none");
         if (FILE_PATH.toFile().length() < 1) writeData(jsonObject);
     }
 
     public static String getTheme() {
-        try {
-            return readData().getString("theme");
-        } catch (JSONException e) {
-            return "null";
-        }
+        return readData().getString("theme");
     }
 
     public static String getJWT() {
-        try {
-            return readData().getString("jwt");
-        } catch (JSONException e) {
-            return "null";
-        }
+        return readData().getString("jwt");
+    }
+
+    public static String getUserId() {
+        return readData().getString("userId");
     }
 
     public static void setTheme(SceneManager.Theme theme) {
@@ -66,8 +63,14 @@ public class DataAccess {
         writeData(data);
     }
 
+    public static void setUserId(String userId) {
+        JSONObject data = readData();
+        data.put("userId", userId);
+        writeData(data);
+    }
+
     private static void writeData(JSONObject object) {
-        try (FileOutputStream outputStream = new FileOutputStream(FILE_PATH.toFile())) {
+        try (FileOutputStream outputStream = new FileOutputStream(FILE_PATH.toFile(), false)) {
             outputStream.write(object.toString().getBytes());
         } catch (IOException e) {
             System.err.println("Failed to write data files: " + e);

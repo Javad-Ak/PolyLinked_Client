@@ -4,33 +4,18 @@
     -fx-font-size: 1em;
 }
 
-#gridPane {
-    -fx-background-color: #d2ddfa;
-}
-
-.image-view {
-    -fx-fit-height: 40px;
-    -fx-fit-width: 40px;
-    -fx-preserve-ratio: true;
-}
-
 .toggle-button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-font-size: 0.9em;
 }
 
-#icon {
-    -fx-font-size: 1.5em;
-    -fx-fill: black;
-}
-
 .toggle-button:selected, .toggle-button:selected #icon {
     -fx-background-color: transparent;
-    -fx-fill: #0050a1;
-    -fx-text-fill: #0050a1;
-    -fx-border-color: transparent transparent #0078d7 transparent;
-    -fx-border-width: 0 0 2px 0;
+    -fx-fill: #084B81;
+    -fx-text-fill: #084B81;
+    -fx-border-color: transparent transparent #084B81 transparent;
+    -fx-border-width: 0 0 3px 0;
     -fx-border-radius: 0;
 }
 
@@ -49,4 +34,13 @@
 
 .context-menu {
     -fx-background-color: white;
+}
+
+#icon {
+    -fx-font-size: 1.5em;
+    -fx-fill: black;
+}
+
+#gridPane {
+    -fx-background-color: #d2ddfa;
 }

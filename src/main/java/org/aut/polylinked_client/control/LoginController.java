@@ -71,7 +71,7 @@ public class LoginController {
 
     @FXML
     void signupPressed(ActionEvent event) {
-        PolyLinked.setScene(SceneManager.SceneLevel.SIGNUP);
+        SceneManager.setScene(SceneManager.SceneLevel.SIGNUP);
     }
 
     public static void loginRequest(String email, String password) throws IOException, NotAcceptableException, UnauthorizedException {
@@ -89,9 +89,10 @@ public class LoginController {
 
         if (con.getResponseCode() / 100 == 2) {
             InputStream inputStream = con.getInputStream();
-            String JWT = JsonHandler.getObject(inputStream).getString("Authorization");
-            DataAccess.setJWT(JWT);
-            PolyLinked.setScene(SceneManager.SceneLevel.MAIN);
+            JSONObject jsonObject1 = JsonHandler.getObject(inputStream);
+            DataAccess.setJWT(jsonObject1.getString("Authorization"));
+            DataAccess.setUserId(jsonObject1.getString("userId"));
+            SceneManager.setScene(SceneManager.SceneLevel.MAIN);
         } else if (con.getResponseCode() == 401) {
             throw new UnauthorizedException("Invalid email or password");
         } else {

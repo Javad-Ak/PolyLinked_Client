@@ -15,10 +15,6 @@
     -fx-font-weight: bold;
 }
 
-#messageT {
-    -fx-text-fill: #800000;
-}
-
 .jfx-text-field {
     -jfx-focus-color: #0A74DA; /* Blue focus color */
     -jfx-unfocus-color: #BDBDBD; /* Light grey for unfocused state */
@@ -64,4 +60,8 @@
 
 #sideBox {
     -fx-background-color: #ccffff;
+}
+
+#messageT {
+    -fx-text-fill: #800000;
 }

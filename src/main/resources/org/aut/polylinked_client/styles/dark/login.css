@@ -21,10 +21,6 @@
     -fx-font-weight: bold;
     -fx-text-fill: white;
 }
-#messageText{
-    -fx-text-fill: #ff3333;
-}
-
 .jfx-text-field {
     -jfx-focus-color: #64B5F6;
     -jfx-unfocus-color: #BDBDBD;
@@ -62,10 +58,10 @@
     -fx-background-color: #42A5F5;
 }
 
-.vbox {
-    -fx-spacing: 1em;
-}
-
 #sideBox {
     -fx-background-color: #353535;
+}
+
+#messageText{
+    -fx-text-fill: #ff3333;
 }

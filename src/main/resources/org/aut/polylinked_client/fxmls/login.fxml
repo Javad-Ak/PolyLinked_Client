@@ -13,11 +13,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" stylesheets="@../styles/light/login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.LoginController">
+<BorderPane stylesheets="@../styles/light/login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.LoginController">
     <center>
-        <VBox alignment="CENTER" maxWidth="500.0" minWidth="300.0" spacing="6.0" BorderPane.alignment="CENTER">
+        <VBox alignment="CENTER" maxWidth="500.0" spacing="6.0" BorderPane.alignment="CENTER">
             <children>
-                <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../images/app-icon.png" />
                     </image>
@@ -66,7 +66,7 @@
    <right>
       <VBox id="sideBox" alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-                <Label alignment="TOP_LEFT" contentDisplay="BOTTOM" minHeight="-Infinity" minWidth="-Infinity" text="Welcome To PolyLinked!" wrapText="true" />
+                <Label alignment="TOP_LEFT" contentDisplay="BOTTOM" minHeight="-Infinity" minWidth="-Infinity" text="Welcome back to PolyLinked!" wrapText="true" />
             <JFXToggleButton fx:id="themeToggle" minHeight="-Infinity" minWidth="-Infinity" text="theme" toggleColor="#949393" toggleLineColor="BLACK" unToggleLineColor="#e7e7e7" />
                 <ImageView fitHeight="360.0" fitWidth="360.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -78,7 +78,7 @@
             <Insets />
          </BorderPane.margin>
          <padding>
-            <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+            <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
          </padding>
       </VBox>
    </right>

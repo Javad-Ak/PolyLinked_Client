@@ -24,10 +24,6 @@ public class PolyLinked extends Application {
         stage.show();
     }
 
-    public static void setScene(SceneManager.SceneLevel sceneLevel) {
-        sceneManager.setScene(sceneLevel);
-    }
-
     public static void launchApp(String[] args) {
         launch(args);
     }

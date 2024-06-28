@@ -65,7 +65,7 @@ public class SignupController {
 
     @FXML
     void loginPressed(ActionEvent event) {
-        PolyLinked.setScene(SceneManager.SceneLevel.LOGIN);
+        SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
     }
 
     @FXML
