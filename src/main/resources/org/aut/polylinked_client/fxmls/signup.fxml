@@ -36,7 +36,7 @@
    <center>
       <VBox alignment="CENTER" maxWidth="500.0" minWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/app-icon.png" />
                </image>
@@ -60,7 +60,7 @@
                   <JFXPasswordField fx:id="confirmPasswordTF" promptText="Confirm Password" />
                </children>
                <VBox.margin>
-                  <Insets bottom="30.0" top="30.0" />
+                  <Insets bottom="20.0" top="20.0" />
                </VBox.margin>
             </VBox>
             <Label id="messageT" fx:id="messageT" focusTraversable="false" textAlignment="CENTER" wrapText="true" />

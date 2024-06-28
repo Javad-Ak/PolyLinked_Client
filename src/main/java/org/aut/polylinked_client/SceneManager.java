@@ -42,13 +42,13 @@ public class SceneManager {
     }
 
     public void setScene() {
-        if (DataAccess.getJWT().equals("null"))
+        if (DataAccess.getJWT().equals("none"))
             setScene(SceneLevel.LOGIN);
         else
             setScene(SceneLevel.MAIN);
     }
 
-    public void setScene(SceneLevel sceneLevel) {
+    public static void setScene(SceneLevel sceneLevel) {
         if (stage == null) {
             System.out.println("Primary stage not set");
             System.exit(1);
@@ -70,9 +70,9 @@ public class SceneManager {
         }
     }
 
-    private void makeResponsive(Scene scene, String themeId) {
-        double width = Screen.getPrimary().getBounds().getWidth();
-        double height = Screen.getPrimary().getBounds().getHeight();
+    private static void makeResponsive(Scene scene, String themeId) {
+        double width = Screen.getPrimary().getBounds().getMaxX();
+        double height = Screen.getPrimary().getBounds().getMaxY();
 
         String theme = DataAccess.getTheme();
         URL css = PolyLinked.class.getResource("styles/" + theme + "/" + themeId + ".css");
@@ -83,8 +83,8 @@ public class SceneManager {
         }
 
         parent.setStyle("-fx-font-size: " + (int) (13 * width * height / 1920 / 1080) + ";");
-        parent.setStyle("-fx-pref-width: " + (int) (800 * width / 1920) + ";");
-        parent.setStyle("-fx-pref-height: " + (int) (600 * height / 1080) + ";");
+        parent.setStyle("-fx-pref-width: " + (int) (700 * width / 1920) + ";");
+        parent.setStyle("-fx-pref-height: " + (int) (700 * height / 1080) + ";");
     }
 
     public enum SceneLevel {

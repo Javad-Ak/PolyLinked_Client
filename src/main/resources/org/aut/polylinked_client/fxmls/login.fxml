@@ -17,7 +17,7 @@
     <center>
         <VBox alignment="CENTER" maxWidth="500.0" minWidth="300.0" spacing="6.0" BorderPane.alignment="CENTER">
             <children>
-                <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../images/app-icon.png" />
                     </image>
