@@ -110,7 +110,7 @@ public class Post implements MediaLinked {
     }
 
     public boolean isReposted(){
-        return repostFrom.equals("none");
+        return !repostFrom.equals("none");
     }
 
     public void setCommentsCount(int commentsCount) {
