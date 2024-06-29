@@ -1,0 +1,45 @@
+.root {
+    -fx-background-color: transparent;
+    -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -fx-text-fill: Black;
+    -fx-font-size: 1em;
+}
+
+.label {
+    -fx-font-size: 0.9em;
+    -fx-text-fill: black;
+}
+
+.button {
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-font-size: 1em;
+    -fx-background-radius: 4;
+}
+
+.button:hover, .button:hover #icon {
+    -fx-fill: #0A74DA;
+    -fx-text-fill: #0A74DA;
+}
+
+.separator{
+    -fx-background-color: #0A74DA;
+}
+
+.jfx-text-area {
+    -jfx-focus-color: black;
+    -jfx-unfocus-color: #BDBDBD;
+    -fx-prompt-text-fill: #BDBDBD;
+    -fx-background-color: #e9e9e9;
+    -fx-text-fill: black;
+    -fx-font-size: 1em;
+}
+
+#postListView {
+    -fx-background-color: transparent;
+}
+
+#icon {
+    -fx-font-size: 1.5em;
+    -fx-fill: #0A74DA;
+}

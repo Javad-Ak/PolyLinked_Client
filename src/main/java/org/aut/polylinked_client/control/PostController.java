@@ -9,8 +9,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import org.aut.polylinked_client.SceneManager;
 
 public class PostController {
+    private final static String fileId = "post"; // post.css and post.fxml
 
     @FXML
     private GNAvatarView avatar;
@@ -41,6 +43,16 @@ public class PostController {
 
     @FXML
     private VBox vBox;
+
+    @FXML
+    void initialize() {
+        SceneManager.activateTheme(root, fileId);
+
+        // theme observation
+        SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
+            SceneManager.activateTheme(root, fileId);
+        });
+    }
 
     @FXML
     void commentPressed(ActionEvent event) {

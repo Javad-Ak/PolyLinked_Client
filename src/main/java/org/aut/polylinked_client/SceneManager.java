@@ -78,6 +78,8 @@ public class SceneManager {
             parent.getStylesheets().clear();
             parent.getStylesheets().add(css.toExternalForm());
             parent.setStyle("-fx-font-size: " + Font.getDefault().getSize() + ";");
+            parent.setStyle("-fx-pref-width: " + 800 * 13 / Font.getDefault().getSize() + ";");
+            parent.setStyle("-fx-pref-height: " + 600 * 13 / Font.getDefault().getSize() + ";");
         }
     }
 
