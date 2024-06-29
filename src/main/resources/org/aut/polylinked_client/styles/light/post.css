@@ -30,7 +30,7 @@
 }
 
 .button {
-    -fx-background-color: tansparent;
+    -fx-background-color: transparent;
     -fx-text-fill: black;
     -fx-font-size: 1em;
     -fx-background-radius: 4;
@@ -42,7 +42,7 @@
 }
 
 .toggle-button {
-    -fx-background-color: tansparent;
+    -fx-background-color: transparent;
     -fx-text-fill: black;
     -fx-font-size: 1em;
     -fx-background-radius: 4;

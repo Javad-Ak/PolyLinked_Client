@@ -9,15 +9,26 @@ import org.aut.polylinked_client.model.User;
 
 import java.io.IOException;
 
-public class PostCell extends ListCell<Post> {
-    private Parent root;
+// this class serves both as model and view
+public class PostCell extends ListCell<PostCell> {
+    private Post post;
+    private User user;
 
     public PostCell(Post post, User user) {
+        this.post = post;
+        this.user = user;
+    }
+
+//    ########################################
+
+    private Parent root;
+    private PostController controller;
+
+    public PostCell() {
         FXMLLoader fxmlLoader = new FXMLLoader(PolyLinked.class.getResource("fxmls/post.fxml"));
         try {
             root = fxmlLoader.load();
-            PostController controller = fxmlLoader.getController();
-            controller.setData(post, user);
+            controller = fxmlLoader.getController();
         } catch (IOException e) {
             System.err.println("failed to load post fxml");
             System.exit(1);
@@ -25,11 +36,12 @@ public class PostCell extends ListCell<Post> {
     }
 
     @Override
-    protected void updateItem(Post item, boolean empty) {
+    protected void updateItem(PostCell item, boolean empty) {
         super.updateItem(item, empty);
         if (empty || item == null) {
             setGraphic(null);
         } else {
+            controller.setData(item.post, item.user);
             setGraphic(root);
         }
     }

@@ -35,11 +35,17 @@
     -fx-font-size: 1em;
 }
 
-#postListView {
+.list-view {
     -fx-background-color: transparent;
+}
+
+.list-cell {
+    -fx-background-color: #535353;
 }
 
 #icon {
     -fx-font-size: 1.5em;
     -fx-fill: #0A74DA;
 }
+
+

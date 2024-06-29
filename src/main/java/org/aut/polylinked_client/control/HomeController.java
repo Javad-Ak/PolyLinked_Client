@@ -1,7 +1,7 @@
 package org.aut.polylinked_client.control;
 
 import com.jfoenix.controls.JFXTextArea;
-import javafx.collections.ObservableArray;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,13 +15,17 @@ import org.aut.polylinked_client.utils.DataAccess;
 import org.aut.polylinked_client.utils.JsonHandler;
 import org.aut.polylinked_client.utils.RequestBuilder;
 import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
+import org.aut.polylinked_client.view.PostCell;
 
 import java.util.TreeMap;
 
 public class HomeController {
-    private final static String fileId = "home"; // post.css and post.fxml
 
-    private TreeMap<Post, User> posts;
+    private final static String fileId = "home"; // home.css
+
+    private TreeMap<Post, User> postsData; // from server
+
+    private final ObservableList<PostCell> observablePosts = FXCollections.observableArrayList(); // to listView
 
     @FXML
     private BorderPane root;
@@ -30,7 +34,7 @@ public class HomeController {
     private Label fileLabel;
 
     @FXML
-    private ListView<?> postListView;
+    private ListView<PostCell> postListView; // <?> changed to <PostCell>
 
     @FXML
     private JFXTextArea postText;
@@ -45,15 +49,18 @@ public class HomeController {
         });
 
         try {
-            posts = RequestBuilder.mapFromGetRequest(Post.class, "", JsonHandler.createJson("Authorization", DataAccess.getJWT()));
+            postsData = RequestBuilder.mapFromGetRequest(Post.class, "newsfeed", JsonHandler.createJson("Authorization", DataAccess.getJWT()));
         } catch (UnauthorizedException e) {
             SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
         }
 
-        if (posts == null || posts.isEmpty()) {
+        if (postsData == null || postsData.isEmpty()) {
             root.setCenter(new Label("No posts found. Please try again later."));
         } else {
+            postsData.forEach((post, user) -> observablePosts.add(new PostCell(post, user)));
+            postListView.setItems(observablePosts);
 
+            postListView.setCellFactory(listView -> new PostCell());
         }
     }
 

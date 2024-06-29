@@ -28,7 +28,7 @@ public class JsonHandler {
     }
 
     public static JSONObject createJson(String... keyValPairs) {
-        if (keyValPairs.length / 2 == 1 || keyValPairs.length == 0)
+        if (keyValPairs.length % 2 == 1 || keyValPairs.length == 0)
             return null;
         else {
             JSONObject jsonObject = new JSONObject();

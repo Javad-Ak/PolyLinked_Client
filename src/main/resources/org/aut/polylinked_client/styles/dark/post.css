@@ -20,42 +20,42 @@
 }
 
 .hyperlink:hover {
-    -fx-text-fill: #64b5f6;
+    -fx-text-fill: #0A74DA;
 }
 
 .hyperlink:pressed {
-    -fx-text-fill: #64b5f6;
+    -fx-text-fill: #0A74DA;
     -fx-border-color: transparent;
     -fx-focus-color: transparent;
 }
 
 .button {
-    -fx-background-color: tansparent;
+    -fx-background-color: transparent;
     -fx-text-fill: white;
     -fx-font-size: 1em;
     -fx-background-radius: 4;
 }
 
 .button:hover, .button:hover #icon {
-    -fx-fill: #64b5f6;
-    -fx-text-fill: #64b5f6;
+    -fx-fill: #0A74DA;
+    -fx-text-fill: #0A74DA;
 }
 
 .toggle-button {
-    -fx-background-color: tansparent;
+    -fx-background-color: transparent;
     -fx-text-fill: white;
     -fx-font-size: 1em;
     -fx-background-radius: 4;
 }
 
 .toggle-button:hover, .toggle-button:hover #icon {
-    -fx-fill: #64b5f6;
-    -fx-text-fill: #64b5f6;
+    -fx-fill: #0A74DA;
+    -fx-text-fill: #0A74DA;
 }
 
 .toggle-button:selected, .toggle-button:selected #icon {
-    -fx-fill: #64b5f6;
-    -fx-text-fill: #64b5f6;
+    -fx-fill: #0A74DA;
+    -fx-text-fill: #0A74DA;
 }
 
 .separator{
@@ -63,7 +63,7 @@
 }
 
 #followButton {
-    -fx-background-color: #64b5f6;
+    -fx-background-color: #0A74DA;
     -fx-text-fill: white;
     -fx-font-size: 1em;
     -fx-font-weight: bold;
