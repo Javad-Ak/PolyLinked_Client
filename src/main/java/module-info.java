@@ -12,4 +12,7 @@ module org.aut.polylinked_client {
     opens org.aut.polylinked_client.control to javafx.fxml;
     exports org.aut.polylinked_client;
     exports org.aut.polylinked_client.utils;
+    exports org.aut.polylinked_client.utils.exceptions;
+    exports org.aut.polylinked_client.model;
+    exports org.aut.polylinked_client.control;
 }

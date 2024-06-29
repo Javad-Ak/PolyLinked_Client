@@ -61,7 +61,7 @@
       </VBox>
       <HBox alignment="BOTTOM_LEFT" GridPane.rowIndex="2">
          <children>
-            <Hyperlink fx:id="likesLink" text="10 likes," />
+            <Hyperlink fx:id="likesLink" text="10 likes" />
             <Hyperlink fx:id="commentsLink" text="20 comments" />
          </children>
          <padding>
