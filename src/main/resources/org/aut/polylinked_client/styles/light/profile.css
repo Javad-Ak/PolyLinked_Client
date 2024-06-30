@@ -1,0 +1,178 @@
+/* Root styles */
+.root {
+    -fx-background-color: white;
+    -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -fx-text-fill: Black;
+}
+
+/* Header styles */
+.header-label {
+    -fx-text-fill: #0A74DA;
+    -fx-font-size: 2em; /* Increased font size for profile header */
+    -fx-font-weight: bold;
+}
+
+/* Sub-header styles */
+.sub-header-label {
+    -fx-text-fill: #0A74DA;
+    -fx-font-size: 1.5em; /* Font size for section headers */
+}
+
+/* Label styles */
+.label {
+    -fx-font-size: 1em; /* Relative font size */
+    -fx-font-weight: bold;
+}
+
+/* Profile image styles */
+.profile-image {
+    -fx-border-color: #0A74DA;
+    -fx-border-width: 2px;
+    -fx-border-radius: 50%;
+}
+
+/* Text field styles */
+.jfx-text-field {
+    -jfx-focus-color: #0A74DA; /* Blue focus color */
+    -jfx-unfocus-color: #BDBDBD; /* Light grey for unfocused state */
+    -fx-prompt-text-fill: #757575; /* Grey prompt text */
+    -fx-text-fill: black; /* Black text color */
+    -fx-background-color: white;
+    -fx-font-size: 1em; /* Relative font size */
+}
+
+/* Button styles */
+.button {
+    -fx-background-color: #0A74DA; /* Primary blue color */
+    -fx-text-fill: white;
+    -fx-font-size: 1em; /* Relative font size */
+    -fx-background-radius: 30px; /* Oval shape */
+    -fx-padding: 5px 10px; /* Add padding to make buttons oval */
+}
+
+.menu-button {
+    -fx-background-color: #0A74DA; /* Primary blue color */
+    -fx-text-fill: white;
+    -fx-font-size: 1em; /* Relative font size */
+    -fx-background-radius: 30px; /* Oval shape */
+    -fx-padding: 5px 10px; /* Add padding to make buttons oval */
+}
+
+.button.circular {
+    -fx-background-radius: 50%; /* Circular shape */
+    -fx-min-width: 50px; /* Minimum width for circular buttons */
+    -fx-min-height: 30px; /* Minimum height for circular buttons */
+    -fx-max-width: 50px; /* Maximum width for circular buttons */
+    -fx-max-height: 50px; /* Maximum height for circular buttons */
+}
+
+/* Followers and Following button styles */
+.followersBtn, .followingBtn {
+    -fx-background-color: transparent; /* No background */
+    -fx-text-fill: #0A74DA;
+    -fx-font-size: 1em; /* Relative font size */
+    -fx-padding: 0; /* Remove padding */
+    -fx-border-width: 0; /* Remove border */
+}
+
+/* Section styles */
+.section {
+    -fx-border-color: #BDBDBD;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+    -fx-background-color: #F9F9F9;
+}
+
+/* Experience, education, and other list items */
+.list-item {
+    -fx-padding: 10px;
+    -fx-border-color: #BDBDBD;
+    -fx-border-width: 0 0 1px 0;
+    -fx-background-color: white;
+}
+
+.list-item:last-child {
+    -fx-border-width: 0;
+}
+
+/* Hyperlink styles */
+.hyperlink {
+    -fx-text-fill: #0A74DA; /* Primary blue color */
+    -fx-font-size: 1em; /* Relative font size */
+}
+
+.hyperlink:hover {
+    -fx-text-fill: #084B8A; /* Darker blue on hover */
+}
+
+/* Skills and endorsements */
+.skill-item {
+    -fx-background-color: #E3F2FD;
+    -fx-border-color: #90CAF9;
+    -fx-border-width: 1px;
+    -fx-border-radius: 3px;
+    -fx-padding: 5px;
+    -fx-text-fill: #0A74DA;
+}
+
+/* Recommendations */
+.recommendation {
+    -fx-background-color: #FFF3E0;
+    -fx-border-color: #FFB74D;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+    -fx-text-fill: #6D4C41;
+}
+
+/* TabPane styles */
+.tab-pane {
+    -fx-background-color: #F9F9F9;
+    -fx-border-color: #BDBDBD;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+}
+
+.tab-pane .tab-header-area {
+    -fx-background-color: #0A74DA; /* Background color for the tab header area */
+    -fx-padding: 10px;
+    -fx-border-radius: 5px 5px 0 0;
+}
+
+.tab-pane .tab-header-area .tab {
+    -fx-background-color: #0A74DA;
+    -fx-text-fill: white;
+    -fx-padding: 10px;
+    -fx-background-radius: 5px 5px 0 0;
+    -fx-font-size: 1.1em;
+    -fx-font-weight: bold;
+    -fx-cursor: hand; /* Change cursor to hand on hover */
+}
+
+.tab-pane .tab-header-area .tab:selected {
+    -fx-background-color: #084B8A; /* Darker blue for selected tab */
+    -fx-text-fill: white;
+}
+
+.tab-pane .tab-header-area .tab:hover {
+    -fx-background-color: #084B8A; /* Darker blue for hovered tab */
+}
+
+.tab-pane .tab-header-area .tab-close-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-padding: 5px;
+}
+
+.tab-pane .tab-header-area .tab-close-button:hover {
+    -fx-background-color: #084B8A;
+    -fx-text-fill: white;
+}
+
+/* Custom styles for tabs */
+.tab-pane .tab-header-area .tab .tab-label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
