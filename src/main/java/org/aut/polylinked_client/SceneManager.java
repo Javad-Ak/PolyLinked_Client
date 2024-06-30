@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.aut.polylinked_client.utils.DataAccess;
 import org.controlsfx.control.Notifications;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -48,7 +47,7 @@ public class SceneManager {
 
         Parent root = scene.getRoot();
         activateTheme(root, cssID);
-        root.setStyle("-fx-font-size: " + Font.getDefault().getSize() + ";");
+        root.setStyle("-fx-font-size: " + FONT_SIZE + ";");
     }
 
     public static void activateTheme(Parent root, String cssID) {
@@ -94,6 +93,9 @@ public class SceneManager {
         if (width > 0 && height > 0) {
             stage.setWidth(width);
             stage.setHeight(height);
+        } else {
+            stage.setWidth(800 * FONT_SIZE / 13);
+            stage.setHeight(600 * FONT_SIZE / 13);
         }
     }
 
@@ -109,9 +111,7 @@ public class SceneManager {
 
             parent.getStylesheets().clear();
             parent.getStylesheets().setAll(rootCss.toExternalForm());
-            parent.setStyle("-fx-font-size: " + Font.getDefault().getSize() + ";");
-            parent.setStyle("-fx-pref-width: " + 1500 * 13 / FONT_SIZE + ";");
-            parent.setStyle("-fx-pref-height: " + 600 * 13 / FONT_SIZE + ";");
+            parent.setStyle("-fx-font-size: " + FONT_SIZE + ";");
         }
     }
 

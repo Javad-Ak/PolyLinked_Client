@@ -5,9 +5,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import org.aut.polylinked_client.SceneManager;
@@ -19,8 +21,10 @@ import org.aut.polylinked_client.utils.RequestBuilder;
 import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
 import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
 import org.aut.polylinked_client.view.PostCell;
-
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.TreeMap;
 
 public class HomeController {
@@ -29,7 +33,11 @@ public class HomeController {
 
     private TreeMap<Post, User> postsData; // from server
 
-    private final ObservableList<PostCell> observablePosts = FXCollections.observableArrayList(); // to listView
+    private int index = 0; // current key index -> increments by 5 at each loading
+
+    private final ArrayList<Post> sortedKeys = new ArrayList<>(); // sorted server keys
+
+    private final ObservableList<PostCell> observablePosts = FXCollections.observableArrayList(); // bound to listView
 
     private File pickedFile;
 
@@ -62,6 +70,7 @@ public class HomeController {
             fileButton.setVisible(false);
         });
 
+        // All data from Data
         try {
             postsData = RequestBuilder.mapFromGetRequest(Post.class, "newsfeed", JsonHandler.createJson("Authorization", DataAccess.getJWT()));
         } catch (UnauthorizedException e) {
@@ -71,9 +80,13 @@ public class HomeController {
         if (postsData == null || postsData.isEmpty()) {
             root.setCenter(new Label("No posts found. Please try again later."));
         } else {
-            postsData.forEach((post, user) -> observablePosts.add(new PostCell(post, user)));
-            postListView.setItems(observablePosts);
-            postListView.setCellFactory(listView -> new PostCell());
+            sortedKeys.addAll(postsData.keySet().stream().toList());
+            sortedKeys.sort(Comparator.comparing(Post::getDate).reversed()); // order of keys to be buffered
+            loadBuffer(); // first loading
+
+            postListView.setItems(observablePosts); // cell data: bind listview to collection
+            postListView.setCellFactory(listView -> new PostCell()); // cell view
+            activateLazyLoading(postListView); // dirty: Don't do this. No other way in javaFX.
         }
     }
 
@@ -130,5 +143,34 @@ public class HomeController {
             fileButton.setText(file.getName());
             fileButton.setVisible(true);
         }
+    }
+
+    private void loadBuffer() {
+        int bufferSize = 5; // 5 posts are added when scroller reaches the bottom
+
+        if (sortedKeys.isEmpty() || sortedKeys.size() - 1 < index) return;
+
+        for (int i = index; i < index + bufferSize && i < sortedKeys.size(); i++)
+            observablePosts.add(new PostCell(sortedKeys.get(i), postsData.get(sortedKeys.get(i))));
+
+        index += bufferSize;
+    }
+
+    private void activateLazyLoading(ListView<?> listView) {
+        listView.skinProperty().addListener((obs, oldSkin, newSkin) -> {
+            if (newSkin != null) {
+                for (Node node : listView.lookupAll(".scroll-bar")) {
+                    if (node instanceof ScrollBar scrollBar) {
+                        if (scrollBar.getOrientation() == javafx.geometry.Orientation.VERTICAL) {
+                            scrollBar.valueProperty().addListener((observable, oldValue, newValue) -> {
+                                if (newValue.doubleValue() == scrollBar.getMax()) {
+                                    loadBuffer(); // call loader when list view reached the bottom
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        });
     }
 }
