@@ -35,12 +35,22 @@
     -fx-font-size: 1em;
 }
 
-.list-view {
+.list-view, .list-cell {
     -fx-background-color: transparent;
 }
 
-.list-cell {
-    -fx-background-color: #535353;
+.list-view .scroll-bar:vertical {
+    -fx-background-color:transparent;
+}
+
+.list-view .increment-button, .list-view .decrement-button {
+    -fx-background-color:transparent;
+    -fx-border-color:transparent;
+}
+
+.list-view .scroll-bar:vertical .thumb {
+    -fx-background-color: #b3b3b3;
+    -fx-background-radius: 6;
 }
 
 #icon {

@@ -1,5 +1,6 @@
-.root {
-    -fx-background-color: #f5f5f5;
+#root {
+    -fx-background-color: #f3f3f3;
+    -fx-border-color: #b1b1b1;
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     -fx-text-fill: Black;
     -fx-font-size: 1em;
@@ -41,25 +42,8 @@
     -fx-text-fill: #0A74DA;
 }
 
-.toggle-button {
-    -fx-background-color: transparent;
-    -fx-text-fill: black;
-    -fx-font-size: 1em;
-    -fx-background-radius: 4;
-}
-
-.toggle-button:hover, .toggle-button:hover #icon {
-    -fx-fill: #0A74DA;
-    -fx-text-fill: #0A74DA;
-}
-
-.toggle-button:selected, .toggle-button:selected #icon {
-    -fx-fill: #0A74DA;
-    -fx-text-fill: #0A74DA;
-}
-
-.separator{
-    -fx-background-color: #b2b2b2;
+.separator {
+    -fx-background-color: #b1b1b1;
 }
 
 #followButton {

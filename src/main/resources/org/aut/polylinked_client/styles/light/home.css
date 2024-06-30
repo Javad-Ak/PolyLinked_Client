@@ -30,17 +30,27 @@
     -jfx-focus-color: black;
     -jfx-unfocus-color: #BDBDBD;
     -fx-prompt-text-fill: #BDBDBD;
-    -fx-background-color: #e9e9e9;
+    -fx-background-color: #f3f3f3;
     -fx-text-fill: black;
     -fx-font-size: 1em;
 }
 
-.list-view {
+.list-view, .list-cell {
     -fx-background-color: transparent;
 }
 
-.list-cell {
-    -fx-background-color: #e8e8e8;
+.list-view .scroll-bar:vertical {
+    -fx-background-color:transparent;
+}
+
+.list-view .increment-button, .list-view .decrement-button {
+    -fx-background-color:transparent;
+    -fx-border-color:transparent;
+}
+
+.list-view .scroll-bar:vertical .thumb {
+    -fx-background-color: #b3b3b3;
+    -fx-background-radius: 6;
 }
 
 #icon {
