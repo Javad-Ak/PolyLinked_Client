@@ -14,6 +14,8 @@ import java.util.TreeMap;
 
 
 public class RequestBuilder {
+    private static final String SERVER_ADDRESS = "http://localhost:8080/";
+
     public enum FileType {
         IMAGE, VIDEO, AUDIO;
     }
@@ -24,7 +26,7 @@ public class RequestBuilder {
     public static HttpURLConnection buildConnection
             (String method, String endPoint, JSONObject headers, boolean doOutput) throws IOException {
 
-        URL url = URI.create("http://localhost:8080/" + endPoint).toURL();
+        URL url = URI.create(SERVER_ADDRESS + endPoint).toURL();
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod(method);
         headers.toMap().forEach((k, v) -> con.setRequestProperty(k, v.toString()));
@@ -68,8 +70,9 @@ public class RequestBuilder {
         return map.isEmpty() ? null : map;
     }
 
-    public static FileType fileTypeFromHeadRequest(String endPoint, JSONObject headers) throws UnauthorizedException {
+    public static FileType fileTypeFromHeadRequest(String fileURL, JSONObject headers) throws UnauthorizedException {
         try {
+            String endPoint = fileURL.substring(SERVER_ADDRESS.length());
             HttpURLConnection con = buildConnection("HEAD", endPoint, headers, false);
             if (con.getResponseCode() / 100 == 2) {
                 String fileType = con.getHeaderField("Content-Type");

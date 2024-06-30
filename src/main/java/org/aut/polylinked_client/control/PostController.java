@@ -6,12 +6,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.model.Post;
 import org.aut.polylinked_client.model.User;
+import org.aut.polylinked_client.utils.DataAccess;
+import org.aut.polylinked_client.utils.JsonHandler;
+import org.aut.polylinked_client.utils.RequestBuilder;
+import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -59,6 +65,7 @@ public class PostController {
         });
     }
 
+    // fill data into fxml using fxmlLoader.getController
     public void setData(Post post, User user) {
         nameLink.setText(user.getFirstName() + " " + user.getLastName());
         likesLink.setText(post.getLikesCount() + " likes");
@@ -74,6 +81,15 @@ public class PostController {
             VBox vBox = (VBox) nameLink.getParent();
             vBox.getChildren().clear();
             vBox.getChildren().add(nameLink);
+        }
+
+        try {
+            RequestBuilder.FileType type =
+                    RequestBuilder.fileTypeFromHeadRequest(user.getMediaURL(), new JSONObject());
+            if (type == RequestBuilder.FileType.IMAGE)
+                avatar.setImage(new Image(user.getMediaURL()));
+        } catch (UnauthorizedException e) {
+            SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
         }
     }
 

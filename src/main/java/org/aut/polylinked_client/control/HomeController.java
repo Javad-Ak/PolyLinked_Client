@@ -16,7 +16,6 @@ import org.aut.polylinked_client.utils.JsonHandler;
 import org.aut.polylinked_client.utils.RequestBuilder;
 import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
 import org.aut.polylinked_client.view.PostCell;
-
 import java.util.TreeMap;
 
 public class HomeController {
