@@ -56,7 +56,7 @@ public class MainController {
 
         // theme observation
         SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
-            SceneManager.activateTheme(SceneManager.SceneLevel.MAIN.id);
+            SceneManager.activateTheme(SceneManager.SceneLevel.MAIN.cssId);
         });
     }
 

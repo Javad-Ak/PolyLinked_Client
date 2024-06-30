@@ -59,7 +59,7 @@ public class SignupController {
 
         // theme observation
         SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
-            SceneManager.activateTheme(SceneManager.SceneLevel.LOGIN.id);
+            SceneManager.activateTheme(SceneManager.SceneLevel.LOGIN.cssId);
         });
     }
 

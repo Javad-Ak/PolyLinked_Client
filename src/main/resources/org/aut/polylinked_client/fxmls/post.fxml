@@ -6,7 +6,6 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -16,7 +15,7 @@
 <?import javafx.scene.text.Text?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<GridPane fx:id="root" hgap="6.0" stylesheets="@../styles/light/post.css" vgap="6.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.PostController">
+<GridPane id="root" fx:id="root" hgap="6.0" stylesheets="@../styles/light/post.css" vgap="6.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.PostController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" />
       <ColumnConstraints hgrow="SOMETIMES" />
@@ -61,7 +60,7 @@
       </VBox>
       <HBox alignment="BOTTOM_LEFT" GridPane.rowIndex="2">
          <children>
-            <Hyperlink fx:id="likesLink" text="10 likes," />
+            <Hyperlink fx:id="likesLink" text="10 likes" />
             <Hyperlink fx:id="commentsLink" text="20 comments" />
          </children>
          <padding>
@@ -77,13 +76,13 @@
             </Button>
          </children>
       </HBox>
-      <HBox alignment="BOTTOM_LEFT" spacing="8.0" GridPane.rowIndex="4">
+      <HBox alignment="BOTTOM_LEFT" spacing="8.0" GridPane.hgrow="NEVER" GridPane.rowIndex="4">
          <children>
-            <ToggleButton mnemonicParsing="false" text="Like">
+            <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#likePressed" text="Like">
                <graphic>
                   <FontIcon id="icon" iconLiteral="mdi-thumb-up-outline" />
                </graphic>
-            </ToggleButton>
+            </Button>
             <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#commentPressed" text="Comment">
                <graphic>
                   <FontIcon id="icon" iconLiteral="mdi-comment-outline" />
@@ -91,7 +90,7 @@
             </Button>
          </children>
       </HBox>
-      <HBox alignment="BOTTOM_RIGHT" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+      <HBox alignment="BOTTOM_RIGHT" spacing="8.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="4">
          <children>
             <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#repostPressed" text="Repost">
                <graphic>
@@ -113,7 +112,7 @@
             <Insets right="10.0" />
          </padding>
       </HBox>
-      <Separator maxWidth="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
+      <Separator focusTraversable="false" maxWidth="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
    </children>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

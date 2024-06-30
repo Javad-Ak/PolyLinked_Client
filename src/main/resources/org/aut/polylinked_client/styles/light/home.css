@@ -18,8 +18,8 @@
 }
 
 .button:hover, .button:hover #icon {
-    -fx-fill: #0A74DA;
-    -fx-text-fill: #0A74DA;
+    -fx-fill: #084B8A;
+    -fx-text-fill: #084B8A;
 }
 
 .separator{
@@ -30,13 +30,23 @@
     -jfx-focus-color: black;
     -jfx-unfocus-color: #BDBDBD;
     -fx-prompt-text-fill: #BDBDBD;
-    -fx-background-color: #e9e9e9;
+    -fx-background-color: #f3f3f3;
     -fx-text-fill: black;
     -fx-font-size: 1em;
 }
 
-#postListView {
+.list-view, .list-cell {
     -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color:transparent;
+}
+
+.thumb {
+    -fx-background-color: #b3b3b3;
+    -fx-background-radius: 5;
+    -fx-border-insets: 10;
 }
 
 #icon {
