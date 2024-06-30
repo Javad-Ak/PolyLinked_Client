@@ -73,6 +73,11 @@
             <artifactId>GNAvatarView</artifactId>
             <version>1.0.5</version>
         </dependency>
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>11.2.1</version>
+        </dependency>
     </dependencies>
 
     <build>

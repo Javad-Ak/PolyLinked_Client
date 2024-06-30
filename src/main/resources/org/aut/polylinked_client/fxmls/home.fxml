@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.BorderPane?>
@@ -18,7 +17,7 @@
       <ListView id="list" fx:id="postListView" BorderPane.alignment="CENTER" />
    </center>
    <top>
-      <GridPane hgap="12.0" vgap="12.0" BorderPane.alignment="CENTER">
+      <GridPane hgap="8.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" />
             <ColumnConstraints hgrow="SOMETIMES" />
@@ -39,7 +38,7 @@
                </children>
             </HBox>
             <Separator GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
-            <HBox alignment="CENTER_LEFT" spacing="6.0" GridPane.rowIndex="1">
+            <HBox alignment="CENTER_LEFT" spacing="4.0" GridPane.rowIndex="1">
                <children>
                   <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#photoPressed" text="Photo">
                      <graphic>
@@ -56,10 +55,14 @@
                         <FontIcon id="icon" iconLiteral="mdi-music-note" />
                      </graphic>
                   </Button>
-                  <Label fx:id="fileLabel" />
+                  <Button fx:id="fileButton" minHeight="-Infinity" mnemonicParsing="false" text="file.jpg">
+                     <graphic>
+                        <FontIcon id="icon" iconLiteral="mdi-pin-off" />
+                     </graphic>
+                  </Button>
                </children>
             </HBox>
-            <JFXTextArea fx:id="postText" labelFloat="true" prefHeight="120.0" prefWidth="400.0" promptText="Whats's on your mind?" wrapText="true" GridPane.columnSpan="2147483647">
+            <JFXTextArea fx:id="postText" labelFloat="true" prefHeight="64.0" prefWidth="400.0" promptText="Whats's on your mind?" wrapText="true" GridPane.columnSpan="2147483647">
                <GridPane.margin>
                   <Insets bottom="6.0" left="6.0" right="6.0" top="12.0" />
                </GridPane.margin>

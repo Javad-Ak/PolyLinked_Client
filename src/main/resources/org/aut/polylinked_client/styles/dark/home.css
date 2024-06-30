@@ -18,8 +18,8 @@
 }
 
 .button:hover, .button:hover #icon {
-    -fx-fill: #0A74DA;
-    -fx-text-fill: #0A74DA;
+    -fx-fill: #084B8A;
+    -fx-text-fill: #084B8A;
 }
 
 .separator{
@@ -39,18 +39,14 @@
     -fx-background-color: transparent;
 }
 
-.list-view .scroll-bar:vertical {
+.scroll-bar:vertical {
     -fx-background-color:transparent;
 }
 
-.list-view .increment-button, .list-view .decrement-button {
-    -fx-background-color:transparent;
-    -fx-border-color:transparent;
-}
-
-.list-view .scroll-bar:vertical .thumb {
+.thumb {
     -fx-background-color: #b3b3b3;
-    -fx-background-radius: 6;
+    -fx-background-radius: 5;
+    -fx-border-insets: 10;
 }
 
 #icon {

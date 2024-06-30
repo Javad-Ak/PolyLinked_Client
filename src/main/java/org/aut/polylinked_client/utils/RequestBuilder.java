@@ -3,10 +3,13 @@ package org.aut.polylinked_client.utils;
 import org.aut.polylinked_client.model.JsonSerializable;
 import org.aut.polylinked_client.model.MediaLinked;
 import org.aut.polylinked_client.model.User;
+import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
 import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +46,7 @@ public class RequestBuilder {
                 map = MultipartHandler.readMap(con.getInputStream(), cls, size);
                 con.disconnect();
             } else if (con.getResponseCode() == 401) {
-                throw new UnauthorizedException("");
+                throw new UnauthorizedException("JWT invalid");
             }
         } catch (UnauthorizedException e) {
             throw e;
@@ -61,13 +64,32 @@ public class RequestBuilder {
                 map = MultipartHandler.readObjectArray(con.getInputStream(), cls, size);
                 con.disconnect();
             } else if (con.getResponseCode() == 401) {
-                throw new UnauthorizedException("");
+                throw new UnauthorizedException("JWT invalid");
             }
         } catch (UnauthorizedException e) {
             throw e;
         } catch (Exception ignored) {
         }
         return map.isEmpty() ? null : map;
+    }
+
+    public static void sendMediaLinkedRequest(String method, String endPoint, JSONObject headers, MediaLinked mediaLinked, File file) throws NotAcceptableException, UnauthorizedException {
+        try {
+            HttpURLConnection con = buildConnection(method, endPoint, headers, true);
+            OutputStream os = con.getOutputStream();
+            MultipartHandler.writeObject(os, mediaLinked);
+            MultipartHandler.writeFromFile(os, file);
+            os.close();
+
+            if (con.getResponseCode() == 401) {
+                throw new UnauthorizedException("JWT invalid");
+            } else if (con.getResponseCode() / 100 != 2) {
+                throw new NotAcceptableException("Unknown");
+            }
+        } catch (IOException e) {
+            throw new NotAcceptableException("Unknown");
+        }
+
     }
 
     public static FileType fileTypeFromHeadRequest(String fileURL, JSONObject headers) throws UnauthorizedException {
@@ -86,7 +108,7 @@ public class RequestBuilder {
                     return null;
                 }
             } else if (con.getResponseCode() == 401) {
-                throw new UnauthorizedException("");
+                throw new UnauthorizedException("JWT invalid");
             }
         } catch (UnauthorizedException e) {
             throw e;

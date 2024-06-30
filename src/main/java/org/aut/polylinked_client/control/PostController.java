@@ -13,8 +13,6 @@ import javafx.scene.text.Text;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.model.Post;
 import org.aut.polylinked_client.model.User;
-import org.aut.polylinked_client.utils.DataAccess;
-import org.aut.polylinked_client.utils.JsonHandler;
 import org.aut.polylinked_client.utils.RequestBuilder;
 import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
 import org.json.JSONObject;
