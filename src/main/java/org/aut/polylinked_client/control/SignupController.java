@@ -47,7 +47,7 @@ public class SignupController {
     private Label messageT;
 
     @FXML
-    public void initialize() {
+    void initialize() {
         String theme = DataAccess.getTheme();
         themeToggle.setSelected(theme.equalsIgnoreCase("dark"));
 

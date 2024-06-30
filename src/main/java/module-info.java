@@ -6,6 +6,7 @@ module org.aut.polylinked_client {
     requires org.json;
     requires org.jetbrains.annotations;
     requires java.net.http;
+    requires GNAvatarView;
 
 
     opens org.aut.polylinked_client.control to javafx.fxml;
