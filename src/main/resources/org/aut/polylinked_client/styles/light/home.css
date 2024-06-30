@@ -1,0 +1,55 @@
+.root {
+    -fx-background-color: transparent;
+    -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -fx-text-fill: Black;
+    -fx-font-size: 1em;
+}
+
+.label {
+    -fx-font-size: 0.9em;
+    -fx-text-fill: black;
+}
+
+.button {
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-font-size: 1em;
+    -fx-background-radius: 4;
+}
+
+.button:hover, .button:hover #icon {
+    -fx-fill: #084B8A;
+    -fx-text-fill: #084B8A;
+}
+
+.separator{
+    -fx-background-color: #0A74DA;
+}
+
+.jfx-text-area {
+    -jfx-focus-color: black;
+    -jfx-unfocus-color: #BDBDBD;
+    -fx-prompt-text-fill: #BDBDBD;
+    -fx-background-color: #f3f3f3;
+    -fx-text-fill: black;
+    -fx-font-size: 1em;
+}
+
+.list-view, .list-cell {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color:transparent;
+}
+
+.thumb {
+    -fx-background-color: #b3b3b3;
+    -fx-background-radius: 5;
+    -fx-border-insets: 10;
+}
+
+#icon {
+    -fx-font-size: 1.5em;
+    -fx-fill: #0A74DA;
+}

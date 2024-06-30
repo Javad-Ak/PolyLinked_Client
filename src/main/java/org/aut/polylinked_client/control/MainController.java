@@ -2,6 +2,8 @@ package org.aut.polylinked_client.control;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import org.aut.polylinked_client.PolyLinked;
@@ -12,9 +14,13 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Optional;
 
 public class MainController {
+    enum Tabs {
+        HOME, MESSAGING, NOTIFICATIONS, PROFILE, SEARCH
+    }
 
     @FXML
     private BorderPane borderPane;
@@ -26,7 +32,7 @@ public class MainController {
     private ToggleButton messagingToggle;
 
     @FXML
-    private ToggleButton notifToggle;
+    private ToggleButton notificationsToggle;
 
     @FXML
     private ToggleButton profileToggle;
@@ -38,15 +44,53 @@ public class MainController {
     private ToggleGroup tabs;
 
     @FXML
-    public void initialize() {
-        homeToggle.setSelected(true);
-        tabs.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null) tabs.selectToggle(oldValue);
-        });
+    void initialize() {
+        homeToggle.setUserData(Tabs.HOME);
+        messagingToggle.setUserData(Tabs.MESSAGING);
+        notificationsToggle.setUserData(Tabs.NOTIFICATIONS);
+        profileToggle.setUserData(Tabs.PROFILE);
+        searchToggle.setUserData(Tabs.SEARCH);
+
+        initializeTabs();
+        tabs.selectToggle(homeToggle);
 
         // theme observation
         SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
-            SceneManager.activateTheme(SceneManager.SceneLevel.MAIN.id);
+            SceneManager.activateTheme(SceneManager.SceneLevel.MAIN.cssId);
+        });
+    }
+
+    private void initializeTabs() {
+        tabs.selectToggle(profileToggle);
+        tabs.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) {
+                tabs.selectToggle(oldValue);
+            } else if (oldValue != null) {
+                URL fxmlURL = null;
+                switch ((Tabs) newValue.getUserData()) {
+                    case Tabs.HOME ->
+                        fxmlURL = PolyLinked.class.getResource("fxmls/home.fxml");
+                    case Tabs.MESSAGING ->
+                        fxmlURL = PolyLinked.class.getResource("fxmls/messaging.fxml");
+                    case Tabs.NOTIFICATIONS ->
+                        fxmlURL = PolyLinked.class.getResource("fxmls/notifications.fxml");
+                    case Tabs.SEARCH ->
+                        fxmlURL = PolyLinked.class.getResource("fxmls/search.fxml");
+                    case Tabs.PROFILE ->
+                        fxmlURL = PolyLinked.class.getResource("fxmls/profile.fxml");
+                }
+
+                if (fxmlURL != null) {
+                    try {
+                        borderPane.setCenter(FXMLLoader.load(fxmlURL));
+                    } catch (IOException e) {
+                        System.err.println("Failed to load fxml: " + fxmlURL);
+                        System.exit(1);
+                    }
+                } else {
+                    borderPane.setCenter(null);
+                }
+            }
         });
     }
 

@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<BorderPane fx:id="borderPane" stylesheets="@../styles/light/main.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.MainController">
+<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" stylesheets="@../styles/light/main.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.MainController">
    <top>
       <GridPane id="gridPane" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -61,7 +61,7 @@
                         </FontIcon>
                      </graphic>
                   </ToggleButton>
-                  <ToggleButton fx:id="notifToggle" contentDisplay="TOP" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Notifications" toggleGroup="$tabs">
+                  <ToggleButton fx:id="notificationsToggle" contentDisplay="TOP" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Notifications" toggleGroup="$tabs">
                      <graphic>
                         <FontIcon id="icon" iconLiteral="mdi-bell-outline">
                            <font>

@@ -47,7 +47,7 @@ public class SignupController {
     private Label messageT;
 
     @FXML
-    public void initialize() {
+    void initialize() {
         String theme = DataAccess.getTheme();
         themeToggle.setSelected(theme.equalsIgnoreCase("dark"));
 
@@ -59,7 +59,7 @@ public class SignupController {
 
         // theme observation
         SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
-            SceneManager.activateTheme(SceneManager.SceneLevel.LOGIN.id);
+            SceneManager.activateTheme(SceneManager.SceneLevel.LOGIN.cssId);
         });
     }
 

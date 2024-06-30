@@ -35,13 +35,13 @@ public class LoginController {
     private JFXPasswordField passwordText;
 
     @FXML
-    public void initialize() {
+    void initialize() {
         String theme = DataAccess.getTheme();
         themeToggle.setSelected(theme.equalsIgnoreCase("dark"));
 
         // theme observation
         SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
-            SceneManager.activateTheme(SceneManager.SceneLevel.LOGIN.id);
+            SceneManager.activateTheme(SceneManager.SceneLevel.LOGIN.cssId);
         });
 
         // theme changer
