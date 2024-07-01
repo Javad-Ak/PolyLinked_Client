@@ -3,10 +3,9 @@ package org.aut.polylinked_client.control;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import org.aut.polylinked_client.PolyLinked;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.utils.DataAccess;
 import org.aut.polylinked_client.utils.JsonHandler;
@@ -24,9 +23,6 @@ public class LoginController {
 
     @FXML
     private JFXToggleButton themeToggle;
-
-    @FXML
-    private Label messageText;
 
     @FXML
     private JFXTextField emailText;
@@ -53,20 +49,26 @@ public class LoginController {
 
     @FXML
     void forgotPasswordPressed(ActionEvent event) {
-        messageText.setText("Email service not available");
+        SceneManager.showNotification("Info", "Email service not available", 3);
     }
 
     @FXML
     void loginPressed(ActionEvent event) {
-        try {
-            String email = emailText.getText();
-            String password = passwordText.getText();
-            loginRequest(email, password);
-        } catch (IOException | NotAcceptableException e) {
-            messageText.setText("Something went wrong!");
-        } catch (UnauthorizedException e) {
-            messageText.setText(e.getMessage());
-        }
+        String email = emailText.getText();
+        String password = passwordText.getText();
+        new Thread(() -> {
+            try {
+                loginRequest(email, password);
+            } catch (IOException | NotAcceptableException e) {
+                Platform.runLater(() -> {
+                    SceneManager.showNotification("Failure", "Something went wrong!", 3);
+                });
+            } catch (UnauthorizedException e) {
+                Platform.runLater(() -> {
+                    SceneManager.showNotification("Failure", e.getMessage(), 3);
+                });
+            }
+        }).start();
     }
 
     @FXML
@@ -92,7 +94,11 @@ public class LoginController {
             JSONObject jsonObject1 = JsonHandler.getObject(inputStream);
             DataAccess.setJWT(jsonObject1.getString("Authorization"));
             DataAccess.setUserId(jsonObject1.getString("userId"));
-            SceneManager.setScene(SceneManager.SceneLevel.MAIN);
+            DataAccess.setFullName(jsonObject1.getString("fullName"));
+            Platform.runLater(()->{
+                SceneManager.setScene(SceneManager.SceneLevel.MAIN);
+                SceneManager.showNotification("Success", "Logged in. Welcome back, " + DataAccess.getFullName() + ".", 3);
+            });
         } else if (con.getResponseCode() == 401) {
             throw new UnauthorizedException("Invalid email or password");
         } else {

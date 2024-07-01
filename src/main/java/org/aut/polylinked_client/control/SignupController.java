@@ -3,11 +3,9 @@ package org.aut.polylinked_client.control;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
-import javafx.scene.control.Label;
-import org.aut.polylinked_client.PolyLinked;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.model.User;
 import org.aut.polylinked_client.utils.DataAccess;
@@ -44,9 +42,6 @@ public class SignupController {
     private JFXToggleButton themeToggle;
 
     @FXML
-    private Label messageT;
-
-    @FXML
     void initialize() {
         String theme = DataAccess.getTheme();
         themeToggle.setSelected(theme.equalsIgnoreCase("dark"));
@@ -71,64 +66,44 @@ public class SignupController {
     @FXML
     void signupPressed(ActionEvent event) {
         if (firstNameTF.getText().isEmpty() || lastNameTF.getText().isEmpty() || (emailTF.getText().isEmpty()) || passwordTF.getText().isEmpty() || confirmPasswordTF.getText().isEmpty()) {
-            messageT.setText("Please fill all the fields");
-            messageT.setVisible(true);
+            SceneManager.showNotification("Info","Please fill all the fields.", 3);
             return;
         }
 
-        if (firstNameTF.getText().matches("(?i)^[a-z]{1,20}$")) {
-            messageT.setVisible(false);
-        } else {
-            messageT.setText("First name must be a maximum of 20 characters and consist of only letters");
-            messageT.setVisible(true);
+        if (!firstNameTF.getText().matches("(?i)^[a-z]{1,20}$")) {
+            SceneManager.showNotification("Info","First name must be a maximum of 20 characters and consist of only letters.", 3);
             return;
         }
-        if (lastNameTF.getText().matches("(?i)^[a-z]{1,40}$")) {
-            messageT.setVisible(false);
-        } else {
-            messageT.setText("Last name must be a maximum of 40 characters and consist of only letters");
-            messageT.setVisible(true);
+        if (!lastNameTF.getText().matches("(?i)^[a-z]{1,40}$")) {
+            SceneManager.showNotification("Info","Last name must be a maximum of 40 characters and consist of only letters.", 3);
             return;
         }
 
-        if (additionalNameTF.getText().matches("(?i)^[a-z]{1,20}$") || additionalNameTF.getText().isEmpty()) {
-            messageT.setVisible(false);
-        } else {
-            messageT.setText("Additional name must be a maximum of 20 characters and consist of only letters");
-            messageT.setVisible(true);
+        if (!additionalNameTF.getText().matches("(?i)^[a-z]{1,20}$") || additionalNameTF.getText().isEmpty()) {
+            SceneManager.showNotification("Info","Additional name must be a maximum of 20 characters and consist of only letters.", 3);
             return;
         }
 
-        if (emailTF.getText().matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
-            messageT.setVisible(false);
-        } else {
-            messageT.setText("Invalid email address");
-            messageT.setVisible(true);
+        if (!emailTF.getText().matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
+            SceneManager.showNotification("Info","Invalid email address.", 3);
             return;
         }
 
 
-        if ((passwordTF.getText().matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,20}$"))) {
-            messageT.setVisible(false);
-        } else {
-            messageT.setText("The password must contain 8-20 characters, at least one letter and one digit");
-            messageT.setVisible(true);
+        if (!(passwordTF.getText().matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,20}$"))) {
+            SceneManager.showNotification("Info","The password must contain 8-20 characters, at least one letter and one digit.", 3);
             return;
         }
 
-        if (passwordTF.getText().equals(confirmPasswordTF.getText())) {
-            messageT.setVisible(false);
-        } else {
-            messageT.setText("Passwords do not match");
-            messageT.setVisible(true);
+        if (!passwordTF.getText().equals(confirmPasswordTF.getText())) {
+            SceneManager.showNotification("Info","Password is wrong.", 3);
             return;
         }
         User user;
         try {
             user = new User(emailTF.getText(), passwordTF.getText(), firstNameTF.getText(), lastNameTF.getText(), additionalNameTF.getText());
         } catch (Exception e) {
-            messageT.setText("Something went wrong");
-            messageT.setVisible(true);
+            SceneManager.showNotification("Info","Something went wrong.", 3);
             return;
         }
         firstNameTF.clear();
@@ -138,27 +113,33 @@ public class SignupController {
         confirmPasswordTF.clear();
         emailTF.clear();
 
-        try {
-            JSONObject headers = new JSONObject();
-            headers.put("Content-Type", "application/json");
-            HttpURLConnection con = RequestBuilder.buildConnection("POST", "users",
-                    headers, true);
-            JSONObject jsonObj = user.toJson();
-            OutputStream os = con.getOutputStream();
-            JsonHandler.sendObject(os, jsonObj);
-            os.close();
-            if (con.getResponseCode() / 100 == 2) {
-                messageT.setText("Congratulations! You have successfully signed up!");
-                messageT.setVisible(true);
-            } else {
-                throw new NotAcceptableException("Invalid signup request");
+        new Thread(()->{
+            try {
+                JSONObject headers = new JSONObject();
+                headers.put("Content-Type", "application/json");
+                HttpURLConnection con = RequestBuilder.buildConnection("POST", "users",
+                        headers, true);
+                JSONObject jsonObj = user.toJson();
+                OutputStream os = con.getOutputStream();
+                JsonHandler.sendObject(os, jsonObj);
+                os.close();
+                if (con.getResponseCode() / 100 == 2) {
+                    Platform.runLater(()->{
+                        SceneManager.showNotification("Info","Congratulations! You have successfully signed up!.", 3);
+                    });
+                } else {
+                    throw new NotAcceptableException("Invalid signup request");
+                }
+                LoginController.loginRequest(user.getEmail(), user.getPassword());
+            } catch (IOException | NotAcceptableException e) {
+                Platform.runLater(()->{
+                    SceneManager.showNotification("Info","Something went wrong.", 3);
+                });
+            } catch (UnauthorizedException e) {
+                Platform.runLater(()->{
+                    SceneManager.showNotification("Info",e.getMessage(), 3);
+                });
             }
-            LoginController.loginRequest(user.getEmail(), user.getPassword());
-        } catch (IOException | NotAcceptableException e) {
-            messageT.setText("Something went wrong");
-            messageT.setVisible(true);
-        } catch (UnauthorizedException e) {
-            messageT.setText(e.getMessage());
-        }
+        }).start();
     }
 }

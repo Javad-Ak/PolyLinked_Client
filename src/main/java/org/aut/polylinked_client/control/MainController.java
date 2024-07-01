@@ -3,7 +3,6 @@ package org.aut.polylinked_client.control;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import org.aut.polylinked_client.PolyLinked;
@@ -13,7 +12,6 @@ import org.aut.polylinked_client.utils.RequestBuilder;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Optional;
 
@@ -145,7 +143,7 @@ public class MainController {
             SceneManager.setThemeProperty(SceneManager.Theme.LIGHT);
     }
 
-    private static Dialog<ButtonType> createDialogue(String title, String message, ButtonType... buttonTypes) {
+    public static Dialog<ButtonType> createDialogue(String title, String message, ButtonType... buttonTypes) {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle(title);
         dialog.setContentText(message);
@@ -153,7 +151,7 @@ public class MainController {
 
         dialog.getDialogPane().getChildren().forEach(n -> n.setStyle("-fx-text-fill: black;"));
         if (DataAccess.getTheme().equals("light"))
-            dialog.getDialogPane().setStyle("-fx-background-color: #e8f1fc;");
+            dialog.getDialogPane().setStyle("-fx-background-color: #e6e6e6;");
         else
             dialog.getDialogPane().setStyle("-fx-background-color: #b9b9b9;");
 

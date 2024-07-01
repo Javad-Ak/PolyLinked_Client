@@ -1,6 +1,7 @@
 package org.aut.polylinked_client.control;
 
 import io.github.gleidson28.GNAvatarView;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,9 +14,14 @@ import javafx.scene.text.Text;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.model.Post;
 import org.aut.polylinked_client.model.User;
+import org.aut.polylinked_client.utils.DataAccess;
+import org.aut.polylinked_client.utils.JsonHandler;
 import org.aut.polylinked_client.utils.RequestBuilder;
+import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
 import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
 import org.json.JSONObject;
+
+import java.net.http.HttpRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

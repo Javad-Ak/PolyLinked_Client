@@ -37,6 +37,24 @@ public class RequestBuilder {
         return con;
     }
 
+    public static JSONObject jsonFromGetRequest (String endPoint, JSONObject headers) throws UnauthorizedException {
+        try {
+            HttpURLConnection con = buildConnection("GET", endPoint, headers, false);
+            if (con.getResponseCode() / 100 == 2) {
+                JSONObject object = JsonHandler.getObject(con.getInputStream());
+                con.disconnect();
+
+                return object;
+            } else if (con.getResponseCode() == 401) {
+                throw new UnauthorizedException("JWT invalid");
+            }
+        } catch (UnauthorizedException e) {
+            throw e;
+        } catch (Exception ignored) {
+        }
+        return null;
+    }
+
     public static <T extends MediaLinked> TreeMap<T, User> mapFromGetRequest(Class<T> cls, String endPoint, JSONObject headers) throws UnauthorizedException {
         TreeMap<T, User> map = new TreeMap<>();
         try {
