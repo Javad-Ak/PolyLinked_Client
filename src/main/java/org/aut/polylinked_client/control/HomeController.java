@@ -1,6 +1,7 @@
 package org.aut.polylinked_client.control;
 
 import com.jfoenix.controls.JFXTextArea;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,32 +19,41 @@ import org.aut.polylinked_client.utils.JsonHandler;
 import org.aut.polylinked_client.utils.RequestBuilder;
 import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
 import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
+import org.aut.polylinked_client.view.LazyLoader;
 import org.aut.polylinked_client.view.PostCell;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.TreeMap;
 
-public class HomeController {
+public class HomeController implements LazyLoader {
 
     private final static String fileId = "home"; // home.css
 
     private TreeMap<Post, User> postsData; // from server
 
-    private final ObservableList<PostCell> observablePosts = FXCollections.observableArrayList(); // to listView
+    private final ArrayList<Post> sortedKeys = new ArrayList<>(); // sorted server keys
+
+    private int index = 0; // current key index -> increments by 5 at each loading
+
+    private final ObservableList<PostCell> observablePosts = FXCollections.observableArrayList();
 
     private File pickedFile;
-
-    @FXML
-    private BorderPane root;
 
     @FXML
     private Button fileButton;
 
     @FXML
-    private ListView<PostCell> postListView; // <?> changed to <PostCell>
+    private JFXTextArea postText;
 
     @FXML
-    private JFXTextArea postText;
+    private ListView<PostCell> postsListView; // <?> changed to <PostCell>
+
+    @FXML
+    private BorderPane root;
+
 
     @FXML
     void initialize() {
@@ -62,19 +72,31 @@ public class HomeController {
             fileButton.setVisible(false);
         });
 
-        try {
-            postsData = RequestBuilder.mapFromGetRequest(Post.class, "newsfeed", JsonHandler.createJson("Authorization", DataAccess.getJWT()));
-        } catch (UnauthorizedException e) {
-            SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
-        }
+        new Thread(() -> {
+            // All data from Data
+            try {
+                postsData = RequestBuilder.mapFromGetRequest(Post.class, "newsfeed", JsonHandler.createJson("Authorization", DataAccess.getJWT()));
+            } catch (UnauthorizedException e) {
+                Platform.runLater(() -> {
+                    SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                });
+            }
 
-        if (postsData == null || postsData.isEmpty()) {
-            root.setCenter(new Label("No posts found. Please try again later."));
-        } else {
-            postsData.forEach((post, user) -> observablePosts.add(new PostCell(post, user)));
-            postListView.setItems(observablePosts);
-            postListView.setCellFactory(listView -> new PostCell());
-        }
+            Platform.runLater(() -> {
+                if (postsData == null || postsData.isEmpty()) {
+                    root.setCenter(new Label("No posts found. Please try again later."));
+                } else {
+                    sortedKeys.addAll(postsData.keySet().stream().toList());
+                    sortedKeys.sort(Comparator.comparing(Post::getDate).reversed());
+
+                    postsListView.setItems(observablePosts); // cell data: bind listview to collection
+                    postsListView.setCellFactory(listView -> new PostCell()); // cell view
+
+                    loadBuffer(); // first loading
+                    activateLazyLoading(postsListView); // automatic further loading when scroller reaches the bottom
+                }
+            });
+        }).start();
     }
 
     @FXML
@@ -83,20 +105,39 @@ public class HomeController {
             SceneManager.showNotification("Info", "You cannot post empty content!", 3);
             return;
         }
-        try {
-            Post post = new Post(DataAccess.getUserId(), postText.getText().trim());
-            RequestBuilder.sendMediaLinkedRequest("POST", "users/posts", JsonHandler.createJson("Authorization", DataAccess.getJWT()), post, pickedFile);
-            SceneManager.showNotification("Success", "Your new Post Added.", 3);
-        } catch (NotAcceptableException e) {
-            SceneManager.showNotification("Failure", "Post Couldn't be added. Please try again later.", 3);
-        } catch (UnauthorizedException e) {
-            SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
-        } finally {
-            postText.setText("");
-            pickedFile = null;
-            fileButton.setText("");
-            fileButton.setVisible(false);
-        }
+
+        String text = postText.getText().trim();
+        new Thread(() -> {
+            try {
+                Post post = new Post(DataAccess.getUserId(), text);
+                RequestBuilder.sendMediaLinkedRequest("POST", "users/posts", JsonHandler.createJson("Authorization", DataAccess.getJWT()), post, pickedFile);
+
+                JSONObject jsonObject = RequestBuilder.jsonFromGetRequest("users/" + post.getUserId(), JsonHandler.createJson("Authorization", DataAccess.getJWT()));
+                if (jsonObject != null) {
+                    User user = new User(jsonObject);
+                    Platform.runLater(() -> {
+                        observablePosts.addFirst(new PostCell(post, user));
+                        SceneManager.showNotification("Success", "Your new Post Added.", 3);
+                    });
+                } else
+                    throw new NotAcceptableException("UnKnown");
+            } catch (NotAcceptableException e) {
+                Platform.runLater(() -> {
+                    SceneManager.showNotification("Failure", "Post Couldn't be added. Please try again later.", 3);
+                });
+            } catch (UnauthorizedException e) {
+                Platform.runLater(() -> {
+                    SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                });
+            } finally {
+                Platform.runLater(() -> {
+                    postText.setText("");
+                    pickedFile = null;
+                    fileButton.setText("");
+                    fileButton.setVisible(false);
+                });
+            }
+        }).start();
     }
 
     @FXML
@@ -130,5 +171,17 @@ public class HomeController {
             fileButton.setText(file.getName());
             fileButton.setVisible(true);
         }
+    }
+
+    @Override
+    public void loadBuffer() {
+        int bufferSize = 10; // number of posts added when scroller reaches the bottom
+
+        if (sortedKeys.isEmpty() || sortedKeys.size() - 1 < index) return;
+
+        for (int i = index; i < index + bufferSize && i < sortedKeys.size(); i++)
+            observablePosts.add(new PostCell(sortedKeys.get(i), postsData.get(sortedKeys.get(i))));
+
+        index += bufferSize;
     }
 }

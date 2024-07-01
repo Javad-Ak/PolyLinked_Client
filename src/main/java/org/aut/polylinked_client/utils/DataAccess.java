@@ -36,6 +36,7 @@ public class DataAccess {
         jsonObject.put("theme", SceneManager.Theme.LIGHT.value);
         jsonObject.put("jwt", "none");
         jsonObject.put("userId", "none");
+        jsonObject.put("fullName", "none");
         if (FILE_PATH.toFile().length() < 1) writeData(jsonObject);
     }
 
@@ -49,6 +50,10 @@ public class DataAccess {
 
     public static String getUserId() {
         return readData().getString("userId");
+    }
+
+    public static String getFullName() {
+        return readData().getString("fullName");
     }
 
     public static void setTheme(SceneManager.Theme theme) {
@@ -66,6 +71,12 @@ public class DataAccess {
     public static void setUserId(String userId) {
         JSONObject data = readData();
         data.put("userId", userId);
+        writeData(data);
+    }
+
+    public static void setFullName(String fullName) {
+        JSONObject data = readData();
+        data.put("fullName", fullName);
         writeData(data);
     }
 

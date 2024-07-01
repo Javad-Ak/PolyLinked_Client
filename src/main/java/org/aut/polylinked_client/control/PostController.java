@@ -1,6 +1,7 @@
 package org.aut.polylinked_client.control;
 
 import io.github.gleidson28.GNAvatarView;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,15 +14,23 @@ import javafx.scene.text.Text;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.model.Post;
 import org.aut.polylinked_client.model.User;
+import org.aut.polylinked_client.utils.DataAccess;
+import org.aut.polylinked_client.utils.JsonHandler;
 import org.aut.polylinked_client.utils.RequestBuilder;
+import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
 import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
 import org.json.JSONObject;
 
+import java.net.http.HttpRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PostController {
     private final static String fileId = "post"; // post.css file reference
+
+    private Post post = null;
+
+    private User user = null;
 
     @FXML
     private GNAvatarView avatar;
@@ -65,6 +74,11 @@ public class PostController {
 
     // fill data into fxml using fxmlLoader.getController
     public void setData(Post post, User user) {
+        if (post == null || user == null) return;
+        this.post = post;
+        this.user = user;
+
+        // fill data into fxml
         nameLink.setText(user.getFirstName() + " " + user.getLastName());
         likesLink.setText(post.getLikesCount() + " likes");
         commentsLink.setText(post.getCommentsCount() + " comments");
@@ -111,4 +125,10 @@ public class PostController {
 
     }
 
+    public boolean isFilledWith(String postId) {
+        if (post == null)
+            return false;
+        else
+            return postId.equals(post.getPostId());
+    }
 }

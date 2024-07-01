@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" stylesheets="@../styles/light/signup.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.SignupController">
+<BorderPane prefHeight="600.0" prefWidth="800.0" stylesheets="@../styles/light/login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.SignupController">
    <left>
       <VBox id="sideBox" alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
@@ -62,7 +62,6 @@
                   <Insets bottom="25.0" top="25.0" />
                </VBox.margin>
             </VBox>
-            <Label id="messageT" fx:id="messageT" focusTraversable="false" textAlignment="CENTER" wrapText="true" />
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#signupPressed" text="Signup">
                <VBox.margin>
                   <Insets />
