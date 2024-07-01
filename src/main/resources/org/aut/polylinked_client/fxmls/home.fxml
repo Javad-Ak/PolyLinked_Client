@@ -13,9 +13,6 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <BorderPane fx:id="root" nodeOrientation="LEFT_TO_RIGHT" stylesheets="@../styles/light/home.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.HomeController">
-   <center>
-      <ListView id="list" fx:id="postListView" BorderPane.alignment="CENTER" />
-   </center>
    <top>
       <GridPane hgap="8.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -79,4 +76,7 @@
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
    </padding>
+   <center>
+      <ListView fx:id="postsListView" focusTraversable="false" BorderPane.alignment="CENTER" />
+   </center>
 </BorderPane>

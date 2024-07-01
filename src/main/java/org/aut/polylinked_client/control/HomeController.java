@@ -5,7 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -21,10 +20,10 @@ import org.aut.polylinked_client.utils.RequestBuilder;
 import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
 import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
 import org.aut.polylinked_client.view.PostCell;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 import java.util.TreeMap;
 
 public class HomeController {
@@ -33,25 +32,26 @@ public class HomeController {
 
     private TreeMap<Post, User> postsData; // from server
 
-    private int index = 0; // current key index -> increments by 5 at each loading
-
     private final ArrayList<Post> sortedKeys = new ArrayList<>(); // sorted server keys
 
-    private final ObservableList<PostCell> observablePosts = FXCollections.observableArrayList(); // bound to listView
+    private int index = 0; // current key index -> increments by 5 at each loading
+
+    private final ObservableList<PostCell> observablePosts = FXCollections.observableArrayList();
 
     private File pickedFile;
-
-    @FXML
-    private BorderPane root;
 
     @FXML
     private Button fileButton;
 
     @FXML
-    private ListView<PostCell> postListView; // <?> changed to <PostCell>
+    private JFXTextArea postText;
 
     @FXML
-    private JFXTextArea postText;
+    private ListView<PostCell> postsListView; // <?> changed to <PostCell>
+
+    @FXML
+    private BorderPane root;
+
 
     @FXML
     void initialize() {
@@ -81,12 +81,13 @@ public class HomeController {
             root.setCenter(new Label("No posts found. Please try again later."));
         } else {
             sortedKeys.addAll(postsData.keySet().stream().toList());
-            sortedKeys.sort(Comparator.comparing(Post::getDate).reversed()); // order of keys to be buffered
-            loadBuffer(); // first loading
+            sortedKeys.sort(Comparator.comparing(Post::getDate).reversed());
 
-            postListView.setItems(observablePosts); // cell data: bind listview to collection
-            postListView.setCellFactory(listView -> new PostCell()); // cell view
-            activateLazyLoading(postListView); // dirty: Don't do this. No other way in javaFX.
+            postsListView.setItems(observablePosts); // cell data: bind listview to collection
+            postsListView.setCellFactory(listView -> new PostCell()); // cell view
+
+            loadBuffer(); // first loading
+            activateLazyLoading(postsListView); // automatic further loading when scroller reaches the bottom
         }
     }
 
@@ -146,7 +147,7 @@ public class HomeController {
     }
 
     private void loadBuffer() {
-        int bufferSize = 5; // 5 posts are added when scroller reaches the bottom
+        int bufferSize = 10; // 5 posts are added when scroller reaches the bottom
 
         if (sortedKeys.isEmpty() || sortedKeys.size() - 1 < index) return;
 
@@ -159,16 +160,14 @@ public class HomeController {
     private void activateLazyLoading(ListView<?> listView) {
         listView.skinProperty().addListener((obs, oldSkin, newSkin) -> {
             if (newSkin != null) {
-                for (Node node : listView.lookupAll(".scroll-bar")) {
-                    if (node instanceof ScrollBar scrollBar) {
-                        if (scrollBar.getOrientation() == javafx.geometry.Orientation.VERTICAL) {
-                            scrollBar.valueProperty().addListener((observable, oldValue, newValue) -> {
-                                if (newValue.doubleValue() == scrollBar.getMax()) {
-                                    loadBuffer(); // call loader when list view reached the bottom
-                                }
-                            });
+                ScrollBar scrollBar = (ScrollBar) listView.lookup(".scroll-bar:vertical");
+
+                if (scrollBar != null && scrollBar.getOrientation() == javafx.geometry.Orientation.VERTICAL) {
+                    scrollBar.valueProperty().addListener((observable, oldValue, newValue) -> {
+                        if (newValue.doubleValue() > 0.85) {
+                            loadBuffer();
                         }
-                    }
+                    });
                 }
             }
         });
