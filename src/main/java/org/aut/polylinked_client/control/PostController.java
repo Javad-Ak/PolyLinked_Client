@@ -1,7 +1,6 @@
 package org.aut.polylinked_client.control;
 
 import io.github.gleidson28.GNAvatarView;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,13 +14,8 @@ import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.model.Post;
 import org.aut.polylinked_client.model.User;
 import org.aut.polylinked_client.utils.DataAccess;
-import org.aut.polylinked_client.utils.JsonHandler;
-import org.aut.polylinked_client.utils.RequestBuilder;
-import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
-import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
-import org.json.JSONObject;
 
-import java.net.http.HttpRequest;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -95,14 +89,9 @@ public class PostController {
             vBox.getChildren().add(nameLink);
         }
 
-        try {
-            RequestBuilder.FileType type =
-                    RequestBuilder.fileTypeFromHeadRequest(user.getMediaURL(), new JSONObject());
-            if (type == RequestBuilder.FileType.IMAGE)
-                avatar.setImage(new Image(user.getMediaURL()));
-        } catch (UnauthorizedException e) {
-            SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
-        }
+        File file = DataAccess.getFile(user.getUserId(), user.getMediaURL());
+        DataAccess.FileType type = DataAccess.getFileType(file);
+        if (file != null && type == DataAccess.FileType.IMAGE) avatar.setImage(new Image(file.toURI().toString()));
     }
 
     @FXML

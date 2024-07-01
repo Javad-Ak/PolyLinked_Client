@@ -3,8 +3,6 @@ package org.aut.polylinked_client.model;
 import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-
 import java.util.Date;
 import java.util.Random;
 import java.util.UUID;

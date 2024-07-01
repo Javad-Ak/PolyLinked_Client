@@ -19,10 +19,6 @@ import java.util.TreeMap;
 public class RequestBuilder {
     private static final String SERVER_ADDRESS = "http://localhost:8080/";
 
-    public enum FileType {
-        IMAGE, VIDEO, AUDIO;
-    }
-
     private RequestBuilder() {
     }
 
@@ -32,12 +28,12 @@ public class RequestBuilder {
         URL url = URI.create(SERVER_ADDRESS + endPoint).toURL();
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod(method);
-        headers.toMap().forEach((k, v) -> con.setRequestProperty(k, v.toString()));
+        if (headers != null) headers.toMap().forEach((k, v) -> con.setRequestProperty(k, v.toString()));
         con.setDoOutput(doOutput);
         return con;
     }
 
-    public static JSONObject jsonFromGetRequest (String endPoint, JSONObject headers) throws UnauthorizedException {
+    public static JSONObject jsonFromGetRequest(String endPoint, JSONObject headers) throws UnauthorizedException {
         try {
             HttpURLConnection con = buildConnection("GET", endPoint, headers, false);
             if (con.getResponseCode() / 100 == 2) {
@@ -108,30 +104,5 @@ public class RequestBuilder {
             throw new NotAcceptableException("Unknown");
         }
 
-    }
-
-    public static FileType fileTypeFromHeadRequest(String fileURL, JSONObject headers) throws UnauthorizedException {
-        try {
-            String endPoint = fileURL.substring(SERVER_ADDRESS.length());
-            HttpURLConnection con = buildConnection("HEAD", endPoint, headers, false);
-            if (con.getResponseCode() / 100 == 2) {
-                String fileType = con.getHeaderField("Content-Type");
-                if (fileType.contains("Image")) {
-                    return FileType.IMAGE;
-                } else if (fileType.contains("Video")) {
-                    return FileType.VIDEO;
-                } else if (fileType.contains("Audio")) {
-                    return FileType.AUDIO;
-                } else {
-                    return null;
-                }
-            } else if (con.getResponseCode() == 401) {
-                throw new UnauthorizedException("JWT invalid");
-            }
-        } catch (UnauthorizedException e) {
-            throw e;
-        } catch (Exception ignored) {
-        }
-        return null;
     }
 }
