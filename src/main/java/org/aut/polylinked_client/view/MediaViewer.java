@@ -1,9 +1,10 @@
 package org.aut.polylinked_client.view;
 
 import com.jfoenix.controls.JFXSlider;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -20,63 +21,65 @@ import java.util.HashMap;
 
 public class MediaViewer extends BorderPane {
     private static final HashMap<String, MediaViewer> mediaViewers = new HashMap<>();
-    private MediaView mediaView;
     private MediaPlayer mediaPlayer;
     private ImageView imageView;
 
-    public static MediaViewer getMediaViewer(File file) {
+    public static MediaViewer getMediaViewer(File file, double relativeWidth) {
+        if (relativeWidth <= 0 || relativeWidth >= 1) relativeWidth = 0.4;
+
         if (mediaViewers.containsKey(file.getName()))
             return mediaViewers.get(file.getName());
         else
-            return new MediaViewer(file);
+            return new MediaViewer(file, relativeWidth);
     }
 
-    private MediaViewer(File file) {
-        setStyle("-fx-background-color: transparent");
-
+    private MediaViewer(File file, double relativeWidth) {
         switch (DataAccess.getFileType(file)) {
-            case DataAccess.FileType.IMAGE -> imageViewer(file);
-            case DataAccess.FileType.VIDEO -> videoViewer(file);
-            case DataAccess.FileType.AUDIO -> videoViewer(file);
+            case DataAccess.FileType.IMAGE -> imageViewer(file, relativeWidth);
+            case DataAccess.FileType.VIDEO -> videoViewer(file, relativeWidth);
+            case DataAccess.FileType.AUDIO -> audioViewer(file, relativeWidth);
             default -> setCenter(null);
         }
+
         mediaViewers.put(file.getName(), this);
     }
 
-    private void imageViewer(File file) {
+    private void imageViewer(File file, double relativeWidth) {
         imageView = new ImageView(new Image(file.toURI().toString()));
         imageView.setPreserveRatio(true);
         imageView.setSmooth(true);
 
-        imageView.fitWidthProperty().bind(SceneManager.getWidthProperty().divide(2.5));
+        imageView.fitWidthProperty().bind(SceneManager.getWidthProperty().multiply(relativeWidth));
         setCenter(imageView);
     }
 
-    private void videoViewer(File file) {
+    private void videoViewer(File file, double relativeWidth) {
         Media media = new Media(file.toURI().toString());
         mediaPlayer = new MediaPlayer(media);
-        mediaView = new MediaView(mediaPlayer);
+        MediaView mediaView = new MediaView(mediaPlayer);
 
         mediaView.setPreserveRatio(true);
         mediaView.setSmooth(true);
-        mediaView.fitWidthProperty().bind(SceneManager.getWidthProperty().divide(2.5));
-        setCenter(mediaView);
+        mediaView.fitWidthProperty().bind(SceneManager.getWidthProperty().multiply(relativeWidth));
 
-        HBox hBox = createControlBar(mediaPlayer);
+        HBox hBox = createControlBar(mediaPlayer, relativeWidth);
+
+        setCenter(mediaView);
         setBottom(hBox);
     }
 
-    private void audioViewer(File file) {
+    private void audioViewer(File file, double relativeWidth) {
         Media media = new Media(file.toURI().toString());
         mediaPlayer = new MediaPlayer(media);
 
-        HBox hBox = createControlBar(mediaPlayer);
+        HBox hBox = createControlBar(mediaPlayer, relativeWidth);
         setCenter(hBox);
     }
 
-    private HBox createControlBar(MediaPlayer mediaPlayer) {
+    private HBox createControlBar(MediaPlayer mediaPlayer, double relativeWidth) {
         JFXSlider timeSlider = new JFXSlider();
         timeSlider.setValue(0);
+        Label label = new Label("time");
 
         Button playButton = new Button("Play");
         Button resetButton = new Button("Reset");
@@ -111,7 +114,12 @@ public class MediaViewer extends BorderPane {
         });
 
         mediaPlayer.setOnReady(() -> {
-            timeSlider.setMax(mediaPlayer.getMedia().getDuration().toSeconds());
+            int fullTime = (int) mediaPlayer.getMedia().getDuration().toSeconds();
+            int seconds = fullTime % 60;
+            int minutes = fullTime / 60;
+
+            timeSlider.setMax(seconds);
+            label.setText(minutes + ":" + seconds);
         });
         mediaPlayer.setOnEndOfMedia(() -> {
             mediaPlayer.stop();
@@ -120,9 +128,9 @@ public class MediaViewer extends BorderPane {
         });
 
         HBox hBox = new HBox();
-        hBox.setStyle("-fx-background-color: blue;");
+        hBox.setSpacing(6);
         hBox.setAlignment(Pos.CENTER);
-        hBox.getChildren().addAll(playButton, resetButton, timeSlider);
+        hBox.getChildren().addAll(playButton, resetButton, timeSlider, label);
         return hBox;
     }
 }

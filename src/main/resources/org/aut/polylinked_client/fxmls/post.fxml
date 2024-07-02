@@ -50,9 +50,10 @@
             </VBox>
          </children>
       </HBox>
-      <VBox fx:id="vBox" spacing="6.0" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+      <VBox spacing="6.0" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
          <children>
             <Text fx:id="textArea" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <HBox fx:id="mediaBox" alignment="TOP_CENTER" />
          </children>
          <padding>
             <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />

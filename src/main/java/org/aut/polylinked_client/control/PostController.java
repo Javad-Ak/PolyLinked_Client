@@ -9,6 +9,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.aut.polylinked_client.SceneManager;
@@ -57,7 +58,7 @@ public class PostController {
     private Text textArea;
 
     @FXML
-    private VBox vBox;
+    private HBox mediaBox;
 
     @FXML
     void initialize() {
@@ -97,15 +98,10 @@ public class PostController {
         if (file != null && type == DataAccess.FileType.IMAGE) avatar.setImage(new Image(file.toURI().toString()));
 
         File media = DataAccess.getFile(post.getPostId(), post.getMediaURL());
-        if (media == null || media.length()<2) {
-            vBox.getChildren().clear();
-            vBox.getChildren().add(textArea);
-        } else {
-            MediaViewer viewer = MediaViewer.getMediaViewer(media);
-
-            vBox.getChildren().clear();
-            vBox.getChildren().add(textArea);
-            vBox.getChildren().add(viewer);
+        if (media != null && media.length() > 0) {
+            MediaViewer viewer = MediaViewer.getMediaViewer(media, 0.4);
+            mediaBox.getChildren().clear();
+            mediaBox.getChildren().add(viewer);
         }
     }
 

@@ -129,8 +129,10 @@ public class DataAccess {
 
             FileOutputStream outputStream = new FileOutputStream(file);
             InputStream inputStream = con.getInputStream();
+
             byte[] buffer = new byte[1000000];
-            while (inputStream.read(buffer) != -1) outputStream.write(buffer);
+            int read;
+            while ((read = inputStream.read(buffer)) != -1) outputStream.write(buffer, 0, read);
 
             inputStream.close();
             outputStream.close();
