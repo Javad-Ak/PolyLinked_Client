@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Text?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<GridPane id="root" fx:id="root" hgap="6.0" stylesheets="@../styles/light/post.css" vgap="6.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.PostController">
+<GridPane id="root" fx:id="root" hgap="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../styles/light/post.css" vgap="6.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.PostController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" />
       <ColumnConstraints hgrow="SOMETIMES" />
@@ -50,12 +50,12 @@
             </VBox>
          </children>
       </HBox>
-      <VBox fx:id="vBox" spacing="4.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+      <VBox fx:id="vBox" spacing="6.0" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
          <children>
             <Text fx:id="textArea" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
          </children>
          <padding>
-            <Insets bottom="4.0" left="8.0" right="4.0" top="4.0" />
+            <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
          </padding>
       </VBox>
       <HBox alignment="BOTTOM_LEFT" GridPane.rowIndex="2">

@@ -39,7 +39,7 @@
     -fx-background-color: transparent;
 }
 
-.scroll-bar:vertical {
+.scroll-bar {
     -fx-background-color:transparent;
 }
 
@@ -48,7 +48,7 @@
     -fx-border-insets: 10;
 }
 
-#icon {
+#actionIcon {
     -fx-font-size: 1.5em;
     -fx-fill: #0A74DA;
 }

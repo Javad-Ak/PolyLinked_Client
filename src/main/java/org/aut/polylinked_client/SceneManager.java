@@ -1,5 +1,6 @@
 package org.aut.polylinked_client;
 
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.aut.polylinked_client.utils.DataAccess;
 import org.controlsfx.control.Notifications;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -29,7 +31,7 @@ public class SceneManager {
 
     private static Stage stage;
     private static final StringProperty theme = new SimpleStringProperty();
-    private static final double FONT_SIZE = Font.getDefault().getSize();
+    public static final double FONT_SIZE = Font.getDefault().getSize();
     private static final String SCENE_CSS = "scene";
 
     public SceneManager(Stage primaryStage) {
@@ -96,6 +98,8 @@ public class SceneManager {
         } else {
             stage.setWidth(800 * FONT_SIZE / 13);
             stage.setHeight(600 * FONT_SIZE / 13);
+            stage.setMinHeight(80 * FONT_SIZE / 13);
+            stage.setMinWidth(600 * FONT_SIZE / 13);
         }
     }
 
@@ -156,5 +160,9 @@ public class SceneManager {
                 .position(Pos.BOTTOM_RIGHT)
                 .owner(stage)
                 .show();
+    }
+
+    public static ReadOnlyDoubleProperty getWidthProperty() {
+        return stage.widthProperty();
     }
 }

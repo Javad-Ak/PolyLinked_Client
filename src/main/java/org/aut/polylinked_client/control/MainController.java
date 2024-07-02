@@ -4,13 +4,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import org.aut.polylinked_client.PolyLinked;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.utils.DataAccess;
 import org.aut.polylinked_client.utils.RequestBuilder;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -42,7 +42,13 @@ public class MainController {
     private ToggleGroup tabs;
 
     @FXML
+    private ImageView appIcon;
+
+    @FXML
     void initialize() {
+        appIcon.setFitHeight(SceneManager.FONT_SIZE * 40 / 13);
+        appIcon.setFitWidth(SceneManager.FONT_SIZE * 40 / 13);
+
         homeToggle.setUserData(Tabs.HOME);
         messagingToggle.setUserData(Tabs.MESSAGING);
         notificationsToggle.setUserData(Tabs.NOTIFICATIONS);
@@ -66,16 +72,11 @@ public class MainController {
             } else if (oldValue != null) {
                 URL fxmlURL = null;
                 switch ((Tabs) newValue.getUserData()) {
-                    case Tabs.HOME ->
-                        fxmlURL = PolyLinked.class.getResource("fxmls/home.fxml");
-                    case Tabs.MESSAGING ->
-                        fxmlURL = PolyLinked.class.getResource("fxmls/messaging.fxml");
-                    case Tabs.NOTIFICATIONS ->
-                        fxmlURL = PolyLinked.class.getResource("fxmls/notifications.fxml");
-                    case Tabs.SEARCH ->
-                        fxmlURL = PolyLinked.class.getResource("fxmls/search.fxml");
-                    case Tabs.PROFILE ->
-                        fxmlURL = PolyLinked.class.getResource("fxmls/profile.fxml");
+                    case Tabs.HOME -> fxmlURL = PolyLinked.class.getResource("fxmls/home.fxml");
+                    case Tabs.MESSAGING -> fxmlURL = PolyLinked.class.getResource("fxmls/messaging.fxml");
+                    case Tabs.NOTIFICATIONS -> fxmlURL = PolyLinked.class.getResource("fxmls/notifications.fxml");
+                    case Tabs.SEARCH -> fxmlURL = PolyLinked.class.getResource("fxmls/search.fxml");
+                    case Tabs.PROFILE -> fxmlURL = PolyLinked.class.getResource("fxmls/profile.fxml");
                 }
 
                 if (fxmlURL != null) {

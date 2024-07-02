@@ -8,6 +8,7 @@ module org.aut.polylinked_client {
     requires java.net.http;
     requires GNAvatarView;
     requires org.controlsfx.controls;
+    requires javafx.media;
 
 
     opens org.aut.polylinked_client.control to javafx.fxml;

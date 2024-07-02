@@ -3,6 +3,7 @@ package org.aut.polylinked_client.control;
 import io.github.gleidson28.GNAvatarView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -14,6 +15,8 @@ import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.model.Post;
 import org.aut.polylinked_client.model.User;
 import org.aut.polylinked_client.utils.DataAccess;
+import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
+import org.aut.polylinked_client.view.MediaViewer;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -92,6 +95,18 @@ public class PostController {
         File file = DataAccess.getFile(user.getUserId(), user.getMediaURL());
         DataAccess.FileType type = DataAccess.getFileType(file);
         if (file != null && type == DataAccess.FileType.IMAGE) avatar.setImage(new Image(file.toURI().toString()));
+
+        File media = DataAccess.getFile(post.getPostId(), post.getMediaURL());
+        if (media == null || media.length()<2) {
+            vBox.getChildren().clear();
+            vBox.getChildren().add(textArea);
+        } else {
+            MediaViewer viewer = MediaViewer.getMediaViewer(media);
+
+            vBox.getChildren().clear();
+            vBox.getChildren().add(textArea);
+            vBox.getChildren().add(viewer);
+        }
     }
 
     @FXML
