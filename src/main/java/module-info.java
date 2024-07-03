@@ -18,4 +18,5 @@ module org.aut.polylinked_client {
     exports org.aut.polylinked_client.utils.exceptions;
     exports org.aut.polylinked_client.model;
     exports org.aut.polylinked_client.control;
+    exports org.aut.polylinked_client.view;
 }

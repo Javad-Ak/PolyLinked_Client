@@ -10,7 +10,7 @@ import org.aut.polylinked_client.PolyLinked;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.utils.DataAccess;
 import org.aut.polylinked_client.utils.RequestBuilder;
-import org.aut.polylinked_client.view.MediaViewer;
+import org.aut.polylinked_client.view.MediaWrapper;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URL;
@@ -80,7 +80,7 @@ public class MainController {
                     case Tabs.PROFILE -> fxmlURL = PolyLinked.class.getResource("fxmls/profile.fxml");
                 }
 
-                MediaViewer.clearMedias();
+                MediaWrapper.clearMedias();
                 if (fxmlURL != null) {
                     try {
                         borderPane.setCenter(FXMLLoader.load(fxmlURL));

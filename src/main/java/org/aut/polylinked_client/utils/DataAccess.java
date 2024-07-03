@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 public class DataAccess {
 
     public enum FileType {
-        IMAGE, VIDEO, AUDIO;
+        IMAGE, VIDEO, AUDIO, UNKNOWN;
     }
 
     private static final String[] RESOURCES_PATHS = {"src/main/resources/org/aut/polylinked_client/data",
@@ -102,7 +102,7 @@ public class DataAccess {
         } else if (AUDIO_EXTENSIONS.contains(ext)) {
             return FileType.AUDIO;
         } else {
-            return null;
+            return FileType.UNKNOWN;
         }
     }
 

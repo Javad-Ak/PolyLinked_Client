@@ -2,14 +2,13 @@ package org.aut.polylinked_client.control;
 
 import com.jfoenix.controls.JFXTextArea;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.model.Post;
@@ -19,25 +18,19 @@ import org.aut.polylinked_client.utils.JsonHandler;
 import org.aut.polylinked_client.utils.RequestBuilder;
 import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
 import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
-import org.aut.polylinked_client.view.LazyLoader;
-import org.aut.polylinked_client.view.PostCell;
+import org.aut.polylinked_client.view.ContentCell;
+import org.aut.polylinked_client.view.MapListView;
+import org.aut.polylinked_client.view.MediaWrapper;
 import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.TreeMap;
 
-public class HomeController implements LazyLoader {
-
+public class HomeController {
     private final static String fileId = "home"; // home.css
 
-    private TreeMap<Post, User> postsData; // from server
-
-    private final ArrayList<Post> sortedKeys = new ArrayList<>(); // sorted server keys
-
-    private int index = 0; // current key index -> increments by 5 at each loading
-
-    private final ObservableList<PostCell> observablePosts = FXCollections.observableArrayList();
+    MapListView<Post> mapListView;
 
     private File pickedFile;
 
@@ -45,17 +38,16 @@ public class HomeController implements LazyLoader {
     private Button fileButton;
 
     @FXML
-    private JFXTextArea postText;
+    private VBox mediaBox;
 
     @FXML
-    private ListView<PostCell> postsListView; // <?> changed to <PostCell>
+    private JFXTextArea postText;
 
     @FXML
     private BorderPane root;
 
-
     @FXML
-    void initialize() {
+    private void initialize() {
         SceneManager.activateTheme(root, fileId);
 
         // theme observation
@@ -63,44 +55,40 @@ public class HomeController implements LazyLoader {
             SceneManager.activateTheme(root, fileId);
         });
 
-        fileButton.setText("");
-        fileButton.setVisible(false);
         fileButton.setOnAction(e -> {
             pickedFile = null;
             fileButton.setText("");
             fileButton.setVisible(false);
+            mediaBox.getChildren().clear();
         });
+        fileButton.fire();
 
         new Thread(() -> {
-            // All data from Data
             try {
-                postsData = RequestBuilder.mapFromGetRequest(Post.class, "newsfeed", JsonHandler.createJson("Authorization", DataAccess.getJWT()));
+                TreeMap<Post, User> postsData = RequestBuilder.mapFromGetRequest(Post.class, "newsfeed", JsonHandler.createJson("Authorization", DataAccess.getJWT()));
+                Platform.runLater(() -> {
+                    if (postsData == null || postsData.isEmpty()) {
+                        root.setCenter(new Label("No posts found. Please try again later."));
+                    } else {
+                        ListView<ContentCell<Post>> postsListView = new ListView<>();
+                        ArrayList<Post> sortedKeys = new ArrayList<>(postsData.keySet().stream().toList());
+                        sortedKeys.sort(Comparator.comparing(Post::getDate).reversed());
+                        mapListView = new MapListView<>(postsListView, postsData, sortedKeys);
+                        mapListView.activate(10);
+                        root.setCenter(postsListView);
+                    }
+                });
             } catch (UnauthorizedException e) {
                 Platform.runLater(() -> {
                     SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
                     SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
                 });
             }
-
-            Platform.runLater(() -> {
-                if (postsData == null || postsData.isEmpty()) {
-                    root.setCenter(new Label("No posts found. Please try again later."));
-                } else {
-                    sortedKeys.addAll(postsData.keySet().stream().toList());
-                    sortedKeys.sort(Comparator.comparing(Post::getDate).reversed());
-
-                    postsListView.setItems(observablePosts); // cell data: bind listview to collection
-                    postsListView.setCellFactory(listView -> new PostCell()); // cell view
-
-                    loadBuffer(); // first loading
-                    activateLazyLoading(postsListView); // automatic further loading when scroller reaches the bottom
-                }
-            });
         }).start();
     }
 
     @FXML
-    void postPressed(ActionEvent event) {
+    private void postPressed() {
         if (pickedFile == null && postText.getText().trim().isEmpty()) {
             SceneManager.showNotification("Info", "You cannot post empty content!", 3);
             return;
@@ -116,7 +104,7 @@ public class HomeController implements LazyLoader {
                 if (jsonObject != null) {
                     User user = new User(jsonObject);
                     Platform.runLater(() -> {
-                        observablePosts.addFirst(new PostCell(post, user));
+                        mapListView.addFirst(new ContentCell<>(post, user));
                         SceneManager.showNotification("Success", "Your new Post Added.", 3);
                     });
                 } else
@@ -136,6 +124,7 @@ public class HomeController implements LazyLoader {
                     pickedFile = null;
                     fileButton.setText("");
                     fileButton.setVisible(false);
+                    mediaBox.getChildren().clear();
                 });
             }
         }).start();
@@ -163,6 +152,7 @@ public class HomeController implements LazyLoader {
         if (file == null) {
             fileButton.setText("");
             fileButton.setVisible(false);
+            mediaBox.getChildren().clear();
         } else if (!file.isFile()) {
             SceneManager.showNotification("Failure", "File is corrupted.", 3);
         } else if (file.length() > 1000000000) {
@@ -171,18 +161,11 @@ public class HomeController implements LazyLoader {
             pickedFile = file;
             fileButton.setText(file.getName());
             fileButton.setVisible(true);
+            Platform.runLater(() -> {
+                MediaWrapper wrapper = MediaWrapper.getMediaViewer(file, 0.45);
+                mediaBox.getChildren().clear();
+                mediaBox.getChildren().add(wrapper);
+            });
         }
-    }
-
-    @Override
-    public void loadBuffer() {
-        int bufferSize = 10; // number of posts added when scroller reaches the bottom
-
-        if (sortedKeys.isEmpty() || sortedKeys.size() - 1 < index) return;
-
-        for (int i = index; i < index + bufferSize && i < sortedKeys.size(); i++)
-            observablePosts.add(new PostCell(sortedKeys.get(i), postsData.get(sortedKeys.get(i))));
-
-        index += bufferSize;
     }
 }
