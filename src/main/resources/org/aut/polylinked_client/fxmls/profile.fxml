@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import io.github.gleidson28.GNAvatarView?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
@@ -20,6 +19,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <BorderPane fx:id="rootBp" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="593.0" stylesheets="@../styles/light/profile.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.ProfileController">
    <top>
@@ -59,14 +59,14 @@
                            <children>
                               <Label fx:id="locationLbl" text="Location">
                                  <graphic>
-                                    <FontAwesomeIconView fill="WHITE" glyphName="LOCATION_ARROW" styleClass="font-awesome-icon" />
+                                    <FontIcon iconLiteral="mdi-map-marker" iconSize="15" text="" />
                                  </graphic>
                               </Label>
                               <HBox spacing="2.0">
                                  <children>
                                     <Label fx:id="joinedDateLbl" text="Joined">
                                        <graphic>
-                                          <FontAwesomeIconView fill="WHITE" glyphName="CALENDAR" styleClass="font-awesome-icon" />
+                                          <FontIcon iconLiteral="mdi2c-calendar-account" iconSize="15" />
                                        </graphic>
                                     </Label>
                                     <Label fx:id="DateLbl" text="Date" />
@@ -118,12 +118,12 @@
                       <MenuItem fx:id="ConnectBtn" mnemonicParsing="false" onAction="#ConnectBtnPressed" text="Connect" />
                       <MenuItem fx:id="messageBtn" mnemonicParsing="false" onAction="#messageBtnPressed" text="Message" />
                     </items>
-                     <graphic>
-                        <FontAwesomeIconView fill="WHITE" glyphName="ELLIPSIS_V" size="15" strokeLineCap="ROUND" strokeLineJoin="ROUND" styleClass="font-awesome-icon" text="" textAlignment="CENTER" wrappingWidth="1.0" />
-                     </graphic>
                      <HBox.margin>
                         <Insets bottom="10.0" left="5.0" right="10.0" top="10.0" />
                      </HBox.margin>
+                     <graphic>
+                        <FontIcon boundsType="VISUAL" iconLiteral="mdi-dots-vertical" iconSize="18" strokeLineCap="ROUND" textAlignment="CENTER" />
+                     </graphic>
                   </MenuButton>
                </children>
             </HBox>
