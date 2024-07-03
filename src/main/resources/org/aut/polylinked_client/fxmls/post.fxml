@@ -70,7 +70,7 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT" spacing="8.0" GridPane.columnIndex="1">
          <children>
-            <Button fx:id="followButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Follow">
+            <Button fx:id="followButton" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Follow">
                <graphic>
                   <FontIcon />
                </graphic>
@@ -79,7 +79,7 @@
       </HBox>
       <HBox alignment="BOTTOM_LEFT" spacing="8.0" GridPane.hgrow="NEVER" GridPane.rowIndex="4">
          <children>
-            <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#likePressed" text="Like">
+            <Button fx:id="likeButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Like">
                <graphic>
                   <FontIcon id="icon" iconLiteral="mdi-thumb-up-outline" />
                </graphic>

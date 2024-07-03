@@ -78,7 +78,7 @@ public class HomeController implements LazyLoader {
             } catch (UnauthorizedException e) {
                 Platform.runLater(() -> {
                     SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
-                    SceneManager.showNotification("Info", "Your Authorization has failed or  expired.", 3);
+                    SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
                 });
             }
 
@@ -128,7 +128,7 @@ public class HomeController implements LazyLoader {
             } catch (UnauthorizedException e) {
                 Platform.runLater(() -> {
                     SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
-                    SceneManager.showNotification("Info", "Your Authorization has failed or  expired.", 3);
+                    SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
                 });
             } finally {
                 Platform.runLater(() -> {

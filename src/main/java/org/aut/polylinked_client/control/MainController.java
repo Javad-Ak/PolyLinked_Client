@@ -121,9 +121,8 @@ public class MainController {
             } catch (IOException ignored) {
             }
 
-            DataAccess.setUserId("none");
-            DataAccess.setJWT("none");
-            SceneManager.setScene(SceneManager.SceneLevel.SIGNUP);
+            DataAccess.clearCacheData();
+            SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
         }
     }
 

@@ -121,12 +121,12 @@ public class DataAccess {
             for (Path path : paths.toList()) {
                 if (Files.isRegularFile(path)) Files.delete(path);
             }
-            if (Files.isDirectory(CACHE_PATH)) Files.createDirectory(CACHE_PATH);
 
-            JSONObject data = readData();
+            JSONObject data = new JSONObject();
             data.put("jwt", "none");
             data.put("userId", "none");
             data.put("fullName", "none");
+            data.put("theme", DataAccess.getTheme());
             writeData(data);
         } catch (IOException ignored) {
         }
@@ -162,6 +162,7 @@ public class DataAccess {
     private static void writeData(JSONObject object) {
         try (FileOutputStream outputStream = new FileOutputStream(DATA_PATH.toFile(), false)) {
             outputStream.write(object.toString().getBytes());
+            outputStream.flush();
         } catch (IOException e) {
             System.err.println("Failed to write data files: " + e);
             System.exit(1);

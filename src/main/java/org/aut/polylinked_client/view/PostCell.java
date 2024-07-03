@@ -47,7 +47,7 @@ public class PostCell extends ListCell<PostCell> {
             setGraphic(null);
         } else {
             PostController controller = fxmlLoader.getController();
-            if (!controller.isFilledWith(item.id)) controller.setData(item.post, item.user);
+            controller.setData(item.post, item.user);
             setGraphic(root);
         }
     }
