@@ -10,6 +10,7 @@ import org.aut.polylinked_client.PolyLinked;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.utils.DataAccess;
 import org.aut.polylinked_client.utils.RequestBuilder;
+import org.aut.polylinked_client.view.MediaViewer;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URL;
@@ -79,6 +80,7 @@ public class MainController {
                     case Tabs.PROFILE -> fxmlURL = PolyLinked.class.getResource("fxmls/profile.fxml");
                 }
 
+                MediaViewer.clearMedias();
                 if (fxmlURL != null) {
                     try {
                         borderPane.setCenter(FXMLLoader.load(fxmlURL));
@@ -130,8 +132,7 @@ public class MainController {
         Dialog<ButtonType> dialog = createDialogue("Confirm", "Are you sure you want to log out?", ButtonType.OK, ButtonType.CANCEL);
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            DataAccess.setUserId("none");
-            DataAccess.setJWT("none");
+            DataAccess.clearCacheData();
             SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
         }
     }

@@ -18,11 +18,10 @@ public class DataAccess {
 
     private static final String[] RESOURCES_PATHS = {"src/main/resources/org/aut/polylinked_client/data",
             "src/main/resources/org/aut/polylinked_client/fxmls", "src/main/resources/org/aut/polylinked_client/images",
-            "src/main/resources/org/aut/polylinked_client/styles",
-            "src/main/resources/org/aut/polylinked_client/data/cache"};
+            "src/main/resources/org/aut/polylinked_client/styles",};
 
-    private static final Path FILE_PATH = Path.of("src/main/resources/org/aut/polylinked_client/data/data.bin");
-    private static final Path CACHE_PATH = Path.of(RESOURCES_PATHS[4]);
+    private static final Path DATA_PATH = Path.of("src/main/resources/org/aut/polylinked_client/data/data.bin");
+    private static final Path CACHE_PATH = Path.of("src/main/resources/org/aut/polylinked_client/data/cache");
 
     public static final String VIDEO_EXTENSIONS = "mp4, m4v, flv";
     public static final String AUDIO_EXTENSIONS = "mp3, aac, wav, aiff, m4a";
@@ -37,7 +36,8 @@ public class DataAccess {
                 if (!Files.isDirectory(Path.of(folder)))
                     throw new IOException(folder + " not found");
             }
-            if (!Files.isRegularFile(FILE_PATH)) Files.createFile(FILE_PATH);
+            if (!Files.isRegularFile(DATA_PATH)) Files.createFile(DATA_PATH);
+            if (!Files.isDirectory(CACHE_PATH)) Files.createDirectory(CACHE_PATH);
         } catch (IOException e) {
             System.err.println("Failed to initialize data files: " + e.getMessage());
             System.exit(1);
@@ -48,7 +48,7 @@ public class DataAccess {
         jsonObject.put("jwt", "none");
         jsonObject.put("userId", "none");
         jsonObject.put("fullName", "none");
-        if (FILE_PATH.toFile().length() < 1) writeData(jsonObject);
+        if (DATA_PATH.toFile().length() < 1) writeData(jsonObject);
     }
 
     public static String getTheme() {
@@ -116,6 +116,22 @@ public class DataAccess {
         return saveFile(fileId, URL);
     }
 
+    public static void clearCacheData() {
+        try (Stream<Path> paths = Files.list(CACHE_PATH)) {
+            for (Path path : paths.toList()) {
+                if (Files.isRegularFile(path)) Files.delete(path);
+            }
+            if (Files.isDirectory(CACHE_PATH)) Files.createDirectory(CACHE_PATH);
+
+            JSONObject data = readData();
+            data.put("jwt", "none");
+            data.put("userId", "none");
+            data.put("fullName", "none");
+            writeData(data);
+        } catch (IOException ignored) {
+        }
+    }
+
     private static File saveFile(String fileId, String URL) {
         try {
             java.net.URL url = URI.create(URL).toURL();
@@ -144,7 +160,7 @@ public class DataAccess {
     }
 
     private static void writeData(JSONObject object) {
-        try (FileOutputStream outputStream = new FileOutputStream(FILE_PATH.toFile(), false)) {
+        try (FileOutputStream outputStream = new FileOutputStream(DATA_PATH.toFile(), false)) {
             outputStream.write(object.toString().getBytes());
         } catch (IOException e) {
             System.err.println("Failed to write data files: " + e);
@@ -154,7 +170,7 @@ public class DataAccess {
 
     private static JSONObject readData() {
         JSONObject obj = null;
-        try (FileInputStream inputStream = new FileInputStream(FILE_PATH.toFile())) {
+        try (FileInputStream inputStream = new FileInputStream(DATA_PATH.toFile())) {
             obj = new JSONObject(new String(inputStream.readAllBytes()));
         } catch (IOException e) {
             System.err.println("Failed to read data files: " + e);

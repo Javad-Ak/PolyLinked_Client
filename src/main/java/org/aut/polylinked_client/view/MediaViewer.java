@@ -15,17 +15,21 @@ import javafx.scene.media.MediaView;
 import javafx.util.Duration;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.utils.DataAccess;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.File;
 import java.util.HashMap;
 
 public class MediaViewer extends BorderPane {
     private static final HashMap<String, MediaViewer> mediaViewers = new HashMap<>();
+    private String id;
     private MediaPlayer mediaPlayer;
+    Button resetButton;
+    Button playButton;
     private ImageView imageView;
 
     public static MediaViewer getMediaViewer(File file, double relativeWidth) {
-        if (relativeWidth <= 0 || relativeWidth >= 1) relativeWidth = 0.4;
+        if (relativeWidth <= 0 || relativeWidth >= 1) relativeWidth = 0.45;
 
         if (mediaViewers.containsKey(file.getName()))
             return mediaViewers.get(file.getName());
@@ -37,10 +41,11 @@ public class MediaViewer extends BorderPane {
         switch (DataAccess.getFileType(file)) {
             case DataAccess.FileType.IMAGE -> imageViewer(file, relativeWidth);
             case DataAccess.FileType.VIDEO -> videoViewer(file, relativeWidth);
-            case DataAccess.FileType.AUDIO -> audioViewer(file, relativeWidth);
+            case DataAccess.FileType.AUDIO -> audioViewer(file);
             default -> setCenter(null);
         }
 
+        if (file != null) id = file.getName();
         mediaViewers.put(file.getName(), this);
     }
 
@@ -62,27 +67,36 @@ public class MediaViewer extends BorderPane {
         mediaView.setSmooth(true);
         mediaView.fitWidthProperty().bind(SceneManager.getWidthProperty().multiply(relativeWidth));
 
-        HBox hBox = createControlBar(mediaPlayer, relativeWidth);
+        HBox hBox = createControlBar(mediaPlayer);
 
         setCenter(mediaView);
         setBottom(hBox);
     }
 
-    private void audioViewer(File file, double relativeWidth) {
+    private void audioViewer(File file) {
         Media media = new Media(file.toURI().toString());
         mediaPlayer = new MediaPlayer(media);
 
-        HBox hBox = createControlBar(mediaPlayer, relativeWidth);
+        HBox hBox = createControlBar(mediaPlayer);
         setCenter(hBox);
     }
 
-    private HBox createControlBar(MediaPlayer mediaPlayer, double relativeWidth) {
+    private HBox createControlBar(MediaPlayer mediaPlayer) {
         JFXSlider timeSlider = new JFXSlider();
         timeSlider.setValue(0);
         Label label = new Label("time");
 
-        Button playButton = new Button("Play");
-        Button resetButton = new Button("Reset");
+        FontIcon playIcon = new FontIcon("mdi-play");
+        playIcon.setId("icon");
+        FontIcon pauseIcon = new FontIcon("mdi-pause");
+        pauseIcon.setId("icon");
+        FontIcon refreshIcon = new FontIcon("mdi-refresh");
+        refreshIcon.setId("icon");
+
+        playButton = new Button();
+        playButton.setGraphic(playIcon);
+        resetButton = new Button();
+        resetButton.setGraphic(refreshIcon);
 
         mediaPlayer.currentTimeProperty().addListener((obs, oldTime, newTime) -> {
             if (!timeSlider.isValueChanging()) {
@@ -90,7 +104,7 @@ public class MediaViewer extends BorderPane {
             }
         });
         timeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
-            if (playButton.getText().equals("Play")) {
+            if (playButton.getGraphic().equals(playIcon)) {
                 timeSlider.setValue(0);
             } else if (timeSlider.isValueChanging()) {
                 mediaPlayer.seek(Duration.seconds(newVal.doubleValue()));
@@ -98,18 +112,20 @@ public class MediaViewer extends BorderPane {
         });
 
         playButton.setOnAction(event -> {
+            MediaViewer.resetOthers(id);
             if (mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
                 mediaPlayer.pause();
-                playButton.setText("Play");
+                playButton.setGraphic(playIcon);
             } else {
                 mediaPlayer.play();
-                playButton.setText("Pause");
+                playButton.setGraphic(pauseIcon);
             }
         });
 
         resetButton.setOnAction(event -> {
+            mediaPlayer.seek(Duration.seconds(0));
             mediaPlayer.stop();
-            playButton.setText("Play");
+            playButton.setGraphic(playIcon);
             timeSlider.setValue(0);
         });
 
@@ -122,15 +138,31 @@ public class MediaViewer extends BorderPane {
             label.setText(minutes + ":" + seconds);
         });
         mediaPlayer.setOnEndOfMedia(() -> {
-            mediaPlayer.stop();
-            playButton.setText("Play");
-            timeSlider.setValue(0);
+            resetButton.fire();
         });
 
         HBox hBox = new HBox();
-        hBox.setSpacing(6);
         hBox.setAlignment(Pos.CENTER);
         hBox.getChildren().addAll(playButton, resetButton, timeSlider, label);
+
+        hBox.setSpacing(4);
+        hBox.setPadding(new Insets(0, 4, 0, 4));
+        hBox.setStyle("-fx-background-color: rgba(160, 160, 160, 0.4);");
         return hBox;
+    }
+
+    private static void resetOthers(String id) {
+        mediaViewers.forEach((fileName, mediaViewer) -> {
+            if (!fileName.equals(id)) {
+                if (mediaViewer.mediaPlayer != null && mediaViewer.resetButton != null) mediaViewer.resetButton.fire();
+            }
+        });
+    }
+
+    public static void clearMedias() {
+        mediaViewers.forEach((fileName, mediaViewer) -> {
+            if (mediaViewer.mediaPlayer != null && mediaViewer.resetButton != null) mediaViewer.resetButton.fire();
+        });
+        mediaViewers.clear();
     }
 }

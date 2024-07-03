@@ -6,8 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -24,7 +22,6 @@ import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
 import org.aut.polylinked_client.view.LazyLoader;
 import org.aut.polylinked_client.view.PostCell;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -81,6 +78,7 @@ public class HomeController implements LazyLoader {
             } catch (UnauthorizedException e) {
                 Platform.runLater(() -> {
                     SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                    SceneManager.showNotification("Info", "Your Authorization has failed or  expired.", 3);
                 });
             }
 
@@ -130,6 +128,7 @@ public class HomeController implements LazyLoader {
             } catch (UnauthorizedException e) {
                 Platform.runLater(() -> {
                     SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                    SceneManager.showNotification("Info", "Your Authorization has failed or  expired.", 3);
                 });
             } finally {
                 Platform.runLater(() -> {

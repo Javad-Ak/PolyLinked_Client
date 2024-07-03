@@ -46,6 +46,20 @@
     -fx-background-color: #b1b1b1;
 }
 
+.jfx-slider .colored-track {
+    -fx-background-color: #084B8A;
+}
+
+.jfx-slider .track {
+    -fx-background-color: white;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.jfx-slider .thumb, .jfx-slider .indicator, .jfx-slider .animated-thumb {
+    -fx-background-color: #007bff;
+}
+
 #followButton {
     -fx-background-color: #0A74DA;
     -fx-text-fill: white;

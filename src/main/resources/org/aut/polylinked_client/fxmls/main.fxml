@@ -101,8 +101,8 @@
                         </FontIcon>
                      </graphic>
                      <items>
-                        <MenuItem mnemonicParsing="false" onAction="#switchThemePressed" text="Switch theme" />
-                        <MenuItem mnemonicParsing="false" onAction="#logOutPressed" text="Log out" />
+                        <MenuItem mnemonicParsing="false" onAction="#switchThemePressed" text="Change theme" />
+                        <MenuItem mnemonicParsing="false" onAction="#logOutPressed" text="Log out &amp; clear cache" />
                         <MenuItem mnemonicParsing="false" onAction="#deleteAccountPressed" text="Delete acoount" />
                         <MenuItem mnemonicParsing="false" onAction="#aboutAppPressed" text="About PolyLinked" />
                      </items>

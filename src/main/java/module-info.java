@@ -9,6 +9,7 @@ module org.aut.polylinked_client {
     requires GNAvatarView;
     requires org.controlsfx.controls;
     requires javafx.media;
+    requires org.kordamp.ikonli.javafx;
 
 
     opens org.aut.polylinked_client.control to javafx.fxml;
