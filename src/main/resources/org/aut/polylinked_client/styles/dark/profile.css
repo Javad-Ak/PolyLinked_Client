@@ -116,8 +116,6 @@
     -fx-border-width: 0; /* Remove border */
 }
 
-
-
 .tab-pane {
     -fx-tab-min-height: 30px;
     -fx-tab-max-height: 30px;
