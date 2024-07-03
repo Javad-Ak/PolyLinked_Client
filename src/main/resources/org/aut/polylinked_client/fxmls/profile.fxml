@@ -7,57 +7,66 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="rootBp" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="685.0" prefWidth="593.0" stylesheets="@../styles/dark/profile.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.ProfileController">
+<BorderPane fx:id="rootBp" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="593.0" stylesheets="@../styles/light/profile.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.ProfileController">
    <top>
-      <AnchorPane prefHeight="490.0" prefWidth="593.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="465.0" prefWidth="593.0" BorderPane.alignment="CENTER">
          <children>
-            <StackPane AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <StackPane prefHeight="232.0" prefWidth="593.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <AnchorPane fx:id="headerImagePane" prefHeight="295.0" prefWidth="593.0" styleClass="header-image-container" />
+                  <AnchorPane fx:id="headerImagePane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="280.0" prefWidth="593.0" styleClass="header-image-container">
+                     <children>
+                        <ImageView fx:id="backgroundIV" fitHeight="235.0" fitWidth="593.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/default-profile-background.png" />
+                           </image>
+                        </ImageView>
+                     </children></AnchorPane>
                </children>
             </StackPane>
-            <GNAvatarView fx:id="avatar" layoutX="59.0" layoutY="250.0" prefHeight="90.0" prefWidth="96.0" strokeWidth="4.0" styleClass="gn-avatar-view" type="CIRCLE">
-               <image>
-                  <Image url="@../images/default-avatar.png" />
-               </image></GNAvatarView>
-            <VBox layoutX="14.0" layoutY="340.0" prefHeight="145.0" prefWidth="308.0" spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="270.0">
+            <VBox layoutX="14.0" layoutY="340.0" prefHeight="157.0" prefWidth="309.0" spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="270.0">
                <children>
-                  <VBox>
+                  <VBox prefHeight="61.0" prefWidth="309.0">
                      <children>
-                        <Label fx:id="fullNameLbl" text="Full name">
+                        <Label fx:id="fullNameLbl" prefHeight="17.0" prefWidth="89.0" text="Full name">
                            <styleClass>
                               <String fx:value="full-name-label" />
                               <String fx:value="primary-color" />
                            </styleClass>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
                         </Label>
-                        <Label fx:id="usernameLbl" styleClass="secondary-color" text="username" />
                      </children>
                   </VBox>
+                  <Label fx:id="bioLbl" text="Bio" />
                   <VBox>
                      <children>
-                        <Label fx:id="bioLbl" text="Bio" />
                         <HBox spacing="10.0">
                            <children>
                               <Label fx:id="locationLbl" text="Location">
                                  <graphic>
-                                    <FontAwesomeIconView id="locationIcon" fill="WHITE" glyphName="LOCATION_ARROW" />
+                                    <FontAwesomeIconView fill="WHITE" glyphName="LOCATION_ARROW" styleClass="font-awesome-icon" />
                                  </graphic>
                               </Label>
                               <HBox spacing="2.0">
                                  <children>
                                     <Label fx:id="joinedDateLbl" text="Joined">
                                        <graphic>
-                                          <FontAwesomeIconView id="dateIcon" fill="WHITE" glyphName="CALENDAR" />
+                                          <FontAwesomeIconView fill="WHITE" glyphName="CALENDAR" styleClass="font-awesome-icon" />
                                        </graphic>
                                     </Label>
                                     <Label fx:id="DateLbl" text="Date" />
@@ -73,50 +82,67 @@
                            <graphic>
                               <Label fx:id="followingCountLbl" styleClass="primary-color" text="23" />
                            </graphic>
+                           <HBox.margin>
+                              <Insets left="-10.0" />
+                           </HBox.margin>
                         </Button>
                         <Button mnemonicParsing="false" onAction="#followersBtnPressed" prefHeight="15.0" prefWidth="111.0" styleClass="followersBtn" text="Followers">
                            <graphic>
                               <Label fx:id="followerCountLbl" styleClass="primary-color" text="44" />
                            </graphic>
+                           <HBox.margin>
+                              <Insets left="-10.0" />
+                           </HBox.margin>
                         </Button>
                      </children>
                   </HBox>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" layoutX="463.0" layoutY="307.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="92.0" prefWidth="75.0" spacing="10.0" AnchorPane.rightAnchor="35.0">
+            <VBox alignment="TOP_CENTER" layoutX="463.0" layoutY="307.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="93.0" spacing="10.0" AnchorPane.rightAnchor="35.0">
                <children>
-                  <Button fx:id="followBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#followBtnPressed" prefHeight="24.0" prefWidth="95.0" styleClass="controller-button" text="Follow" />
-                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#editProfileBtnPressed" prefHeight="25.0" prefWidth="93.0" text="Edit Profile">
+                  <Button fx:id="editProfileBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#editProfileBtnPressed" prefHeight="25.0" prefWidth="93.0" text="Edit Profile">
                      <styleClass>
                         <String fx:value="controller-button" />
                         <String fx:value="primary-color" />
                      </styleClass></Button>
                </children>
             </VBox>
-            <HBox layoutX="248.0" layoutY="433.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="43.0" prefWidth="310.0">
+            <HBox layoutX="248.0" layoutY="374.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="43.0" prefWidth="310.0" AnchorPane.rightAnchor="35.0">
                <children>
-                  <JFXButton fx:id="connectBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#connectBtnPressed" prefHeight="43.0" prefWidth="282.0" text="Connect" />
+                  <JFXButton fx:id="followBtn" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" onAction="#followBtnPressed" prefHeight="30.0" prefWidth="282.0" text="Follow">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin></JFXButton>
+                  <MenuButton id="moreMrnuBtn" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" textFill="WHITE">
+                    <items>
+                      <MenuItem fx:id="ConnectBtn" mnemonicParsing="false" onAction="#ConnectBtnPressed" text="Connect" />
+                      <MenuItem fx:id="messageBtn" mnemonicParsing="false" onAction="#messageBtnPressed" text="Message" />
+                    </items>
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="ELLIPSIS_V" size="15" strokeLineCap="ROUND" strokeLineJoin="ROUND" styleClass="font-awesome-icon" text="" textAlignment="CENTER" wrappingWidth="1.0" />
+                     </graphic>
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="5.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </MenuButton>
                </children>
             </HBox>
+            <GNAvatarView fx:id="avatar" layoutX="31.0" layoutY="202.0" prefHeight="90.0" prefWidth="96.0" strokeWidth="4.0" styleClass="gn-avatar-view" type="CIRCLE">
+               <image>
+                  <Image url="@../images/default-avatar.png" />
+               </image>
+            </GNAvatarView>
          </children>
       </AnchorPane>
    </top>
    <center>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab text="Posts">
-               <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Label layoutX="47.0" layoutY="40.0" styleClass="secondary-color" text="Posts tab" />
-                     </children></AnchorPane>
-               </content>
-            </Tab>
           <Tab text="Education">
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="68.0" layoutY="40.0" styleClass="secondary-color" text="Education tab" />
+                        <Label layoutX="38.0" layoutY="42.0" styleClass="secondary-color" text="Education tab" />
                      </children></AnchorPane>
                </content>
             </Tab>
@@ -124,13 +150,16 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="58.0" layoutY="40.0" styleClass="secondary-color" text="Media tab" />
+                        <Label layoutX="58.0" layoutY="40.0" styleClass="secondary-color" text="Skills tab" />
                      </children></AnchorPane>
               </content>
             </Tab>
             <Tab text="Contact info">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="24.0" layoutY="36.0" styleClass="secondary-color" text="Contact info tab" />
+                     </children></AnchorPane>
               </content>
             </Tab>
         </tabs>

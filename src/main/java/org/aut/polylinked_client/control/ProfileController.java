@@ -24,6 +24,8 @@ public class ProfileController {
         SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
             SceneManager.activateTheme(rootBp, fileId);
         });
+
+
     }
 
     @FXML

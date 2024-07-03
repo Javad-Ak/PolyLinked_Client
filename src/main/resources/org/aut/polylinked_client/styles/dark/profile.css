@@ -1,6 +1,6 @@
 /* Root styles */
 .root {
-    -fx-background-color: #1f1f1f; /* Dark background color */
+    -fx-background-color: #000000; /* Dark background color */
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     -fx-text-fill: white; /* Default text color */
 }
@@ -11,11 +11,21 @@
     -fx-font-size: 2em; /* Increased font size for profile header */
     -fx-font-weight: bold;
 }
+.header-image-container {
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: #999;
+}
 
 /* Sub-header styles */
 .sub-header-label {
     -fx-text-fill: #64B5F6;
     -fx-font-size: 1.5em; /* Font size for section headers */
+}
+
+.font-awesome-icon {
+    -fx-fill: #ffffff;
 }
 
 /* Label styles */
@@ -53,6 +63,7 @@
 
 .button:hover {
     -fx-background-color: #42A5F5; /* Lighter blue on hover */
+    -fx-text-fill: #000000;
 }
 
 .menu-button {
@@ -60,8 +71,33 @@
     -fx-text-fill: white; /* Text color */
     -fx-font-size: 1em; /* Relative font size */
     -fx-background-radius: 30px; /* Oval shape */
-    -fx-padding: 5px 10px; /* Add padding to make buttons oval */
+    -fx-padding: 5px 5px; /* Add padding to make buttons oval */
+
 }
+
+/* MenuItem styles */
+.menu-item {
+    -fx-text-fill: #000000; /* Darker text color */
+    -fx-background-color: rgba(0, 195, 255, 0.64);
+    -fx-font-size: 14px; /* Font size */
+    -fx-padding: 8px 20px; /* Padding around the text */
+}
+
+.menu-item:hover {
+    -fx-background-color: #64B5F6; /* Light blue background on hover */
+}
+
+/* Separator between MenuItems */
+.context-menu > .separator {
+    -fx-padding: 0.5em 0;
+}
+
+.menu-button .arrow {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-shape: null;
+}
+
 
 .button.circular {
     -fx-background-radius: 50%; /* Circular shape */
@@ -80,105 +116,47 @@
     -fx-border-width: 0; /* Remove border */
 }
 
-/* Section styles */
-.section {
-    -fx-border-color: #BDBDBD;
-    -fx-border-width: 1px;
-    -fx-border-radius: 5px;
-    -fx-padding: 10px;
-    -fx-background-color: #2c2c2c; /* Dark background */
-}
 
-/* Experience, education, and other list items */
-.list-item {
-    -fx-padding: 10px;
-    -fx-border-color: #BDBDBD;
-    -fx-border-width: 0 0 1px 0;
-    -fx-background-color: #1f1f1f; /* Dark background */
-}
 
-.list-item:last-child {
-    -fx-border-width: 0;
-}
-
-/* Hyperlink styles */
-.hyperlink {
-    -fx-text-fill: #64B5F6; /* Light blue color */
-    -fx-font-size: 1em; /* Relative font size */
-}
-
-.hyperlink:hover {
-    -fx-text-fill: #42A5F5; /* Lighter blue on hover */
-}
-
-/* Skills and endorsements */
-.skill-item {
-    -fx-background-color: #3C3C3C; /* Dark background */
-    -fx-border-color: #64B5F6;
-    -fx-border-width: 1px;
-    -fx-border-radius: 3px;
-    -fx-padding: 5px;
-    -fx-text-fill: #64B5F6;
-}
-
-/* Recommendations */
-.recommendation {
-    -fx-background-color: #4E4E4E; /* Dark background */
-    -fx-border-color: #FFB74D;
-    -fx-border-width: 1px;
-    -fx-border-radius: 5px;
-    -fx-padding: 10px;
-    -fx-text-fill: #6D4C41;
-}
-
-/* TabPane styles */
 .tab-pane {
-    -fx-background-color: #2c2c2c; /* Dark background */
-    -fx-border-color: #BDBDBD;
-    -fx-border-width: 1px;
-    -fx-border-radius: 5px;
-    -fx-padding: 10px;
-}
+    -fx-tab-min-height: 30px;
+    -fx-tab-max-height: 30px;
+    -fx-tab-min-width: 100px;
+    -fx-tab-max-width: 100px;
 
-.tab-pane .tab-header-area {
-    -fx-background-color: #64B5F6; /* Background color for the tab header area */
-    -fx-padding: 10px;
-    -fx-border-radius: 5px 5px 0 0;
-}
-
-.tab-pane .tab-header-area .tab {
-    -fx-background-color: #64B5F6;
-    -fx-text-fill: white;
-    -fx-padding: 10px;
-    -fx-background-radius: 5px 5px 0 0;
-    -fx-font-size: 1.1em;
-    -fx-font-weight: bold;
-    -fx-cursor: hand; /* Change cursor to hand on hover */
-}
-
-.tab-pane .tab-header-area .tab:selected {
-    -fx-background-color: #42A5F5; /* Lighter blue for selected tab */
-    -fx-text-fill: white;
-}
-
-.tab-pane .tab-header-area .tab:hover {
-    -fx-background-color: #42A5F5; /* Lighter blue for hovered tab */
-}
-
-.tab-pane .tab-header-area .tab-close-button {
+    /*-fx-background-color: #111;*/
     -fx-background-color: transparent;
-    -fx-text-fill: white;
-    -fx-padding: 5px;
+    -fx-border-width: 1 0 0 0;
+    -fx-border-color: #222;
 }
 
-.tab-pane .tab-header-area .tab-close-button:hover {
-    -fx-background-color: #42A5F5;
-    -fx-text-fill: white;
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: transparent;
 }
 
-/* Custom styles for tabs */
-.tab-pane .tab-header-area .tab .tab-label {
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
+.tab .tab-label {
+    -fx-text-fill: #999;
+    -fx-background-color: transparent;
+    -fx-alignment: center;
 }
 
+.tab {
+    -fx-background-color: #111;
+    -fx-fill: white;
+    /*-fx-background-insets: 0;*/
+    -fx-background-insets: 0 2 0 0, 0 5 0 0, 1 6 0 0 ;
+}
+
+.tab:selected .tab-label{
+    -fx-text-fill: white;
+    -fx-background-insets: 0;
+}
+
+.tab:selected {
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: #1DA1F2;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-color: transparent;
+}
