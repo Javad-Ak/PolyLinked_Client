@@ -1,6 +1,6 @@
 /* Root styles */
 .root {
-    -fx-background-color: #000000; /* Dark background color */
+    -fx-background-color: #1f1f1f; /* Dark background color */
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     -fx-text-fill: white; /* Default text color */
 }
