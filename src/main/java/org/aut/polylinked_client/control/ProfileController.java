@@ -1,52 +1,81 @@
 package org.aut.polylinked_client.control;
 
+import io.github.gleidson28.GNAvatarView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import org.aut.polylinked_client.SceneManager;
-import org.kordamp.ikonli.javafx.FontIcon;
-import org.kordamp.ikonli.javafx.FontIcon;
-
-
 
 public class ProfileController {
     private final static String fileId = "profile";
 
     @FXML
-    private BorderPane rootBp;
+    private GNAvatarView avatar;
+
+    @FXML
+    private ImageView background;
+
+    @FXML
+    private Text bioLabel;
+
+    @FXML
+    private Text callInfoText;
+
+    @FXML
+    private Button editButton;
+
+    @FXML
+    private Text educationText;
+
+    @FXML
+    private Hyperlink followersLink;
+
+    @FXML
+    private Hyperlink followingsLink;
+
+    @FXML
+    private AnchorPane headerImagePane;
+
+    @FXML
+    private Label joinedDateLabel;
+
+    @FXML
+    private Label locationLabel;
+
+    @FXML
+    private Label nameLabel;
+
+    @FXML
+    private BorderPane root;
+
+    @FXML
+    private Text skillsText;
 
     @FXML
     void initialize() {
-        FontIcon icon = new FontIcon("mdi-dots-horizontal-circle-outline");
-        SceneManager.activateTheme(rootBp, fileId);
-
         // theme observation
+        SceneManager.activateTheme(root, fileId);
         SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
-            SceneManager.activateTheme(rootBp, fileId);
+            SceneManager.activateTheme(root, fileId);
         });
 
+        background.fitWidthProperty().bind(SceneManager.getWidthProperty());
+        background.fitHeightProperty().bind(SceneManager.getHeightProperty().multiply(0.25));
+    }
+
+    @FXML
+    void connectPressed(ActionEvent event) {
 
     }
 
     @FXML
-    void followersBtnPressed(ActionEvent event) {
+    void followPressed(ActionEvent event) {
 
     }
-    @FXML
-    void followingBtnPressed(ActionEvent event) {}
-
-    @FXML
-    void editProfileBtnPressed(ActionEvent event) {}
-
-
-    @FXML
-    void followBtnPressed(ActionEvent event) {
-    }
-
-    @FXML
-    void blockBtnPressed(ActionEvent event) {}
-
-    @FXML
-    void connectBtnPressed(ActionEvent event) {}
-
 }

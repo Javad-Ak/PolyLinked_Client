@@ -32,7 +32,7 @@ import java.util.Date;
 
 public class ContentController {
     private final static String fileId = "content"; // content.css file reference
-    private final static Path defaultFace = Path.of("src/main/resources/org/aut/polylinked_client/images/face.jpg");
+    private final static Path defaultAvatar = Path.of("src/main/resources/org/aut/polylinked_client/images/avatar.png");
 
     @FXML
     private GNAvatarView avatar;
@@ -297,7 +297,7 @@ public class ContentController {
         if (file != null && type == DataAccess.FileType.IMAGE)
             avatar.setImage(new Image(file.toURI().toString()));
         else
-            avatar.setImage(new Image(defaultFace.toUri().toString()));
+            avatar.setImage(new Image(defaultAvatar.toUri().toString()));
 
         if (media != null && media.length() > 0) {
             MediaWrapper viewer = MediaWrapper.getMediaViewer(media, 0.45);

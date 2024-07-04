@@ -176,4 +176,8 @@ public class SceneManager {
     public static ReadOnlyDoubleProperty getWidthProperty() {
         return stage.widthProperty();
     }
+
+    public static ReadOnlyDoubleProperty getHeightProperty() {
+        return stage.heightProperty();
+    }
 }

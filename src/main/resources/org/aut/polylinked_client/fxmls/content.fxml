@@ -32,7 +32,7 @@
          <children>
             <GNAvatarView fx:id="avatar" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" type="CIRCLE">
                <image>
-                  <Image url="@../images/face.jpg" />
+                  <Image url="@../images/avatar.png" />
                </image>
             </GNAvatarView>
             <VBox alignment="CENTER_LEFT" spacing="4.0">
