@@ -3,6 +3,7 @@ package org.aut.polylinked_client.control;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -12,6 +13,7 @@ import org.aut.polylinked_client.utils.DataAccess;
 import org.aut.polylinked_client.utils.RequestBuilder;
 import org.aut.polylinked_client.view.MediaWrapper;
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -71,26 +73,52 @@ public class MainController {
             if (newValue == null) {
                 tabs.selectToggle(oldValue);
             } else if (oldValue != null) {
-                URL fxmlURL = null;
-                switch ((Tabs) newValue.getUserData()) {
-                    case Tabs.HOME -> fxmlURL = PolyLinked.class.getResource("fxmls/home.fxml");
-                    case Tabs.MESSAGING -> fxmlURL = PolyLinked.class.getResource("fxmls/messaging.fxml");
-                    case Tabs.NOTIFICATIONS -> fxmlURL = PolyLinked.class.getResource("fxmls/notifications.fxml");
-                    case Tabs.SEARCH -> fxmlURL = PolyLinked.class.getResource("fxmls/search.fxml");
-                    case Tabs.PROFILE -> fxmlURL = PolyLinked.class.getResource("fxmls/profile.fxml");
+                FXMLLoader loader = null;
+                try {
+                    switch ((Tabs) newValue.getUserData()) {
+                        case Tabs.HOME: {
+                            loader = new FXMLLoader(PolyLinked.class.getResource("fxmls/home.fxml"));
+                            Parent root = loader.load();
+                            borderPane.setCenter(root);
+                        }
+                        break;
+                        case Tabs.MESSAGING: {
+                            loader = new FXMLLoader(PolyLinked.class.getResource("fxmls/messaging.fxml"));
+                            Parent root = loader.load();
+                            borderPane.setCenter(root);
+                        }
+                        break;
+                        case Tabs.NOTIFICATIONS: {
+                            loader = new FXMLLoader(PolyLinked.class.getResource("fxmls/notifications.fxml"));
+                            Parent root = loader.load();
+                            borderPane.setCenter(root);
+                        }
+                        break;
+                        case Tabs.SEARCH: {
+                            loader = new FXMLLoader(PolyLinked.class.getResource("fxmls/search.fxml"));
+                            Parent root = loader.load();
+                            borderPane.setCenter(root);
+                        }
+                        break;
+                        case Tabs.PROFILE: {
+                            loader = new FXMLLoader(PolyLinked.class.getResource("fxmls/profile.fxml"));
+                            Parent root = loader.load();
+                            ProfileController controller = loader.getController();
+                            controller.setData(DataAccess.getUserId());
+                            borderPane.setCenter(root);
+                        }
+                        break;
+                        default: {
+                            System.err.println("Failed to load fxml: ");
+                            System.exit(1);
+                        }
+                        break;
+                    }
+                } catch (IOException e) {
+                    System.err.println("Failed to load fxml: ");
+                    System.exit(1);
                 }
 
-                MediaWrapper.clearMedias();
-                if (fxmlURL != null) {
-                    try {
-                        borderPane.setCenter(FXMLLoader.load(fxmlURL));
-                    } catch (IOException e) {
-                        System.err.println("Failed to load fxml: " + fxmlURL);
-                        System.exit(1);
-                    }
-                } else {
-                    borderPane.setCenter(null);
-                }
             }
         });
     }

@@ -90,7 +90,7 @@ public class RequestBuilder {
         } finally {
             if (con != null) con.disconnect();
         }
-        return map.isEmpty() ? null : map;
+        return map;
     }
 
     public static void sendMediaLinkedRequest(String method, String endPoint, JSONObject headers, MediaLinked mediaLinked, File file) throws NotAcceptableException, UnauthorizedException {

@@ -4,6 +4,7 @@ import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
@@ -52,32 +53,30 @@ public class Education implements JsonSerializable {
 
     @Override
     public String toString() {
-        return "{" +
-                "educationId:" + educationId +
-                ", userId:" + userId +
-                ", institute:" + institute +
-                ", field:" + field +
-                ", start:" + start.getTime() +
-                ", end:" + end.getTime() +
-                ", grade:" + grade +
-                ", activities:" + activities +
-                ", about:" + about +
-                '}';
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+        return "institute: " + institute +
+                "\n    field: " + field +
+                "\n    start: " + format.format(start) +
+                "\n    end: " + format.format(end) +
+                "\n    grade: " + grade +
+                "\n    activities: " + activities +
+                "\n    about: " + about + "\n";
     }
 
     @Override
     public JSONObject toJson() {
-       JSONObject jsonObject = new JSONObject();
-       jsonObject.put("educationId", educationId);
-       jsonObject.put("userId", userId);
-       jsonObject.put("institute", institute);
-       jsonObject.put("field", field);
-       jsonObject.put("start", start.getTime());
-       jsonObject.put("end", end.getTime());
-       jsonObject.put("grade", grade);
-       jsonObject.put("activities", activities);
-       jsonObject.put("about", about);
-       return jsonObject;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("educationId", educationId);
+        jsonObject.put("userId", userId);
+        jsonObject.put("institute", institute);
+        jsonObject.put("field", field);
+        jsonObject.put("start", start.getTime());
+        jsonObject.put("end", end.getTime());
+        jsonObject.put("grade", grade);
+        jsonObject.put("activities", activities);
+        jsonObject.put("about", about);
+        return jsonObject;
     }
 
     private void validateFields(String institute, String field, Date start, Date end, int grade, String activities, String about) throws NotAcceptableException {
