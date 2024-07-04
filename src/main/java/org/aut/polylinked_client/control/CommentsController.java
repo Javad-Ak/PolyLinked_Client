@@ -7,7 +7,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -36,7 +35,7 @@ public class CommentsController {
 
     private final static String fileId = "home"; // home.css
 
-    private BooleanProperty isPageActive;
+    private BooleanProperty switched;
 
     MapListView<Comment> mapListView;
 
@@ -64,7 +63,7 @@ public class CommentsController {
             SceneManager.activateTheme(root, fileId);
         });
 
-        isPageActive = new SimpleBooleanProperty(true);
+        switched = new SimpleBooleanProperty(false);
         fileButton.setOnAction(e -> {
             fileButton.setText("");
             fileButton.setVisible(false);
@@ -74,23 +73,19 @@ public class CommentsController {
         fileButton.fire();
     }
 
-    void setData(GridPane postRoot, Post post) {
+    void setData(Post post) {
         this.post = post;
         new Thread(() -> {
             try {
                 TreeMap<Comment, User> commentsData = RequestBuilder.mapFromGetRequest(Comment.class, "comments/" + post.getPostId(), JsonHandler.createJson("Authorization", DataAccess.getJWT()));
                 Platform.runLater(() -> {
-                    if (commentsData == null || commentsData.isEmpty()) {
-                        root.setBottom(new Label("No comments found. Please try again later."));
-                    } else {
                         ListView<ContentCell<Comment>> listView = new ListView<>();
                         ArrayList<Comment> sortedKeys = new ArrayList<>(commentsData.keySet().stream().toList());
                         sortedKeys.sort(Comparator.comparing(Comment::getCreateDate).reversed());
 
                         mapListView = new MapListView<>(listView, commentsData, sortedKeys);
                         mapListView.activate(10);
-                        root.setBottom(listView);
-                    }
+                        root.setCenter(listView);
                 });
             } catch (UnauthorizedException e) {
                 Platform.runLater(() -> {
@@ -149,7 +144,7 @@ public class CommentsController {
 
     @FXML
     void backPressed(ActionEvent event) {
-        if (isPageActive.get()) isPageActive.set(false);
+        switched.set(true);
     }
 
     @FXML
@@ -176,13 +171,13 @@ public class CommentsController {
             fileButton.setText("");
             mediaBox.getChildren().clear();
         } else if (!file.isFile()) {
-            SceneManager.showNotification("Failure", "File corruption!", 3);
+            SceneManager.showNotification("Failure", "File is corrupted.", 3);
         } else if (file.length() > 1000000000) {
-            SceneManager.showNotification("Failure", "too large File!", 3);
+            SceneManager.showNotification("Failure", "File is too large.", 3);
         } else {
             fileButton.setText(file.getName());
-            fileButton.setVisible(true);
             pickedFile = file;
+            fileButton.setVisible(true);
             Platform.runLater(() -> {
                 MediaWrapper wrapper = MediaWrapper.getMediaViewer(file, 0.45);
                 mediaBox.getChildren().clear();
@@ -191,7 +186,7 @@ public class CommentsController {
         }
     }
 
-    public BooleanProperty isPageActive() {
-        return isPageActive;
+    public BooleanProperty isSwitched() {
+        return switched;
     }
 }

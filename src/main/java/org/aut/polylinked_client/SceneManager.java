@@ -1,5 +1,6 @@
 package org.aut.polylinked_client;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -69,8 +70,14 @@ public class SceneManager {
         DataAccess.setTheme(newTheme);
     }
 
-    public static void setScene(Scene scene) {
-        stage.setScene(scene);
+    public static void switchRoot(Parent root, BooleanProperty switched) {
+        switched.set(false);
+        Parent prev = stage.getScene().getRoot();
+        stage.getScene().setRoot(root);
+
+        switched.addListener((observable, oldValue, newValue) -> {
+            if (newValue) stage.getScene().setRoot(prev);
+        });
     }
 
     public void setScene() {

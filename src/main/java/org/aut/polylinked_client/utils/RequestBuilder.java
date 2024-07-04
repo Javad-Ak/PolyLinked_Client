@@ -69,7 +69,7 @@ public class RequestBuilder {
         } finally {
             if (con != null) con.disconnect();
         }
-        return map.isEmpty() ? null : map;
+        return map;
     }
 
     public static <T extends JsonSerializable> List<T> arrayFromGetRequest(Class<T> cls, String endPoint, JSONObject headers) throws UnauthorizedException {

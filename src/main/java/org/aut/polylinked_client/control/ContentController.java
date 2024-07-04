@@ -2,6 +2,7 @@ package org.aut.polylinked_client.control;
 
 import io.github.gleidson28.GNAvatarView;
 import javafx.application.Platform;
+import javafx.collections.ObservableArray;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -120,6 +121,8 @@ public class ContentController {
         File file = DataAccess.getFile(user.getUserId(), user.getMediaURL());
         File media = DataAccess.getFile(post.getPostId(), post.getMediaURL());
         setUpMedias(file, media);
+
+        commentsLink.setOnAction(this::commentPressed);
     }
 
     private void setData(Comment comment, User user) {
@@ -133,7 +136,7 @@ public class ContentController {
         dateLabel.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date));
 
         File file = DataAccess.getFile(user.getUserId(), user.getMediaURL());
-        File media = DataAccess.getFile(comment.getPostId(), comment.getMediaURL());
+        File media = DataAccess.getFile(comment.getId(), comment.getMediaURL());
         setUpMedias(file, media);
     }
 
@@ -149,25 +152,19 @@ public class ContentController {
         dateLabel.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date));
 
         File file = DataAccess.getFile(user.getUserId(), user.getMediaURL());
-        File media = DataAccess.getFile(message.getPostId(), message.getMediaURL());
+        File media = DataAccess.getFile(message.getId(), message.getMediaURL());
         setUpMedias(file, media);
     }
 
     @FXML
     void commentPressed(ActionEvent event) {
         try {
-
             FXMLLoader loader = new FXMLLoader(PolyLinked.class.getResource("fxmls/comments.fxml"));
             Parent parent = loader.load();
 
             CommentsController controller = loader.getController();
-            controller.setData(root, (Post) root.getUserData());
-            Scene scene = new Scene(parent);
-            SceneManager.setScene(scene);
-
-//            controller.isPageActive().addListener((observable, oldValue, newValue) -> {
-//                if (!newValue) SceneManager.setScene(SceneL);
-//            });
+            controller.setData((Post) root.getUserData());
+            SceneManager.switchRoot(parent, controller.isSwitched());
         } catch (Exception e) {
             System.err.println(e.getMessage());
             System.exit(1);

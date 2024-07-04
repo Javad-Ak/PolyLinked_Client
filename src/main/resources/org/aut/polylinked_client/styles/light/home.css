@@ -17,7 +17,7 @@
     -fx-background-radius: 4;
 }
 
-.button:hover, .button:hover #icon {
+.button:hover, .button:hover #actionIcon {
     -fx-fill: #084B8A;
     -fx-text-fill: #084B8A;
 }

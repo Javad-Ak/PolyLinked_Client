@@ -68,17 +68,13 @@ public class HomeController {
             try {
                 TreeMap<Post, User> postsData = RequestBuilder.mapFromGetRequest(Post.class, "newsfeed", JsonHandler.createJson("Authorization", DataAccess.getJWT()));
                 Platform.runLater(() -> {
-                    if (postsData == null || postsData.isEmpty()) {
-                        root.setCenter(new Label("No posts found. Please try again later."));
-                    } else {
-                        ListView<ContentCell<Post>> postsListView = new ListView<>();
-                        ArrayList<Post> sortedKeys = new ArrayList<>(postsData.keySet().stream().toList());
-                        sortedKeys.sort(Comparator.comparing(Post::getDate).reversed());
+                    ListView<ContentCell<Post>> postsListView = new ListView<>();
+                    ArrayList<Post> sortedKeys = new ArrayList<>(postsData.keySet().stream().toList());
+                    sortedKeys.sort(Comparator.comparing(Post::getDate).reversed());
 
-                        mapListView = new MapListView<>(postsListView, postsData, sortedKeys);
-                        mapListView.activate(10);
-                        root.setCenter(postsListView);
-                    }
+                    mapListView = new MapListView<>(postsListView, postsData, sortedKeys);
+                    mapListView.activate(10);
+                    root.setCenter(postsListView);
                 });
             } catch (UnauthorizedException e) {
                 Platform.runLater(() -> {
