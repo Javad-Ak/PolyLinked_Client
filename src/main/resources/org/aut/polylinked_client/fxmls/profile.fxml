@@ -21,7 +21,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<BorderPane fx:id="rootBp" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="593.0" stylesheets="@../styles/dark/profile.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.ProfileController">
+<BorderPane fx:id="rootBp" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="593.0" stylesheets="@../styles/light/profile.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.ProfileController">
    <top>
       <AnchorPane prefHeight="465.0" prefWidth="593.0" BorderPane.alignment="CENTER">
          <children>
@@ -154,11 +154,11 @@
                      </children></AnchorPane>
               </content>
             </Tab>
-            <Tab text="Contact info">
+            <Tab text="Call info">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="24.0" layoutY="36.0" styleClass="secondary-color" text="Contact info tab" />
+                        <Label layoutX="24.0" layoutY="36.0" styleClass="secondary-color" text="Call info tab" />
                      </children></AnchorPane>
               </content>
             </Tab>

@@ -29,7 +29,7 @@
     -fx-prompt-text-fill: #BDBDBD;
     -fx-text-fill: white;
     -fx-font-size: 1em;
-    -fx-border-color: white ;
+    -fx-border-color: #64B5F6 ;
     -fx-border-width: 1px;
 }
 
@@ -104,4 +104,61 @@
     -fx-padding: 20px;
 }
 
+.date-picker {
+    -fx-background-color: #1f1f1f;
+    -fx-border-color: #64B5F6;
+    -fx-border-width: 1px;
+    -fx-text-fill: white;
+    -fx-font-size: 1em;
+    -fx-padding: 5px;
+}
+
+.date-picker:hover {
+    -fx-background-color: #353535;
+}
+
+.date-picker .arrow-button {
+    -fx-background-color: #64B5F6;
+}
+
+.date-picker .arrow-button:hover {
+    -fx-background-color: #42A5F5;
+}
+
+.date-picker .text-field {
+    -fx-background-color: #1f1f1f;
+    -fx-text-fill: white;
+    -jfx-focus-color: #64B5F6;
+    -jfx-unfocus-color: #BDBDBD;
+    -fx-prompt-text-fill: #BDBDBD;
+}
+
+.date-picker-popup {
+    -fx-background-color: #1f1f1f;
+    -fx-border-color: #64B5F6;
+    -fx-border-width: 1px;
+}
+
+.date-picker-popup .month-year-pane {
+    -fx-background-color: #1f1f1f;
+    -fx-text-fill: white;
+}
+
+.date-picker-popup .month-year-label {
+    -fx-text-fill: white;
+}
+
+.date-picker-popup .day-cell {
+    -fx-background-color: #1f1f1f;
+    -fx-text-fill: white;
+}
+
+.date-picker-popup .day-cell:hover {
+    -fx-background-color: #353535;
+}
+
+.date-picker-popup .day-cell:selected {
+    -fx-background-color: #64B5F6;
+    -fx-text-fill: black;
+}
 
