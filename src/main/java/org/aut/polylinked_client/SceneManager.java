@@ -69,6 +69,10 @@ public class SceneManager {
         DataAccess.setTheme(newTheme);
     }
 
+    public static void setScene(Scene scene) {
+        stage.setScene(scene);
+    }
+
     public void setScene() {
         if (DataAccess.getJWT().equals("none"))
             setScene(SceneLevel.LOGIN);

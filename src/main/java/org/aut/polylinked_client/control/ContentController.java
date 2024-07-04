@@ -4,14 +4,20 @@ import io.github.gleidson28.GNAvatarView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import org.aut.polylinked_client.PolyLinked;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.model.*;
 import org.aut.polylinked_client.utils.DataAccess;
@@ -31,6 +37,8 @@ import java.util.Date;
 public class ContentController {
     private final static String fileId = "content"; // content.css file reference
     private final static Path defaultFace = Path.of("src/main/resources/org/aut/polylinked_client/images/face.jpg");
+
+    private GridPane backTo;
 
     @FXML
     private GNAvatarView avatar;
@@ -87,6 +95,7 @@ public class ContentController {
     // fill data into fxml using fxmlLoader.getController
     private void setData(Post post, User user) {
         if (post == null || user == null) return;
+        root.setUserData(post);
 
         // fill data into fxml
         nameLink.setText(user.getFirstName() + " " + user.getLastName());
@@ -109,33 +118,60 @@ public class ContentController {
         }
 
         File file = DataAccess.getFile(user.getUserId(), user.getMediaURL());
-        DataAccess.FileType type = DataAccess.getFileType(file);
-        if (file != null && type == DataAccess.FileType.IMAGE)
-            avatar.setImage(new Image(file.toURI().toString()));
-        else
-            avatar.setImage(new Image(defaultFace.toUri().toString()));
-
         File media = DataAccess.getFile(post.getPostId(), post.getMediaURL());
-        if (media != null && media.length() > 0) {
-            MediaWrapper viewer = MediaWrapper.getMediaViewer(media, 0.45);
-            mediaBox.getChildren().clear();
-            mediaBox.getChildren().add(viewer);
-        } else {
-            mediaBox.getChildren().clear();
-        }
+        setUpMedias(file, media);
     }
 
     private void setData(Comment comment, User user) {
         if (comment == null || user == null) return;
+        deleteRows();
+
+        nameLink.setText(user.getFirstName() + " " + user.getLastName());
+        textArea.setText(comment.getText());
+
+        Date date = comment.getCreateDate();
+        dateLabel.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date));
+
+        File file = DataAccess.getFile(user.getUserId(), user.getMediaURL());
+        File media = DataAccess.getFile(comment.getPostId(), comment.getMediaURL());
+        setUpMedias(file, media);
     }
 
     private void setData(Message message, User user) {
         if (message == null || user == null) return;
+        deleteRows();
+        root.getChildren().removeIf(node -> GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) == 0);
+
+        nameLink.setText(user.getFirstName() + " " + user.getLastName());
+        textArea.setText(message.getText());
+
+        Date date = new Date(message.getDate());
+        dateLabel.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date));
+
+        File file = DataAccess.getFile(user.getUserId(), user.getMediaURL());
+        File media = DataAccess.getFile(message.getPostId(), message.getMediaURL());
+        setUpMedias(file, media);
     }
 
     @FXML
     void commentPressed(ActionEvent event) {
+        try {
 
+            FXMLLoader loader = new FXMLLoader(PolyLinked.class.getResource("fxmls/comments.fxml"));
+            Parent parent = loader.load();
+
+            CommentsController controller = loader.getController();
+            controller.setData(root, (Post) root.getUserData());
+            Scene scene = new Scene(parent);
+            SceneManager.setScene(scene);
+
+//            controller.isPageActive().addListener((observable, oldValue, newValue) -> {
+//                if (!newValue) SceneManager.setScene(SceneL);
+//            });
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
     }
 
     @FXML
@@ -252,5 +288,32 @@ public class ContentController {
                 }
             }).start();
         });
+    }
+
+    private void deleteRows() {
+        root.getChildren().removeIf(node -> GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) >= 2 &&
+                !(node.getId() != null && node.getId().equals("date")));
+
+        VBox vBox = (VBox) nameLink.getParent();
+        vBox.getChildren().clear();
+        vBox.getChildren().add(nameLink);
+        followButton.setVisible(false);
+        followButton.setDisable(true);
+    }
+
+    private void setUpMedias(File file, File media) {
+        DataAccess.FileType type = DataAccess.getFileType(file);
+        if (file != null && type == DataAccess.FileType.IMAGE)
+            avatar.setImage(new Image(file.toURI().toString()));
+        else
+            avatar.setImage(new Image(defaultFace.toUri().toString()));
+
+        if (media != null && media.length() > 0) {
+            MediaWrapper viewer = MediaWrapper.getMediaViewer(media, 0.45);
+            mediaBox.getChildren().clear();
+            mediaBox.getChildren().add(viewer);
+        } else {
+            mediaBox.getChildren().clear();
+        }
     }
 }

@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXTextArea;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -22,6 +23,7 @@ import org.aut.polylinked_client.view.ContentCell;
 import org.aut.polylinked_client.view.MapListView;
 import org.aut.polylinked_client.view.MediaWrapper;
 import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -48,9 +50,8 @@ public class HomeController {
 
     @FXML
     private void initialize() {
-        SceneManager.activateTheme(root, fileId);
-
         // theme observation
+        SceneManager.activateTheme(root, fileId);
         SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
             SceneManager.activateTheme(root, fileId);
         });
@@ -73,6 +74,7 @@ public class HomeController {
                         ListView<ContentCell<Post>> postsListView = new ListView<>();
                         ArrayList<Post> sortedKeys = new ArrayList<>(postsData.keySet().stream().toList());
                         sortedKeys.sort(Comparator.comparing(Post::getDate).reversed());
+
                         mapListView = new MapListView<>(postsListView, postsData, sortedKeys);
                         mapListView.activate(10);
                         root.setCenter(postsListView);
@@ -98,7 +100,7 @@ public class HomeController {
         new Thread(() -> {
             try {
                 Post post = new Post(DataAccess.getUserId(), text);
-                RequestBuilder.sendMediaLinkedRequest("POST", "users/posts", JsonHandler.createJson("Authorization", DataAccess.getJWT()), post, pickedFile);
+                RequestBuilder.sendMediaLinkedRequest("POST", "posts", JsonHandler.createJson("Authorization", DataAccess.getJWT()), post, pickedFile);
 
                 JSONObject jsonObject = RequestBuilder.jsonFromGetRequest("users/" + post.getUserId(), JsonHandler.createJson("Authorization", DataAccess.getJWT()));
                 if (jsonObject != null) {

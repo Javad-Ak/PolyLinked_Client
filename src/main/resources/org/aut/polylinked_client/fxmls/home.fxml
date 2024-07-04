@@ -14,7 +14,7 @@
 
 <BorderPane fx:id="root" nodeOrientation="LEFT_TO_RIGHT" stylesheets="@../styles/light/home.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.HomeController">
    <top>
-      <GridPane hgap="8.0" BorderPane.alignment="CENTER">
+      <GridPane hgap="8.0" vgap="8.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" />
             <ColumnConstraints hgrow="SOMETIMES" />
@@ -22,8 +22,8 @@
         <rowConstraints>
           <RowConstraints vgrow="SOMETIMES" />
             <RowConstraints vgrow="SOMETIMES" />
-          <RowConstraints vgrow="NEVER" />
-            <RowConstraints vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="35.2" minHeight="6.399981689453128" prefHeight="8.800006103515628" vgrow="NEVER" />
+            <RowConstraints vgrow="NEVER" />
         </rowConstraints>
          <children>
             <HBox alignment="CENTER_RIGHT" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -35,7 +35,6 @@
                   </Button>
                </children>
             </HBox>
-            <Separator GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
             <HBox alignment="CENTER_LEFT" spacing="4.0" GridPane.rowIndex="2">
                <children>
                   <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#photoPressed" text="Photo">
@@ -62,11 +61,8 @@
             </HBox>
             <JFXTextArea fx:id="postText" labelFloat="true" prefHeight="50.0" prefWidth="400.0" promptText="Whats's on your mind?" wrapText="true" GridPane.columnSpan="2147483647">
                <GridPane.margin>
-                  <Insets bottom="6.0" left="6.0" right="6.0" top="12.0" />
+                  <Insets top="12.0" />
                </GridPane.margin>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" />
-               </padding>
             </JFXTextArea>
             <HBox alignment="CENTER" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
                <children>
@@ -75,7 +71,11 @@
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding>
             </HBox>
+            <Separator GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
          </children>
          <BorderPane.margin>
             <Insets bottom="12.0" />

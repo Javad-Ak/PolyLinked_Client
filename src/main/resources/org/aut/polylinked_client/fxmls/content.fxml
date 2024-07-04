@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Text?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<GridPane id="root" fx:id="root" hgap="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../styles/light/content.css" vgap="6.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.ContentController">
+<GridPane id="root" fx:id="root" hgap="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../styles/light/content.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.ContentController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" />
       <ColumnConstraints hgrow="SOMETIMES" />
@@ -50,7 +50,7 @@
             </VBox>
          </children>
       </HBox>
-      <VBox spacing="6.0" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+      <VBox spacing="8.0" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
          <children>
             <Text fx:id="textArea" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
             <HBox fx:id="mediaBox" alignment="TOP_CENTER" />
@@ -67,6 +67,9 @@
          <padding>
             <Insets left="4.0" />
          </padding>
+         <GridPane.margin>
+            <Insets bottom="6.0" top="6.0" />
+         </GridPane.margin>
       </HBox>
       <HBox alignment="CENTER_RIGHT" spacing="8.0" GridPane.columnIndex="1">
          <children>
@@ -105,13 +108,16 @@
             </Button>
          </children>
       </HBox>
-      <HBox alignment="BOTTOM_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <HBox id="date" alignment="BOTTOM_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <children>
             <Label fx:id="dateLabel" minHeight="-Infinity" minWidth="-Infinity" text="Date" />
          </children>
          <padding>
             <Insets right="10.0" />
          </padding>
+         <GridPane.margin>
+            <Insets bottom="6.0" top="6.0" />
+         </GridPane.margin>
       </HBox>
       <Separator focusTraversable="false" maxWidth="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
    </children>
