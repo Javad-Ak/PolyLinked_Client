@@ -1,5 +1,7 @@
 package org.aut.polylinked_client;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +32,7 @@ public class SceneManager {
 
     private static Stage stage;
     private static final StringProperty theme = new SimpleStringProperty();
-    private static final double FONT_SIZE = Font.getDefault().getSize();
+    public static final double FONT_SIZE = Font.getDefault().getSize();
     private static final String SCENE_CSS = "scene";
 
     public SceneManager(Stage primaryStage) {
@@ -48,7 +50,7 @@ public class SceneManager {
 
         Parent root = scene.getRoot();
         activateTheme(root, cssID);
-        root.setStyle("-fx-font-size: " + Font.getDefault().getSize() + ";");
+        root.setStyle("-fx-font-size: " + FONT_SIZE + ";");
     }
 
     public static void activateTheme(Parent root, String cssID) {
@@ -66,6 +68,16 @@ public class SceneManager {
     public static void setThemeProperty(SceneManager.Theme newTheme) {
         theme.set(newTheme.value);
         DataAccess.setTheme(newTheme);
+    }
+
+    public static void switchRoot(Parent root, BooleanProperty switched) {
+        switched.set(false);
+        Parent prev = stage.getScene().getRoot();
+        stage.getScene().setRoot(root);
+
+        switched.addListener((observable, oldValue, newValue) -> {
+            if (newValue) stage.getScene().setRoot(prev);
+        });
     }
 
     public void setScene() {
@@ -94,6 +106,11 @@ public class SceneManager {
         if (width > 0 && height > 0) {
             stage.setWidth(width);
             stage.setHeight(height);
+        } else {
+            stage.setWidth(800 * FONT_SIZE / 13);
+            stage.setHeight(600 * FONT_SIZE / 13);
+            stage.setMinHeight(80 * FONT_SIZE / 13);
+            stage.setMinWidth(600 * FONT_SIZE / 13);
         }
     }
 
@@ -109,9 +126,7 @@ public class SceneManager {
 
             parent.getStylesheets().clear();
             parent.getStylesheets().setAll(rootCss.toExternalForm());
-            parent.setStyle("-fx-font-size: " + Font.getDefault().getSize() + ";");
-            parent.setStyle("-fx-pref-width: " + 1500 * 13 / FONT_SIZE + ";");
-            parent.setStyle("-fx-pref-height: " + 600 * 13 / FONT_SIZE + ";");
+            parent.setStyle("-fx-font-size: " + FONT_SIZE + ";");
         }
     }
 
@@ -156,5 +171,9 @@ public class SceneManager {
                 .position(Pos.BOTTOM_RIGHT)
                 .owner(stage)
                 .show();
+    }
+
+    public static ReadOnlyDoubleProperty getWidthProperty() {
+        return stage.widthProperty();
     }
 }

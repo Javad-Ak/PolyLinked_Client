@@ -10,6 +10,6 @@ public interface MediaLinked extends JsonSerializable, Comparable<MediaLinked> {
 
     @Override
     default int compareTo(@NotNull MediaLinked o) {
-        return 0;
+        return getMediaURL().compareTo(o.getMediaURL());
     }
 }

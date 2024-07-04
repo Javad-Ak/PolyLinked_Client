@@ -1,14 +1,15 @@
 package org.aut.polylinked_client.control;
 
 import com.jfoenix.controls.JFXTextArea;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.model.Post;
@@ -18,85 +19,98 @@ import org.aut.polylinked_client.utils.JsonHandler;
 import org.aut.polylinked_client.utils.RequestBuilder;
 import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
 import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
-import org.aut.polylinked_client.view.PostCell;
+import org.aut.polylinked_client.view.ContentCell;
+import org.aut.polylinked_client.view.MapListView;
+import org.aut.polylinked_client.view.MediaWrapper;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.TreeMap;
 
 public class HomeController {
-
     private final static String fileId = "home"; // home.css
 
-    private TreeMap<Post, User> postsData; // from server
-
-    private final ObservableList<PostCell> observablePosts = FXCollections.observableArrayList(); // to listView
+    private static MapListView<Post> mapListView;
 
     private File pickedFile;
-
-    @FXML
-    private BorderPane root;
 
     @FXML
     private Button fileButton;
 
     @FXML
-    private ListView<PostCell> postListView; // <?> changed to <PostCell>
+    private VBox mediaBox;
 
     @FXML
     private JFXTextArea postText;
 
     @FXML
-    void initialize() {
-        SceneManager.activateTheme(root, fileId);
+    private BorderPane root;
 
+    @FXML
+    private void initialize() {
         // theme observation
+        SceneManager.activateTheme(root, fileId);
         SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
             SceneManager.activateTheme(root, fileId);
         });
 
-        fileButton.setText("");
-        fileButton.setVisible(false);
         fileButton.setOnAction(e -> {
             pickedFile = null;
             fileButton.setText("");
             fileButton.setVisible(false);
+            mediaBox.getChildren().clear();
         });
+        fileButton.fire();
 
-        try {
-            postsData = RequestBuilder.mapFromGetRequest(Post.class, "newsfeed", JsonHandler.createJson("Authorization", DataAccess.getJWT()));
-        } catch (UnauthorizedException e) {
-            SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
-        }
+        new Thread(() -> {
+            try {
+                TreeMap<Post, User> postsData = RequestBuilder.mapFromGetRequest(Post.class, "newsfeed", JsonHandler.createJson("Authorization", DataAccess.getJWT()));
+                Platform.runLater(() -> {
+                    ListView<ContentCell<Post>> postsListView = new ListView<>();
+                    ArrayList<Post> sortedKeys = new ArrayList<>(postsData.keySet().stream().toList());
+                    sortedKeys.sort(Comparator.comparing(Post::getDate).reversed());
 
-        if (postsData == null || postsData.isEmpty()) {
-            root.setCenter(new Label("No posts found. Please try again later."));
-        } else {
-            postsData.forEach((post, user) -> observablePosts.add(new PostCell(post, user)));
-            postListView.setItems(observablePosts);
-            postListView.setCellFactory(listView -> new PostCell());
-        }
+                    mapListView = new MapListView<>(postsListView, postsData, sortedKeys);
+                    mapListView.activate(10);
+                    root.setCenter(postsListView);
+                });
+            } catch (UnauthorizedException e) {
+                Platform.runLater(() -> {
+                    SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                    SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
+                });
+            }
+        }).start();
     }
 
     @FXML
-    void postPressed(ActionEvent event) {
+    private void postPressed() {
         if (pickedFile == null && postText.getText().trim().isEmpty()) {
             SceneManager.showNotification("Info", "You cannot post empty content!", 3);
             return;
         }
-        try {
-            Post post = new Post(DataAccess.getUserId(), postText.getText().trim());
-            RequestBuilder.sendMediaLinkedRequest("POST", "users/posts", JsonHandler.createJson("Authorization", DataAccess.getJWT()), post, pickedFile);
-            SceneManager.showNotification("Success", "Your new Post Added.", 3);
-        } catch (NotAcceptableException e) {
-            SceneManager.showNotification("Failure", "Post Couldn't be added. Please try again later.", 3);
-        } catch (UnauthorizedException e) {
-            SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
-        } finally {
-            postText.setText("");
-            pickedFile = null;
-            fileButton.setText("");
-            fileButton.setVisible(false);
-        }
+
+        String text = postText.getText().trim();
+        new Thread(() -> {
+            try {
+                Post post = new Post(DataAccess.getUserId(), text);
+                sendPost(post, pickedFile);
+            } catch (NotAcceptableException e) {
+                Platform.runLater(() -> {
+                    SceneManager.showNotification("Failure", "Post Couldn't be added. Please try again later.", 3);
+                });
+            } finally {
+                Platform.runLater(() -> {
+                    postText.setText("");
+                    pickedFile = null;
+                    fileButton.setText("");
+                    fileButton.setVisible(false);
+                    mediaBox.getChildren().clear();
+                });
+            }
+        }).start();
     }
 
     @FXML
@@ -121,6 +135,7 @@ public class HomeController {
         if (file == null) {
             fileButton.setText("");
             fileButton.setVisible(false);
+            mediaBox.getChildren().clear();
         } else if (!file.isFile()) {
             SceneManager.showNotification("Failure", "File is corrupted.", 3);
         } else if (file.length() > 1000000000) {
@@ -129,6 +144,40 @@ public class HomeController {
             pickedFile = file;
             fileButton.setText(file.getName());
             fileButton.setVisible(true);
+            Platform.runLater(() -> {
+                MediaWrapper wrapper = MediaWrapper.getMediaViewer(file, 0.45);
+                mediaBox.getChildren().clear();
+                mediaBox.getChildren().add(wrapper);
+            });
         }
+    }
+
+    public static void sendPost(Post post, File pickedFile) {
+        new Thread(() -> {
+            try {
+                RequestBuilder.sendMediaLinkedRequest("POST", "posts",
+                        JsonHandler.createJson("Authorization", DataAccess.getJWT()), post, pickedFile);
+                JSONObject jsonObject = RequestBuilder.jsonFromGetRequest("users/" + post.getUserId(),
+                        JsonHandler.createJson("Authorization", DataAccess.getJWT()));
+
+                if (jsonObject != null) {
+                    User user = new User(jsonObject);
+                    Platform.runLater(() -> {
+                        if (mapListView != null) mapListView.addFirst(new ContentCell<>(post, user));
+                        SceneManager.showNotification("Success", "Your new Post Added.", 3);
+                    });
+                } else
+                    throw new NotAcceptableException("UnKnown");
+            } catch (NotAcceptableException e) {
+                Platform.runLater(() -> {
+                    SceneManager.showNotification("Failure", "Post Couldn't be added. Please try again later.", 3);
+                });
+            } catch (UnauthorizedException e) {
+                Platform.runLater(() -> {
+                    SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                    SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
+                });
+            }
+        }).start();
     }
 }

@@ -45,7 +45,6 @@
                         <Insets bottom="30.0" top="30.0" />
                     </VBox.margin>
                 </VBox>
-            <Label fx:id="messageText" />
                 <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loginPressed" text="Login">
                     <VBox.margin>
                         <Insets />

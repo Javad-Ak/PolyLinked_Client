@@ -39,7 +39,7 @@ public class Like implements JsonSerializable {
         JSONObject json = new JSONObject();
         json.put("userId", userId);
         json.put("postId", postId);
-        json.put("date", date);
+        json.put("date", date.getTime());
         return json;
     }
 

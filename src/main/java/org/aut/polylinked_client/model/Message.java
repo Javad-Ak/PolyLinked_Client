@@ -66,8 +66,8 @@ public class Message implements MediaLinked {
         return id;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public long getDate() {
+        return createDate.getTime();
     }
 
     public String getPostId() {
