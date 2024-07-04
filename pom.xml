@@ -65,12 +65,12 @@
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
-            <artifactId>ikonli-javafx</artifactId>
+            <artifactId>ikonli-materialdesign-pack</artifactId>
             <version>12.3.1</version>
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
-            <artifactId>ikonli-materialdesign-pack</artifactId>
+            <artifactId>ikonli-materialdesign2-pack</artifactId>
             <version>12.3.1</version>
         </dependency>
         <dependency>
@@ -78,6 +78,12 @@
             <artifactId>GNAvatarView</artifactId>
             <version>1.0.5</version>
         </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>12.3.1</version>
+        </dependency>
+
         <dependency>
             <groupId>org.controlsfx</groupId>
             <artifactId>controlsfx</artifactId>

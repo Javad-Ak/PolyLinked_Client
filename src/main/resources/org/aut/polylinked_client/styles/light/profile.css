@@ -1,0 +1,160 @@
+/* Root styles */
+.root {
+    -fx-background-color: white; /* Light background color */
+    -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -fx-text-fill: black; /* Default text color */
+}
+
+/* Header styles */
+.header-label {
+    -fx-text-fill: #0A74DA; /* Blue text color */
+    -fx-font-size: 2em; /* Increased font size for profile header */
+    -fx-font-weight: bold;
+}
+
+.header-image-container {
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: #d1d1d1;
+}
+
+/* Sub-header styles */
+.sub-header-label {
+    -fx-text-fill: #0A74DA; /* Blue text color */
+    -fx-font-size: 1.5em; /* Font size for section headers */
+}
+
+.font-icon {
+    -fx-fill: #000000;
+}
+
+/* Label styles */
+.label {
+    -fx-font-size: 1em; /* Relative font size */
+    -fx-font-weight: bold;
+    -fx-text-fill: #0A74DA; /* Blue text color */
+}
+
+/* Profile image styles */
+.profile-image {
+    -fx-border-color: #0A74DA; /* Blue border color */
+    -fx-border-width: 2px;
+    -fx-border-radius: 50%;
+}
+
+/* Text field styles */
+.jfx-text-field {
+    -jfx-focus-color: #0A74DA; /* Blue focus color */
+    -jfx-unfocus-color: #BDBDBD; /* Light grey for unfocused state */
+    -fx-prompt-text-fill: #757575; /* Grey prompt text */
+    -fx-text-fill: black; /* Black text color */
+    -fx-background-color: white; /* White background */
+    -fx-font-size: 1em; /* Relative font size */
+}
+
+/* Button styles */
+.button {
+    -fx-background-color: #0A74DA; /* Primary blue color */
+    /*-fx-text-fill: white; !* White text color *!*/
+    -fx-font-size: 1em; /* Relative font size */
+    -fx-background-radius: 30px; /* Oval shape */
+    -fx-padding: 5px 10px; /* Padding around the text */
+}
+
+.button:hover {
+    -fx-background-color: #42A5F5; /* Lighter blue on hover */
+    -fx-text-fill: #ffffff;
+}
+
+/* MenuButton styles */
+.menu-button {
+    -fx-background-color: #0A74DA; /* Primary blue color */
+    -fx-text-fill: white; /* White text color */
+    -fx-font-size: 1em; /* Relative font size */
+    -fx-background-radius: 30px; /* Oval shape */
+    -fx-padding: 5px 5px; /* Padding around the text */
+}
+
+/* MenuItem styles */
+.menu-item {
+    -fx-text-fill: black; /* Black text color */
+    -fx-background-color: rgba(0, 195, 255, 0.64); /* Light blue background */
+    -fx-font-size: 14px; /* Font size */
+    -fx-padding: 8px 20px; /* Padding around the text */
+}
+
+.menu-item:hover {
+    -fx-background-color: #64B5F6; /* Light blue background on hover */
+}
+
+.menu-button .arrow {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-shape: null;
+}
+
+/* Separator between MenuItems */
+.context-menu > .separator {
+    -fx-padding: 0.5em 0;
+}
+
+/* Circular button styles */
+.button.circular {
+    -fx-background-radius: 50%; /* Circular shape */
+    -fx-min-width: 50px; /* Minimum width for circular buttons */
+    -fx-min-height: 30px; /* Minimum height for circular buttons */
+    -fx-max-width: 50px; /* Maximum width for circular buttons */
+    -fx-max-height: 50px; /* Maximum height for circular buttons */
+}
+
+/* Followers and Following button styles */
+.followersBtn, .followingBtn {
+    -fx-background-color: transparent; /* No background */
+    -fx-text-fill: #0A74DA; /* Blue text color */
+    -fx-font-size: 1em; /* Relative font size */
+    -fx-padding: 0; /* Remove padding */
+    -fx-border-width: 0; /* Remove border */
+}
+
+/* TabPane styles */
+.tab-pane {
+    -fx-tab-min-height: 30px;
+    -fx-tab-max-height: 30px;
+    -fx-tab-min-width: 100px;
+    -fx-tab-max-width: 100px;
+    -fx-background-color: transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-border-color: #222;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.tab .tab-label {
+    -fx-text-fill: #000000;
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+}
+
+.tab {
+    -fx-background-color: rgb(147, 220, 255);
+    -fx-fill: white;
+    -fx-background-insets: 0 2 0 0, 0 5 0 0, 1 6 0 0;
+}
+
+.tab:selected .tab-label {
+    -fx-text-fill: white;
+    -fx-background-insets: 0;
+}
+
+.tab:selected {
+    -fx-background-color: #008fdf;
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: #000000;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-color: transparent;
+}
