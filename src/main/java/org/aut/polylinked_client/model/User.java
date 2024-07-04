@@ -31,6 +31,7 @@ public class User implements MediaLinked {
 
     public User(JSONObject json) throws NotAcceptableException {
         try {
+            if (json == null) throw new NotAcceptableException("invalid arguments");
             validateFields(json.getString("email"), json.getString("password"), json.getString("firstName"), json.getString("lastName"), json.getString("additionalName"));
             userId = json.getString("userId").trim();
             email = json.getString("email").trim();

@@ -32,7 +32,7 @@ import java.util.TreeMap;
 public class HomeController {
     private final static String fileId = "home"; // home.css
 
-    MapListView<Post> mapListView;
+    private static MapListView<Post> mapListView;
 
     private File pickedFile;
 
@@ -96,25 +96,10 @@ public class HomeController {
         new Thread(() -> {
             try {
                 Post post = new Post(DataAccess.getUserId(), text);
-                RequestBuilder.sendMediaLinkedRequest("POST", "posts", JsonHandler.createJson("Authorization", DataAccess.getJWT()), post, pickedFile);
-
-                JSONObject jsonObject = RequestBuilder.jsonFromGetRequest("users/" + post.getUserId(), JsonHandler.createJson("Authorization", DataAccess.getJWT()));
-                if (jsonObject != null) {
-                    User user = new User(jsonObject);
-                    Platform.runLater(() -> {
-                        mapListView.addFirst(new ContentCell<>(post, user));
-                        SceneManager.showNotification("Success", "Your new Post Added.", 3);
-                    });
-                } else
-                    throw new NotAcceptableException("UnKnown");
+                sendPost(post, pickedFile);
             } catch (NotAcceptableException e) {
                 Platform.runLater(() -> {
                     SceneManager.showNotification("Failure", "Post Couldn't be added. Please try again later.", 3);
-                });
-            } catch (UnauthorizedException e) {
-                Platform.runLater(() -> {
-                    SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
-                    SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
                 });
             } finally {
                 Platform.runLater(() -> {
@@ -165,5 +150,34 @@ public class HomeController {
                 mediaBox.getChildren().add(wrapper);
             });
         }
+    }
+
+    public static void sendPost(Post post, File pickedFile) {
+        new Thread(() -> {
+            try {
+                RequestBuilder.sendMediaLinkedRequest("POST", "posts",
+                        JsonHandler.createJson("Authorization", DataAccess.getJWT()), post, pickedFile);
+                JSONObject jsonObject = RequestBuilder.jsonFromGetRequest("users/" + post.getUserId(),
+                        JsonHandler.createJson("Authorization", DataAccess.getJWT()));
+
+                if (jsonObject != null) {
+                    User user = new User(jsonObject);
+                    Platform.runLater(() -> {
+                        if (mapListView != null) mapListView.addFirst(new ContentCell<>(post, user));
+                        SceneManager.showNotification("Success", "Your new Post Added.", 3);
+                    });
+                } else
+                    throw new NotAcceptableException("UnKnown");
+            } catch (NotAcceptableException e) {
+                Platform.runLater(() -> {
+                    SceneManager.showNotification("Failure", "Post Couldn't be added. Please try again later.", 3);
+                });
+            } catch (UnauthorizedException e) {
+                Platform.runLater(() -> {
+                    SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                    SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
+                });
+            }
+        }).start();
     }
 }

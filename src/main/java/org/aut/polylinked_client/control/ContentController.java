@@ -2,18 +2,14 @@ package org.aut.polylinked_client.control;
 
 import io.github.gleidson28.GNAvatarView;
 import javafx.application.Platform;
-import javafx.collections.ObservableArray;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -29,7 +25,6 @@ import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
 import org.aut.polylinked_client.view.MediaWrapper;
 import org.json.JSONObject;
 import org.kordamp.ikonli.javafx.FontIcon;
-
 import java.io.File;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
@@ -38,8 +33,6 @@ import java.util.Date;
 public class ContentController {
     private final static String fileId = "content"; // content.css file reference
     private final static Path defaultFace = Path.of("src/main/resources/org/aut/polylinked_client/images/face.jpg");
-
-    private GridPane backTo;
 
     @FXML
     private GNAvatarView avatar;
@@ -109,18 +102,7 @@ public class ContentController {
 
         setUpLike(post);
         setUpFollow(post);
-
-        if (post.isReposted()) {
-            repostLink.setText(post.getRepostFrom());
-        } else {
-            VBox vBox = (VBox) nameLink.getParent();
-            vBox.getChildren().clear();
-            vBox.getChildren().add(nameLink);
-        }
-
-        File file = DataAccess.getFile(user.getUserId(), user.getMediaURL());
-        File media = DataAccess.getFile(post.getPostId(), post.getMediaURL());
-        setUpMedias(file, media);
+        setUpRepost(post, user);
 
         commentsLink.setOnAction(this::commentPressed);
     }
@@ -163,8 +145,14 @@ public class ContentController {
             Parent parent = loader.load();
 
             CommentsController controller = loader.getController();
-            controller.setData((Post) root.getUserData());
+            Post post = (Post) root.getUserData();
+            controller.setData(post);
+
             SceneManager.switchRoot(parent, controller.isSwitched());
+            controller.countProperty().addListener((observable, oldValue, newValue) -> {
+                post.setCommentsCount(post.getCommentsCount() + newValue.intValue() - oldValue.intValue());
+                commentsLink.setText(post.getCommentsCount() + " comments");
+            });
         } catch (Exception e) {
             System.err.println(e.getMessage());
             System.exit(1);
@@ -173,7 +161,13 @@ public class ContentController {
 
     @FXML
     void repostPressed(ActionEvent event) {
-
+        try {
+            Post post = (Post) root.getUserData();
+            Post rePost = post.repost(DataAccess.getUserId());
+            HomeController.sendPost(rePost, DataAccess.getFile(post.getPostId(), post.getMediaURL()));
+        } catch (NotAcceptableException e) {
+            SceneManager.showNotification("Failure", "Post Couldn't be added. Please try again later.", 3);
+        }
     }
 
     @FXML
@@ -312,5 +306,48 @@ public class ContentController {
         } else {
             mediaBox.getChildren().clear();
         }
+    }
+
+    private void setUpRepost(Post post, User user) {
+        new Thread(() -> {
+            if (post.isReposted()) {
+                try {
+                    JSONObject from = RequestBuilder.jsonFromGetRequest("posts/" + post.getRepostFrom(),
+                            JsonHandler.createJson("Authorization", DataAccess.getJWT()));
+                    Post repostFrom = new Post(from);
+
+                    JSONObject owner = RequestBuilder.jsonFromGetRequest("users/" + repostFrom.getUserId(),
+                            JsonHandler.createJson("Authorization", DataAccess.getJWT()));
+                    User ownerUser = new User(owner);
+
+                    Platform.runLater(() -> {
+                        repostLink.setText(ownerUser.getFirstName() + " " + ownerUser.getLastName());
+                        VBox vBox = (VBox) nameLink.getParent();
+                        vBox.getChildren().clear();
+                        vBox.getChildren().addAll(nameLink, repostLink);
+                    });
+                } catch (NotAcceptableException e) {
+                    System.err.println(e.getMessage());
+                    System.exit(1);
+                } catch (UnauthorizedException e) {
+                    Platform.runLater(() -> {
+                        SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                        SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
+                    });
+                }
+            } else {
+                Platform.runLater(() -> {
+                    VBox vBox = (VBox) nameLink.getParent();
+                    vBox.getChildren().clear();
+                    vBox.getChildren().add(nameLink);
+                });
+            }
+
+            File file = DataAccess.getFile(user.getUserId(), user.getMediaURL());
+            File mediaFile = DataAccess.getFile(post.getPostId(), post.getMediaURL());
+            Platform.runLater(() -> {
+                setUpMedias(file, mediaFile);
+            });
+        }).start();
     }
 }

@@ -3,13 +3,14 @@ package org.aut.polylinked_client.control;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import org.aut.polylinked_client.SceneManager;
@@ -35,13 +36,15 @@ public class CommentsController {
 
     private final static String fileId = "home"; // home.css
 
-    private BooleanProperty switched;
+    private final BooleanProperty switched = new SimpleBooleanProperty(false);
 
-    MapListView<Comment> mapListView;
+    private MapListView<Comment> mapListView;
 
     private File pickedFile;
 
     private Post post;
+
+    private final IntegerProperty count = new SimpleIntegerProperty(0);;
 
     @FXML
     private JFXTextArea commentText;
@@ -63,7 +66,6 @@ public class CommentsController {
             SceneManager.activateTheme(root, fileId);
         });
 
-        switched = new SimpleBooleanProperty(false);
         fileButton.setOnAction(e -> {
             fileButton.setText("");
             fileButton.setVisible(false);
@@ -118,6 +120,7 @@ public class CommentsController {
                     Platform.runLater(() -> {
                         mapListView.addFirst(new ContentCell<>(comment, user));
                         SceneManager.showNotification("Success", "Your new comment Added.", 3);
+                        count.set(count.get() + 1);
                     });
                 } else
                     throw new NotAcceptableException("UnKnown");
@@ -188,5 +191,9 @@ public class CommentsController {
 
     public BooleanProperty isSwitched() {
         return switched;
+    }
+
+    public IntegerProperty countProperty() {
+        return count;
     }
 }
