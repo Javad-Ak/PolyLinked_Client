@@ -115,6 +115,7 @@ public class ContentController {
         deleteRows();
 
         nameLink.setText(user.getFirstName() + " " + user.getLastName());
+        setUpProfileLink(user, nameLink);
         textArea.setText(comment.getText());
 
         Date date = comment.getCreateDate();
@@ -131,6 +132,7 @@ public class ContentController {
         root.getChildren().removeIf(node -> GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) == 0);
 
         nameLink.setText(user.getFirstName() + " " + user.getLastName());
+        setUpProfileLink(user, nameLink);
         textArea.setText(message.getText());
 
         Date date = new Date(message.getDate());
