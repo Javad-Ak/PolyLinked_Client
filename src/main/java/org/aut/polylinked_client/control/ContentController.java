@@ -246,7 +246,7 @@ public class ContentController {
 
     private void setUpMedias(File file, File media) {
         DataAccess.FileType type = DataAccess.getFileType(file);
-        if (file != null && type == DataAccess.FileType.IMAGE)
+        if (file != null && file.length()> 0 && type == DataAccess.FileType.IMAGE)
             avatar.setImage(new Image(file.toURI().toString()));
         else
             avatar.setImage(new Image(defaultAvatar.toUri().toString()));

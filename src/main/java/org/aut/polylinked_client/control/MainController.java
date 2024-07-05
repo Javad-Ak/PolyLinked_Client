@@ -89,9 +89,8 @@ public class MainController {
                         }
                         break;
                         case Tabs.NOTIFICATIONS: {
-                            loader = new FXMLLoader(PolyLinked.class.getResource("fxmls/notifications.fxml"));
-                            Parent root = loader.load();
-                            borderPane.setCenter(root);
+                            NotificationController controller = new NotificationController();
+                            borderPane.setCenter(controller.getRoot());
                         }
                         break;
                         case Tabs.SEARCH: {

@@ -193,12 +193,29 @@ public class ProfileController {
                     followersLink.setText(followers.size() + " Followers");
                     followingsLink.setText(followings.size() + " Followings");
 
-                    followersLink.setOnAction((ActionEvent event) -> {
+                    if (!followers.isEmpty()) followersLink.setOnAction((ActionEvent event) -> {
+                        new Thread(() -> {
+                            try {
+                                List<User> users = RequestBuilder.arrayFromGetRequest(User.class, "users/followers/" + userId,
+                                        JsonHandler.createJson("Authorization", DataAccess.getJWT()));
 
+                                UserListController controller = new UserListController(users);
+                                BorderPane list = new BorderPane();
+                                list.setCenter(controller.getRoot());
+                                SceneManager.switchRoot(list, new SimpleBooleanProperty(true));
+                            } catch (UnauthorizedException e) {
+                                Platform.runLater(() -> {
+                                    SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                                    SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
+                                });
+                            }
+                        }).start();
                     });
 
-                    followingsLink.setOnAction((ActionEvent event) -> {
+                    if (!followings.isEmpty()) followingsLink.setOnAction((ActionEvent event) -> {
+                        new Thread(() -> {
 
+                        }).start();
                     });
                 });
             } catch (UnauthorizedException e) {
@@ -332,7 +349,7 @@ public class ProfileController {
 
                     SceneManager.showNotification("Success", "Avatar changed.", 3);
                     avatar.setImage(new Image(file.toURI().toString()));
-//                    DataAccess.deleteFile(userId);
+                    DataAccess.deleteFile(userId);
                 } catch (NotAcceptableException ex) {
                     SceneManager.showNotification("Failure", "Unknown.", 3);
                 } catch (UnauthorizedException ex) {
@@ -354,7 +371,7 @@ public class ProfileController {
 
                     SceneManager.showNotification("Success", "Banner changed.", 3);
                     background.setImage(new Image(banner.toURI().toString()));
-//                    DataAccess.deleteFile("bg" + userId);
+                    DataAccess.deleteFile("bg" + userId);
                 } catch (NotAcceptableException ex) {
                     SceneManager.showNotification("Failure", "Unknown.", 3);
                 } catch (UnauthorizedException ex) {

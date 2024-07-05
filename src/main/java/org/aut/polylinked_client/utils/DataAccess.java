@@ -92,7 +92,7 @@ public class DataAccess {
     }
 
     public static FileType getFileType(File file) {
-        if (file == null || !file.getName().contains(".")) return null;
+        if (file == null || !file.getName().contains(".")) return FileType.UNKNOWN;
 
         String ext = file.getName().split("\\.")[1];
         if (IMAGE_EXTENSIONS.contains(ext)) {
@@ -109,7 +109,9 @@ public class DataAccess {
     public static File getFile(String fileId, String URL) {
         try (Stream<Path> paths = Files.list(CACHE_PATH)) {
             for (Path path : paths.toList()) {
-                if (path.toString().startsWith(fileId)) return path.toFile();
+                if (path.toFile().getName().startsWith(fileId)) {
+                    return path.toFile();
+                }
             }
         } catch (IOException ignored) {
         }
