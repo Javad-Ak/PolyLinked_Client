@@ -114,6 +114,26 @@ public class RequestBuilder {
         }
     }
 
+    public static void sendFileRequest(String method, String endPoint, JSONObject headers, File file) throws NotAcceptableException, UnauthorizedException {
+        HttpURLConnection con = null;
+        try {
+            con = buildConnection(method, endPoint, headers, true);
+            OutputStream os = con.getOutputStream();
+            MultipartHandler.writeFromFile(os, file);
+            os.close();
+
+            if (con.getResponseCode() == 401) {
+                throw new UnauthorizedException("JWT invalid");
+            } else if (con.getResponseCode() / 100 != 2) {
+                throw new NotAcceptableException("Unknown");
+            }
+        } catch (IOException e) {
+            throw new NotAcceptableException("Unknown");
+        } finally {
+            if (con != null) con.disconnect();
+        }
+    }
+
     public static void sendJsonRequest(String method, String endPoint, JSONObject headers, JSONObject obj) throws UnauthorizedException, NotAcceptableException {
         HttpURLConnection con = null;
         try {

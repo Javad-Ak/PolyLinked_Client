@@ -73,7 +73,7 @@ public class MainController {
             if (newValue == null) {
                 tabs.selectToggle(oldValue);
             } else if (oldValue != null) {
-                FXMLLoader loader = null;
+                FXMLLoader loader;
                 try {
                     switch ((Tabs) newValue.getUserData()) {
                         case Tabs.HOME: {
@@ -150,6 +150,7 @@ public class MainController {
             }
 
             DataAccess.clearCacheData();
+            DataAccess.clearUserData();
             SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
         }
     }
@@ -160,6 +161,7 @@ public class MainController {
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             DataAccess.clearCacheData();
+            DataAccess.clearUserData();
             SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
         }
     }

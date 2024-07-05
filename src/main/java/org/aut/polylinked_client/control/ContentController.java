@@ -26,6 +26,7 @@ import org.aut.polylinked_client.view.MediaWrapper;
 import org.json.JSONObject;
 import org.kordamp.ikonli.javafx.FontIcon;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -93,6 +94,8 @@ public class ContentController {
 
         // fill data into fxml
         nameLink.setText(user.getFirstName() + " " + user.getLastName());
+        setUpProfileLink(user, nameLink);
+
         likesLink.setText(post.getLikesCount() + " likes");
         commentsLink.setText(post.getCommentsCount() + " comments");
         textArea.setText(post.getText());
@@ -275,6 +278,8 @@ public class ContentController {
                         vBox.getChildren().clear();
                         vBox.getChildren().addAll(nameLink, repostLink);
                     });
+
+                    setUpProfileLink(ownerUser, repostLink);
                 } catch (NotAcceptableException e) {
                     System.err.println(e.getMessage());
                     System.exit(1);
@@ -298,5 +303,25 @@ public class ContentController {
                 setUpMedias(file, mediaFile);
             });
         }).start();
+    }
+
+    private void setUpProfileLink(User user, Hyperlink repostLink) {
+        repostLink.setOnAction((ActionEvent event) -> {
+            new Thread(() -> {
+                FXMLLoader loader = new FXMLLoader(PolyLinked.class.getResource("fxmls/profile.fxml"));
+                try {
+                    Parent root = loader.load();
+                    ProfileController profileController = loader.getController();
+                    profileController.setData(user.getUserId());
+                    profileController.activateBackButton();
+                    Platform.runLater(()->{
+                        SceneManager.switchRoot(root, profileController.isSwitched());
+                    });
+                } catch (IOException e) {
+                    System.err.println("Failed to load profile fxml");
+                    System.exit(1);
+                }
+            }).start();
+        });
     }
 }

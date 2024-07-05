@@ -109,7 +109,7 @@ public class DataAccess {
     public static File getFile(String fileId, String URL) {
         try (Stream<Path> paths = Files.list(CACHE_PATH)) {
             for (Path path : paths.toList()) {
-                if (path.toString().contains(fileId)) return path.toFile();
+                if (path.toString().startsWith(fileId)) return path.toFile();
             }
         } catch (IOException ignored) {
         }
@@ -121,18 +121,21 @@ public class DataAccess {
             for (Path path : paths.toList()) {
                 if (Files.isRegularFile(path)) Files.delete(path);
             }
-
-            JSONObject data = new JSONObject();
-            data.put("jwt", "none");
-            data.put("userId", "none");
-            data.put("fullName", "none");
-            data.put("theme", DataAccess.getTheme());
-            writeData(data);
         } catch (IOException ignored) {
         }
     }
 
+    public static void clearUserData() {
+        JSONObject data = new JSONObject();
+        data.put("jwt", "none");
+        data.put("userId", "none");
+        data.put("fullName", "none");
+        data.put("theme", DataAccess.getTheme());
+        writeData(data);
+    }
+
     private static File saveFile(String fileId, String URL) {
+        if (URL == null) return null;
         try {
             java.net.URL url = URI.create(URL).toURL();
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -157,6 +160,16 @@ public class DataAccess {
         } catch (IOException ignored) {
         }
         return null;
+    }
+
+    public static void deleteFile(String fileId) {
+        File file = getFile(fileId, null);
+        if (file != null) {
+            try {
+                Files.delete(file.toPath());
+            } catch (IOException ignored) {
+            }
+        }
     }
 
     private static void writeData(JSONObject object) {

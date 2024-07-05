@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.model.*;
 import org.aut.polylinked_client.utils.DataAccess;
@@ -47,7 +48,16 @@ public class ProfileController {
     private HBox buttonBox;
 
     @FXML
+    private Button backButton;
+
+    @FXML
+    private Button avatarButton;
+
+    @FXML
     private ImageView background;
+
+    @FXML
+    private Button bannerButton;
 
     @FXML
     private Text bioLabel;
@@ -103,13 +113,18 @@ public class ProfileController {
     public void setData(String userId) {
         if (DataAccess.getUserId().equals(userId)) {
             buttonBox.getChildren().clear();
-            buttonBox.getChildren().addAll(editButton);
+            buttonBox.getChildren().addAll(avatarButton, bannerButton, editButton);
+            backButton.setDisable(true);
+            backButton.setVisible(false);
+
             setUpEdit(editButton, userId);
+            setUpImagePicker(userId);
         } else {
             buttonBox.getChildren().clear();
             buttonBox.getChildren().addAll(followButton, connectButton);
             setUpFollow(followButton, userId);
             setUpConnect(connectButton, userId);
+            activateBackButton();
         }
 
         new Thread(() -> {
@@ -144,24 +159,25 @@ public class ProfileController {
                 CallInfo callInfo = callInfoX;
                 Platform.runLater(() -> {
                     if (user != null) {
-                        nameLabel.setText(user.getFirstName() + " " + user.getAdditionalName() + " " + user.getLastName());
-                        File image = DataAccess.getFile(user.getUserId(), user.getMediaURL());
+                        File image = DataAccess.getFile(userId, user.getMediaURL());
                         if (image != null)
                             avatar.setImage(new Image(image.toURI().toString()));
                         else
                             avatar.setImage(new Image(defaultAvatar.toUri().toString()));
 
-                        Date date = user.getCreateDate();
-                        joinedDateLabel.setText("Joined at " + new SimpleDateFormat("yyyy-MM-dd").format(date));
-                    }
 
-                    if (user != null && profile != null) {
-                        File bg = DataAccess.getFile(profile.getUserId(), profile.getMediaURL());
+                        File bg = DataAccess.getFile("bg" + userId, user.getBannerURL());
                         if (bg != null)
                             background.setImage(new Image(bg.toURI().toString()));
                         else
                             background.setImage(new Image(defaultBG.toUri().toString()));
 
+                        nameLabel.setText(user.getFirstName() + " " + user.getAdditionalName() + " " + user.getLastName());
+                        Date date = user.getCreateDate();
+                        joinedDateLabel.setText("Joined at " + new SimpleDateFormat("yyyy-MM-dd").format(date));
+                    }
+
+                    if (user != null && profile != null) {
                         bioLabel.setText(profile.getBio());
                         locationLabel.setText(profile.getCity() + ", " + profile.getCountry());
                     }
@@ -245,14 +261,120 @@ public class ProfileController {
     }
 
     private static void setUpConnect(Button connectButton, String userId) {
+        JSONObject header = RequestBuilder.buildHeadRequest("connections/" + userId, JsonHandler.createJson("Authorization", DataAccess.getJWT()));
+        if (header == null || header.getString("Exists") == null) return;
 
+        if (header.getString("Exists").equalsIgnoreCase("true")) {
+            connectButton.setText("Disconnect");
+        } else if (header.getString("Exists").equalsIgnoreCase("waiting")) {
+            connectButton.setText("Appending");
+        } else {
+            connectButton.setText("Connect");
+        }
+
+        connectButton.setOnAction((ActionEvent event) -> {
+            String method;
+            String newText = connectButton.getText();
+            Connect.AcceptState state;
+            if (newText.contains("Connect")) {
+                method = "POST";
+                state = Connect.AcceptState.WAITING;
+                newText = "Appending";
+            } else if (newText.contains("Disconnect")) {
+                method = "DELETE";
+                state = Connect.AcceptState.ACCEPTED;
+                newText = "Connect";
+            } else {
+                method = "DELETE";
+                state = Connect.AcceptState.WAITING;
+                newText = "Connect";
+            }
+
+            String finalNewText = newText;
+            new Thread(() -> {
+                try {
+                    RequestBuilder.sendJsonRequest(
+                            method, "connections",
+                            JsonHandler.createJson("Authorization", DataAccess.getJWT()),
+                            new Connect(DataAccess.getUserId(), userId, " ", state).toJson());
+
+                    Platform.runLater(() -> {
+                        connectButton.setText(finalNewText);
+                    });
+                } catch (NotAcceptableException e) {
+                    Platform.runLater(() -> {
+                        SceneManager.showNotification("Failure", "Request failed.", 3);
+                    });
+                } catch (UnauthorizedException e) {
+                    Platform.runLater(() -> {
+                        SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                        SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
+                    });
+                }
+            }).start();
+        });
     }
 
     private void setUpEdit(Button editButton, String userId) {
 
     }
 
+    private void setUpImagePicker(String userId) {
+        avatarButton.setOnAction((e) -> {
+            File file = SceneManager.showFileChooser(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+
+            if (file != null && (!file.isFile() || file.length() > 2000000)) {
+                SceneManager.showNotification("Failure", "image is too long or corrupted.", 3);
+            } else if (file != null) {
+                try {
+                    RequestBuilder.sendFileRequest("POST", "resources",
+                            JsonHandler.createJson("Root", "Profile", "ID", userId), file);
+
+                    SceneManager.showNotification("Success", "Avatar changed.", 3);
+                    avatar.setImage(new Image(file.toURI().toString()));
+//                    DataAccess.deleteFile(userId);
+                } catch (NotAcceptableException ex) {
+                    SceneManager.showNotification("Failure", "Unknown.", 3);
+                } catch (UnauthorizedException ex) {
+                    SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                    SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
+                }
+            }
+        });
+
+        bannerButton.setOnAction((e) -> {
+            File banner = SceneManager.showFileChooser(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+
+            if (banner != null && (!banner.isFile() || banner.length() > 2000000)) {
+                SceneManager.showNotification("Failure", "Banner is too long or corrupted.", 3);
+            } else if (banner != null) {
+                try {
+                    RequestBuilder.sendFileRequest("POST", "resources",
+                            JsonHandler.createJson("Root", "Background", "ID", "bg" + userId), banner);
+
+                    SceneManager.showNotification("Success", "Banner changed.", 3);
+                    background.setImage(new Image(banner.toURI().toString()));
+//                    DataAccess.deleteFile("bg" + userId);
+                } catch (NotAcceptableException ex) {
+                    SceneManager.showNotification("Failure", "Unknown.", 3);
+                } catch (UnauthorizedException ex) {
+                    SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                    SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
+                }
+            }
+        });
+    }
+
     public BooleanProperty isSwitched() {
         return switched;
+    }
+
+    public void activateBackButton() {
+        backButton.setDisable(false);
+        backButton.setVisible(true);
+
+        backButton.setOnAction((ActionEvent event) -> {
+            switched.set(true);
+        });
     }
 }

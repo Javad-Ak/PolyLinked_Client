@@ -26,7 +26,7 @@
          <top>
             <AnchorPane styleClass="header-image-container" BorderPane.alignment="CENTER">
                <children>
-                  <ImageView fx:id="background" fitHeight="100.0" fitWidth="600.0" nodeOrientation="INHERIT" pickOnBounds="true">
+                  <ImageView fx:id="background" fitHeight="150.0" fitWidth="800.0" nodeOrientation="INHERIT" pickOnBounds="true">
                      <image>
                         <Image url="@../images/background.jpeg" />
                      </image>
@@ -39,6 +39,11 @@
                         <Image url="@../images/avatar.png" />
                      </image>
                   </GNAvatarView>
+                  <Button fx:id="backButton" layoutX="52.0" layoutY="14.0" mnemonicParsing="false" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                     <graphic>
+                        <FontIcon id="icon" iconLiteral="mdi-arrow-left" />
+                     </graphic>
+                  </Button>
                </children>
             </AnchorPane>
          </top>
@@ -126,6 +131,16 @@
          <right>
             <HBox fx:id="buttonBox" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
+                  <Button fx:id="bannerButton" mnemonicParsing="false">
+                     <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="mdi-image" />
+                     </graphic>
+                  </Button>
+                  <Button fx:id="avatarButton" mnemonicParsing="false">
+                     <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="mdi-account" />
+                     </graphic>
+                  </Button>
                   <Button fx:id="editButton" mnemonicParsing="false" text="Edit Profile" />
                   <Button fx:id="connectButton" mnemonicParsing="false" text="Connect" />
                   <Button fx:id="followButton" mnemonicParsing="false" text="Follow" />
