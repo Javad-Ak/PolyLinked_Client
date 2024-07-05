@@ -3,7 +3,9 @@ package org.aut.polylinked_client.control;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.BorderPane;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.model.User;
 import org.aut.polylinked_client.utils.DataAccess;
@@ -11,26 +13,36 @@ import org.aut.polylinked_client.utils.JsonHandler;
 import org.aut.polylinked_client.utils.RequestBuilder;
 import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
 import org.aut.polylinked_client.view.NotificationCell;
-
 import java.util.List;
 
 public class NotificationController {
-    ListView<User> listView;
+    BorderPane root;
     ObservableList<User> notifications = FXCollections.observableArrayList();
 
     public NotificationController() {
-        listView = new ListView<>();
+        root = new BorderPane();
+        SceneManager.activateTheme(root, "home");
+        SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
+            SceneManager.activateTheme(root, "home");
+        });
 
         new Thread(() -> {
             try {
                 List<User> users = RequestBuilder.arrayFromGetRequest(User.class,
                         "connections", JsonHandler.createJson("Authorization", DataAccess.getJWT()));
 
-                Platform.runLater(() -> {
-                    notifications.addAll(users.subList(0, 100));
-                    listView.setItems(notifications);
-                    listView.setCellFactory(listView -> new NotificationCell());
-                });
+                if (!users.isEmpty()) {
+                    Platform.runLater(() -> {
+                        ListView<User> listView = new ListView<>();
+                        notifications.addAll(users.subList(0, 100));
+                        listView.setItems(notifications);
+                        listView.setCellFactory(view -> new NotificationCell());
+                    });
+                } else {
+                    Platform.runLater(()->{
+                        root.setCenter(new Label("Nothing Found"));
+                    });
+                }
             } catch (UnauthorizedException e) {
                 SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
                 SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
@@ -38,7 +50,7 @@ public class NotificationController {
         }).start();
     }
 
-    public ListView<User> getRoot() {
-        return listView;
+    public BorderPane getRoot() {
+        return root;
     }
 }

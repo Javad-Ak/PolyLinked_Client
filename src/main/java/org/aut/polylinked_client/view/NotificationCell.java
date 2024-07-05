@@ -1,15 +1,20 @@
 package org.aut.polylinked_client.view;
 
+import io.github.gleidson28.AvatarType;
 import io.github.gleidson28.GNAvatarView;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import org.aut.polylinked_client.PolyLinked;
 import org.aut.polylinked_client.model.User;
 import org.aut.polylinked_client.utils.DataAccess;
 import java.io.File;
+import java.util.Objects;
 
 public class NotificationCell extends ListCell<User> {
     BorderPane root;
@@ -19,16 +24,29 @@ public class NotificationCell extends ListCell<User> {
 
     public NotificationCell() {
         root = new BorderPane();
-        avatar = new GNAvatarView();
         button = new Button("Accept Connection");
         label = new Label("Notification");
 
+        avatar = new GNAvatarView();
+        avatar.setType(AvatarType.CIRCLE);
+        avatar.setImage(new Image(Objects.requireNonNull(PolyLinked.class.getResourceAsStream("images/avatar.png"))));
+        avatar.setPrefWidth(45);
+        avatar.setPrefHeight(45);
+
         HBox leftBox = new HBox();
         leftBox.getChildren().addAll(avatar, label);
+        leftBox.setPrefWidth(HBox.USE_COMPUTED_SIZE);
+        leftBox.setPrefHeight(HBox.USE_COMPUTED_SIZE);
+        leftBox.setSpacing(12);
+        leftBox.setAlignment(Pos.CENTER_LEFT);
 
         HBox rightBox = new HBox();
         rightBox.getChildren().addAll(button);
+        rightBox.setPrefWidth(HBox.USE_COMPUTED_SIZE);
+        rightBox.setPrefHeight(HBox.USE_COMPUTED_SIZE);
+        rightBox.setAlignment(Pos.CENTER_RIGHT);
 
+        root.setBackground(Background.EMPTY);
         root.setCenter(leftBox);
         root.setRight(rightBox);
     }

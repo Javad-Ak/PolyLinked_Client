@@ -1,9 +1,12 @@
 package org.aut.polylinked_client.view;
 
+import io.github.gleidson28.AvatarType;
 import io.github.gleidson28.GNAvatarView;
-import javafx.scene.control.Hyperlink;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import org.aut.polylinked_client.PolyLinked;
 import org.aut.polylinked_client.model.User;
@@ -14,19 +17,23 @@ import java.util.Objects;
 public class UserCell extends ListCell<User> {
     HBox root;
     GNAvatarView avatar;
-    Hyperlink name;
+    Label name;
 
     public UserCell() {
         root = new HBox();
-        name = new Hyperlink("Name");
+        name = new Label("Name");
 
         avatar = new GNAvatarView();
+        avatar.setType(AvatarType.CIRCLE);
         avatar.setImage(new Image(Objects.requireNonNull(PolyLinked.class.getResourceAsStream("images/avatar.png"))));
-        avatar.setPrefWidth(50);
-        avatar.setPrefHeight(50);
+        avatar.setPrefWidth(45);
+        avatar.setPrefHeight(45);
 
-        root.setStyle("-fx-pref-width: computed-size;");
-        root.setStyle("-fx-pref-height: computed-size;");
+        root.setPrefWidth(HBox.USE_COMPUTED_SIZE);
+        root.setPrefHeight(HBox.USE_COMPUTED_SIZE);
+        root.setSpacing(10);
+        root.setBackground(Background.EMPTY);
+        root.setAlignment(Pos.CENTER_LEFT);
         root.getChildren().addAll(avatar, name);
     }
 

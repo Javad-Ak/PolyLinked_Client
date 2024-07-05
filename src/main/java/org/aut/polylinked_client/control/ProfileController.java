@@ -200,9 +200,7 @@ public class ProfileController {
                                         JsonHandler.createJson("Authorization", DataAccess.getJWT()));
 
                                 UserListController controller = new UserListController(users);
-                                BorderPane list = new BorderPane();
-                                list.setCenter(controller.getRoot());
-                                SceneManager.switchRoot(list, new SimpleBooleanProperty(true));
+                                UserListController.initiatePage(controller.getListView());
                             } catch (UnauthorizedException e) {
                                 Platform.runLater(() -> {
                                     SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
@@ -214,7 +212,18 @@ public class ProfileController {
 
                     if (!followings.isEmpty()) followingsLink.setOnAction((ActionEvent event) -> {
                         new Thread(() -> {
+                            try {
+                                List<User> users = RequestBuilder.arrayFromGetRequest(User.class, "users/followings/" + userId,
+                                        JsonHandler.createJson("Authorization", DataAccess.getJWT()));
 
+                                UserListController controller = new UserListController(users);
+                                UserListController.initiatePage(controller.getListView());
+                            } catch (UnauthorizedException e) {
+                                Platform.runLater(() -> {
+                                    SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                                    SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
+                                });
+                            }
                         }).start();
                     });
                 });
