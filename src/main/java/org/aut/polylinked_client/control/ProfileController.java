@@ -42,6 +42,9 @@ public class ProfileController {
     private GNAvatarView avatar;
 
     @FXML
+    private Hyperlink connectionsLink;
+
+    @FXML
     private BorderPane borderPane;
 
     @FXML
@@ -139,7 +142,7 @@ public class ProfileController {
 
                 Profile profileX = null;
                 try {
-                    profileX = new Profile(RequestBuilder.jsonFromGetRequest("users/posts/" + userId, headers));
+                    profileX = new Profile(RequestBuilder.jsonFromGetRequest("users/profiles/" + userId, headers));
                 } catch (NotAcceptableException ignored) {
                 }
 
@@ -153,6 +156,7 @@ public class ProfileController {
                 List<Skill> skills = RequestBuilder.arrayFromGetRequest(Skill.class, "users/skills/" + userId, headers);
                 List<User> followers = RequestBuilder.arrayFromGetRequest(User.class, "users/followers/" + userId, headers);
                 List<User> followings = RequestBuilder.arrayFromGetRequest(User.class, "users/followings/" + userId, headers);
+                List<User> connections = RequestBuilder.arrayFromGetRequest(User.class, "connections/" + userId, headers);
 
                 User user = userX;
                 Profile profile = profileX;
@@ -192,6 +196,7 @@ public class ProfileController {
 
                     followersLink.setText(followers.size() + " Followers");
                     followingsLink.setText(followings.size() + " Followings");
+                    connectionsLink.setText(connections.size() + " Connections");
 
                     if (!followers.isEmpty()) followersLink.setOnAction((ActionEvent event) -> {
                         new Thread(() -> {
@@ -214,6 +219,23 @@ public class ProfileController {
                         new Thread(() -> {
                             try {
                                 List<User> users = RequestBuilder.arrayFromGetRequest(User.class, "users/followings/" + userId,
+                                        JsonHandler.createJson("Authorization", DataAccess.getJWT()));
+
+                                UserListController controller = new UserListController(users);
+                                UserListController.initiatePage(controller.getListView());
+                            } catch (UnauthorizedException e) {
+                                Platform.runLater(() -> {
+                                    SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                                    SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
+                                });
+                            }
+                        }).start();
+                    });
+
+                    if (!connections.isEmpty()) connectionsLink.setOnAction((ActionEvent event) -> {
+                        new Thread(() -> {
+                            try {
+                                List<User> users = RequestBuilder.arrayFromGetRequest(User.class, "connections/" + userId,
                                         JsonHandler.createJson("Authorization", DataAccess.getJWT()));
 
                                 UserListController controller = new UserListController(users);

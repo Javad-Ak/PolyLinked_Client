@@ -3,6 +3,7 @@ package org.aut.polylinked_client.control;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
@@ -21,9 +22,10 @@ public class NotificationController {
 
     public NotificationController() {
         root = new BorderPane();
-        SceneManager.activateTheme(root, "home");
+        root.setPadding(new Insets(15, 15, 15, 15));
+        SceneManager.activateTheme(root, "profile");
         SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
-            SceneManager.activateTheme(root, "home");
+            SceneManager.activateTheme(root, "profile");
         });
 
         new Thread(() -> {
@@ -34,12 +36,13 @@ public class NotificationController {
                 if (!users.isEmpty()) {
                     Platform.runLater(() -> {
                         ListView<User> listView = new ListView<>();
-                        notifications.addAll(users.subList(0, 100));
+                        notifications.addAll(users);
                         listView.setItems(notifications);
                         listView.setCellFactory(view -> new NotificationCell());
+                        root.setCenter(listView);
                     });
                 } else {
-                    Platform.runLater(()->{
+                    Platform.runLater(() -> {
                         root.setCenter(new Label("Nothing Found"));
                     });
                 }

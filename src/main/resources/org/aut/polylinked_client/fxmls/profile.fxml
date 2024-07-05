@@ -78,6 +78,7 @@
                      <children>
                         <Hyperlink fx:id="followersLink" text="23 followers" />
                         <Hyperlink fx:id="followingsLink" text="22 followings" />
+                        <Hyperlink fx:id="connectionsLink" text="22 connections" />
                      </children>
                   </HBox>
                </children>
