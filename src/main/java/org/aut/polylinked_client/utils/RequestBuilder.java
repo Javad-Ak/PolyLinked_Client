@@ -19,10 +19,6 @@ import java.util.TreeMap;
 public class RequestBuilder {
     private static final String SERVER_ADDRESS = "http://localhost:8080/";
 
-    public enum FileType {
-        IMAGE, VIDEO, AUDIO;
-    }
-
     private RequestBuilder() {
     }
 
@@ -32,68 +28,75 @@ public class RequestBuilder {
         URL url = URI.create(SERVER_ADDRESS + endPoint).toURL();
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod(method);
-        headers.toMap().forEach((k, v) -> con.setRequestProperty(k, v.toString()));
+        if (headers != null) headers.toMap().forEach((k, v) -> con.setRequestProperty(k, v.toString()));
         con.setDoOutput(doOutput);
         return con;
     }
 
-    public static JSONObject jsonFromGetRequest (String endPoint, JSONObject headers) throws UnauthorizedException {
+    public static JSONObject jsonFromGetRequest(String endPoint, JSONObject headers) throws UnauthorizedException {
+        HttpURLConnection con = null;
         try {
-            HttpURLConnection con = buildConnection("GET", endPoint, headers, false);
+            con = buildConnection("GET", endPoint, headers, false);
             if (con.getResponseCode() / 100 == 2) {
-                JSONObject object = JsonHandler.getObject(con.getInputStream());
-                con.disconnect();
-
-                return object;
+                return JsonHandler.getObject(con.getInputStream());
             } else if (con.getResponseCode() == 401) {
                 throw new UnauthorizedException("JWT invalid");
             }
         } catch (UnauthorizedException e) {
             throw e;
         } catch (Exception ignored) {
+        } finally {
+            if (con != null) con.disconnect();
         }
         return null;
     }
 
     public static <T extends MediaLinked> TreeMap<T, User> mapFromGetRequest(Class<T> cls, String endPoint, JSONObject headers) throws UnauthorizedException {
         TreeMap<T, User> map = new TreeMap<>();
+        HttpURLConnection con = null;
         try {
-            HttpURLConnection con = buildConnection("GET", endPoint, headers, false);
+            con = buildConnection("GET", endPoint, headers, false);
             if (con.getResponseCode() / 100 == 2) {
                 int size = Integer.parseInt(con.getHeaderField("X-Total-Count"));
                 map = MultipartHandler.readMap(con.getInputStream(), cls, size);
-                con.disconnect();
             } else if (con.getResponseCode() == 401) {
                 throw new UnauthorizedException("JWT invalid");
             }
         } catch (UnauthorizedException e) {
             throw e;
         } catch (Exception ignored) {
+
+        } finally {
+            if (con != null) con.disconnect();
         }
-        return map.isEmpty() ? null : map;
+        return map;
     }
 
     public static <T extends JsonSerializable> List<T> arrayFromGetRequest(Class<T> cls, String endPoint, JSONObject headers) throws UnauthorizedException {
         List<T> map = new ArrayList<>();
+        HttpURLConnection con = null;
         try {
-            HttpURLConnection con = buildConnection("GET", endPoint, headers, false);
+            con = buildConnection("GET", endPoint, headers, false);
             if (con.getResponseCode() / 100 == 2) {
                 int size = Integer.parseInt(con.getHeaderField("X-Total-Count"));
                 map = MultipartHandler.readObjectArray(con.getInputStream(), cls, size);
-                con.disconnect();
+
             } else if (con.getResponseCode() == 401) {
                 throw new UnauthorizedException("JWT invalid");
             }
         } catch (UnauthorizedException e) {
             throw e;
         } catch (Exception ignored) {
+        } finally {
+            if (con != null) con.disconnect();
         }
         return map.isEmpty() ? null : map;
     }
 
     public static void sendMediaLinkedRequest(String method, String endPoint, JSONObject headers, MediaLinked mediaLinked, File file) throws NotAcceptableException, UnauthorizedException {
+        HttpURLConnection con = null;
         try {
-            HttpURLConnection con = buildConnection(method, endPoint, headers, true);
+            con = buildConnection(method, endPoint, headers, true);
             OutputStream os = con.getOutputStream();
             MultipartHandler.writeObject(os, mediaLinked);
             MultipartHandler.writeFromFile(os, file);
@@ -106,31 +109,47 @@ public class RequestBuilder {
             }
         } catch (IOException e) {
             throw new NotAcceptableException("Unknown");
+        } finally {
+            if (con != null) con.disconnect();
         }
-
     }
 
-    public static FileType fileTypeFromHeadRequest(String fileURL, JSONObject headers) throws UnauthorizedException {
+    public static void sendJsonRequest(String method, String endPoint, JSONObject headers, JSONObject obj) throws UnauthorizedException, NotAcceptableException {
+        HttpURLConnection con = null;
         try {
-            String endPoint = fileURL.substring(SERVER_ADDRESS.length());
-            HttpURLConnection con = buildConnection("HEAD", endPoint, headers, false);
-            if (con.getResponseCode() / 100 == 2) {
-                String fileType = con.getHeaderField("Content-Type");
-                if (fileType.contains("Image")) {
-                    return FileType.IMAGE;
-                } else if (fileType.contains("Video")) {
-                    return FileType.VIDEO;
-                } else if (fileType.contains("Audio")) {
-                    return FileType.AUDIO;
-                } else {
-                    return null;
-                }
-            } else if (con.getResponseCode() == 401) {
+            con = buildConnection(method, endPoint, headers, true);
+            JsonHandler.sendObject(con.getOutputStream(), obj);
+            con.getOutputStream().close();
+
+            if (con.getResponseCode() == 401) {
                 throw new UnauthorizedException("JWT invalid");
+            } else if (con.getResponseCode() / 100 != 2) {
+                throw new NotAcceptableException("Unknown");
             }
-        } catch (UnauthorizedException e) {
-            throw e;
+        } catch (IOException | NotAcceptableException e) {
+            throw new NotAcceptableException("Unknown");
+        } finally {
+            if (con != null) con.disconnect();
+        }
+    }
+
+    public static JSONObject buildHeadRequest(String endPoint, JSONObject headers) {
+        HttpURLConnection con = null;
+        try {
+            con = buildConnection("HEAD", endPoint, headers, false);
+
+            if (con.getResponseCode() == 200) {
+                JSONObject jsonObject = new JSONObject();
+                con.getHeaderFields().forEach((k, v) -> {
+                    if (k != null && !k.equalsIgnoreCase("null")) jsonObject.put(k, v.getFirst());
+                });
+                return jsonObject;
+            } else if (con.getResponseCode() == 401) {
+                throw new UnauthorizedException("Unknown");
+            }
         } catch (Exception ignored) {
+        } finally {
+            if (con != null) con.disconnect();
         }
         return null;
     }

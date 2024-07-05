@@ -3,8 +3,6 @@ package org.aut.polylinked_client.model;
 import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-
 import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
@@ -33,6 +31,7 @@ public class User implements MediaLinked {
 
     public User(JSONObject json) throws NotAcceptableException {
         try {
+            if (json == null) throw new NotAcceptableException("invalid arguments");
             validateFields(json.getString("email"), json.getString("password"), json.getString("firstName"), json.getString("lastName"), json.getString("additionalName"));
             userId = json.getString("userId").trim();
             email = json.getString("email").trim();

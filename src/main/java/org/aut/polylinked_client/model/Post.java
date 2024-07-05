@@ -48,6 +48,7 @@ public class Post implements MediaLinked {
 
     public Post(JSONObject json) throws NotAcceptableException {
         try {
+            if (json == null) throw new NotAcceptableException("invalid arguments");
             postId = json.getString("postId");
             repostFrom = json.getString("repostFrom");
             userId = json.getString("userId");
@@ -109,7 +110,7 @@ public class Post implements MediaLinked {
         return repostFrom;
     }
 
-    public boolean isReposted(){
+    public boolean isReposted() {
         return !repostFrom.equals("none");
     }
 
@@ -119,6 +120,10 @@ public class Post implements MediaLinked {
 
     public void setLikesCount(int likesCount) {
         this.likesCount = likesCount;
+    }
+
+    public Post repost(String userId) throws NotAcceptableException {
+        return new Post(postId, userId, text);
     }
 
     @Override

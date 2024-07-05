@@ -4,13 +4,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import org.aut.polylinked_client.PolyLinked;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.utils.DataAccess;
 import org.aut.polylinked_client.utils.RequestBuilder;
+import org.aut.polylinked_client.view.MediaWrapper;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -42,7 +43,13 @@ public class MainController {
     private ToggleGroup tabs;
 
     @FXML
+    private ImageView appIcon;
+
+    @FXML
     void initialize() {
+        appIcon.setFitHeight(SceneManager.FONT_SIZE * 40 / 13);
+        appIcon.setFitWidth(SceneManager.FONT_SIZE * 40 / 13);
+
         homeToggle.setUserData(Tabs.HOME);
         messagingToggle.setUserData(Tabs.MESSAGING);
         notificationsToggle.setUserData(Tabs.NOTIFICATIONS);
@@ -66,18 +73,14 @@ public class MainController {
             } else if (oldValue != null) {
                 URL fxmlURL = null;
                 switch ((Tabs) newValue.getUserData()) {
-                    case Tabs.HOME ->
-                        fxmlURL = PolyLinked.class.getResource("fxmls/home.fxml");
-                    case Tabs.MESSAGING ->
-                        fxmlURL = PolyLinked.class.getResource("fxmls/messaging.fxml");
-                    case Tabs.NOTIFICATIONS ->
-                        fxmlURL = PolyLinked.class.getResource("fxmls/notifications.fxml");
-                    case Tabs.SEARCH ->
-                        fxmlURL = PolyLinked.class.getResource("fxmls/search.fxml");
-                    case Tabs.PROFILE ->
-                        fxmlURL = PolyLinked.class.getResource("fxmls/profile.fxml");
+                    case Tabs.HOME -> fxmlURL = PolyLinked.class.getResource("fxmls/home.fxml");
+                    case Tabs.MESSAGING -> fxmlURL = PolyLinked.class.getResource("fxmls/messaging.fxml");
+                    case Tabs.NOTIFICATIONS -> fxmlURL = PolyLinked.class.getResource("fxmls/notifications.fxml");
+                    case Tabs.SEARCH -> fxmlURL = PolyLinked.class.getResource("fxmls/search.fxml");
+                    case Tabs.PROFILE -> fxmlURL = PolyLinked.class.getResource("fxmls/profile.fxml");
                 }
 
+                MediaWrapper.clearMedias();
                 if (fxmlURL != null) {
                     try {
                         borderPane.setCenter(FXMLLoader.load(fxmlURL));
@@ -118,9 +121,8 @@ public class MainController {
             } catch (IOException ignored) {
             }
 
-            DataAccess.setUserId("none");
-            DataAccess.setJWT("none");
-            SceneManager.setScene(SceneManager.SceneLevel.SIGNUP);
+            DataAccess.clearCacheData();
+            SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
         }
     }
 
@@ -129,8 +131,7 @@ public class MainController {
         Dialog<ButtonType> dialog = createDialogue("Confirm", "Are you sure you want to log out?", ButtonType.OK, ButtonType.CANCEL);
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            DataAccess.setUserId("none");
-            DataAccess.setJWT("none");
+            DataAccess.clearCacheData();
             SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
         }
     }

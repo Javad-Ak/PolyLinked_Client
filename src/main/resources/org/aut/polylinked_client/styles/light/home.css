@@ -1,5 +1,5 @@
 .root {
-    -fx-background-color: transparent;
+    -fx-background-color: #e8e8e8;
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     -fx-text-fill: Black;
     -fx-font-size: 1em;
@@ -17,7 +17,7 @@
     -fx-background-radius: 4;
 }
 
-.button:hover, .button:hover #icon {
+.button:hover, .button:hover #actionIcon {
     -fx-fill: #084B8A;
     -fx-text-fill: #084B8A;
 }
@@ -39,7 +39,7 @@
     -fx-background-color: transparent;
 }
 
-.scroll-bar:vertical {
+.scroll-bar {
     -fx-background-color:transparent;
 }
 
@@ -48,7 +48,7 @@
     -fx-border-insets: 10;
 }
 
-#icon {
+#actionIcon {
     -fx-font-size: 1.5em;
     -fx-fill: #0A74DA;
 }
