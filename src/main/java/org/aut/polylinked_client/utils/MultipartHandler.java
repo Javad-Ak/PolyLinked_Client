@@ -35,17 +35,7 @@ public class MultipartHandler {
         writeHeaders(outputStream, file.getName().substring(file.getName().lastIndexOf(".") + 1) + "/file", length);
 
         FileInputStream inputStream = new FileInputStream(file);
-        int totalWrite = 0;
-        byte[] buffer = new byte[100000];
-        while (totalWrite < length) {
-            int read = inputStream.read(buffer);
-            if (read == -1) break;
-
-            outputStream.write(buffer, 0, read);
-            totalWrite += read;
-        }
-
-        outputStream.flush();
+        linkStreams(inputStream, outputStream, length);
         inputStream.close();
     }
 
@@ -69,11 +59,11 @@ public class MultipartHandler {
         if (!type[1].equals("file")) throw new NotAcceptableException("Invalid Content-Type");
 
         File file = new File(dir + "/" + fileName + "." + type[0]);
-        FileOutputStream outputStream = new FileOutputStream(file);
+        FileOutputStream outputStream = new FileOutputStream(file, false);
         int remained = length;
-        byte[] buffer = new byte[100000];
+        byte[] buffer = new byte[1000000];
         while (remained > 0) {
-            if (remained < 110000) {
+            if (remained < 1100000) {
                 byte[] bytes = new byte[remained];
                 int read = inputStream.read(bytes);
                 if (read == -1) break;
@@ -139,5 +129,19 @@ public class MultipartHandler {
         }
 
         return new JSONObject(res.toString());
+    }
+
+    public static void linkStreams(InputStream inputStream, OutputStream outputStream, int length) throws IOException {
+        int totalWrite = 0;
+        byte[] buffer = new byte[1000000];
+        while (totalWrite < length) {
+            int read = inputStream.read(buffer);
+            if (read == -1) break;
+
+            outputStream.write(buffer, 0, read);
+            totalWrite += read;
+        }
+
+        outputStream.flush();
     }
 }

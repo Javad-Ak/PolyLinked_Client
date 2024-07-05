@@ -73,7 +73,7 @@ public class MainController {
             if (newValue == null) {
                 tabs.selectToggle(oldValue);
             } else if (oldValue != null) {
-                FXMLLoader loader = null;
+                FXMLLoader loader;
                 try {
                     switch ((Tabs) newValue.getUserData()) {
                         case Tabs.HOME: {
@@ -89,9 +89,8 @@ public class MainController {
                         }
                         break;
                         case Tabs.NOTIFICATIONS: {
-                            loader = new FXMLLoader(PolyLinked.class.getResource("fxmls/notifications.fxml"));
-                            Parent root = loader.load();
-                            borderPane.setCenter(root);
+                            NotificationController controller = new NotificationController();
+                            borderPane.setCenter(controller.getRoot());
                         }
                         break;
                         case Tabs.SEARCH: {
@@ -150,6 +149,7 @@ public class MainController {
             }
 
             DataAccess.clearCacheData();
+            DataAccess.clearUserData();
             SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
         }
     }
@@ -160,6 +160,7 @@ public class MainController {
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             DataAccess.clearCacheData();
+            DataAccess.clearUserData();
             SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
         }
     }
