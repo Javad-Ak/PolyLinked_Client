@@ -1,341 +1,433 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import io.github.gleidson28.GNAvatarView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.CustomMenuItem?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.RadioMenuItem?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="556.0" prefWidth="660.0" stylesheets="@../styles/light/editProfile.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../styles/dark/editProfile.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.aut.polylinked_client.control.EditProfileController">
+   <top>
+      <AnchorPane maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+         <children>
+            <Label minWidth="250.0" text="Edit Your Profile" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0" />
+            <HBox spacing="6.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <children>
+                  <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#cancelBtnPressed" text="Cancel">
+                     <HBox.margin>
+                        <Insets bottom="5.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#saveBtnPressed" text="Save">
+                     <HBox.margin>
+                        <Insets bottom="5.0" />
+                     </HBox.margin></Button>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </top>
    <center>
-      <BorderPane prefHeight="475.0" prefWidth="652.0" BorderPane.alignment="CENTER">
-         <center>
-            <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="10.0" minViewportHeight="1.0" minViewportWidth="1.0" minWidth="10.0" vvalue="0.4">
-               <content>
-                  <VBox prefHeight="1069.0" prefWidth="642.0">
+      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="620.0" prefWidth="644.0" BorderPane.alignment="TOP_CENTER">
+         <content>
+            <VBox alignment="TOP_CENTER" prefHeight="1625.0" prefWidth="642.0" spacing="30.0">
+               <padding>
+                  <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+               </padding>
+               <children>
+                  <VBox alignment="TOP_CENTER" fillWidth="false" spacing="10.0">
                      <children>
-                        <GNAvatarView fx:id="avatar" prefHeight="89.0" prefWidth="600.0" type="CIRCLE">
-                           <image>
-                              <Image url="@../images/default-avatar.png" />
-                           </image>
+                        <Label text="Personal">
                            <VBox.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </VBox.margin>
-                        </GNAvatarView>
-                        <GridPane hgap="10.0" prefWidth="700.0" vgap="10.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="140.0" prefWidth="197.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="700.0" minWidth="200.0" prefWidth="400.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
+                              <Insets bottom="20.0" />
+                           </VBox.margin></Label>
+                        <GridPane hgap="10.0" vgap="10.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="200.0" prefWidth="400.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
                            <children>
-                              <Label text="First Name:" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                              <Label text="First Name:" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
                                  <GridPane.margin>
                                     <Insets right="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label text="Last Name:" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                              <Label text="Last Name:" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                                  <GridPane.margin>
                                     <Insets right="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label text="Additional Name:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                              <Label text="Additional Name:" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                                  <GridPane.margin>
                                     <Insets right="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label text="Email:" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                              <Label text="Email:" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
                                  <GridPane.margin>
                                     <Insets right="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label text="Password:" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                              <Label text="Password:" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                                  <GridPane.margin>
                                     <Insets right="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label text="Confirm Password:" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                              <Label text="Confirm Password:" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
                                  <GridPane.margin>
                                     <Insets right="10.0" />
                                  </GridPane.margin>
                               </Label>
                               <JFXTextField fx:id="firstNameTF" GridPane.columnIndex="1">
                                  <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="30.0" />
+                                    <Insets bottom="5.0" />
                                  </GridPane.margin>
                               </JFXTextField>
                               <JFXTextField fx:id="lastNameTF" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="30.0" />
+                                    <Insets bottom="5.0" />
                                  </GridPane.margin>
                               </JFXTextField>
                               <JFXTextField fx:id="additionalNameTF" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="30.0" />
+                                    <Insets bottom="5.0" />
                                  </GridPane.margin>
                               </JFXTextField>
                               <JFXTextField fx:id="emailTF" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="30.0" />
+                                    <Insets bottom="5.0" />
                                  </GridPane.margin>
                               </JFXTextField>
-                              <JFXTextField fx:id="passwordTF" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                              <JFXPasswordField fx:id="passwordTF" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                  <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="30.0" />
+                                    <Insets bottom="5.0" />
                                  </GridPane.margin>
-                              </JFXTextField>
-                              <JFXTextField fx:id="confirmPasswordTF" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                              </JFXPasswordField>
+                              <JFXPasswordField fx:id="confirmPasswordTF" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                  <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="30.0" />
+                                    <Insets bottom="5.0" />
                                  </GridPane.margin>
-                              </JFXTextField>
+                              </JFXPasswordField>
                            </children>
                            <VBox.margin>
-                              <Insets bottom="30.0" left="20.0" right="30.0" top="20.0" />
-                           </VBox.margin>
-                        </GridPane>
-                        <GridPane hgap="10.0" prefWidth="700.0" vgap="10.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="140.0" prefWidth="197.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="700.0" minWidth="200.0" prefWidth="400.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <Label text="Bio:" GridPane.halignment="RIGHT">
-                                 <GridPane.margin>
-                                    <Insets right="10.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label text="Country:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
-                                 <GridPane.margin>
-                                    <Insets right="10.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label text="City:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
-                                 <GridPane.margin>
-                                    <Insets right="10.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label text="Profession:" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
-                                 <GridPane.margin>
-                                    <Insets right="10.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label text="Status:" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
-                                 <GridPane.margin>
-                                    <Insets right="10.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <JFXTextField fx:id="countryTF" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="30.0" />
-                                 </GridPane.margin>
-                              </JFXTextField>
-                              <JFXTextField fx:id="cityTF" layoutX="182.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="30.0" />
-                                 </GridPane.margin>
-                              </JFXTextField>
-                              <JFXTextArea fx:id="bioTA" prefHeight="32.0" prefWidth="377.0" GridPane.columnIndex="1">
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="30.0" />
-                                 </GridPane.margin>
-                              </JFXTextArea>
-                              <MenuButton fx:id="statusMenuBtn" contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="24.0" prefWidth="473.0" text="Choose an status" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                                 <items>
-                                    <RadioMenuItem mnemonicParsing="false" text="Recruiter">
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="Status" />
-                                       </toggleGroup>
-                                    </RadioMenuItem>
-                                    <RadioMenuItem mnemonicParsing="false" text="Service Provider" toggleGroup="$Status" />
-                                    <RadioMenuItem mnemonicParsing="false" text="Job Searcher" toggleGroup="$Status" />
-                                 </items>
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="30.0" top="10.0" />
-                                 </GridPane.margin>
-                              </MenuButton>
-                              <MenuButton fx:id="professionMenuBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="24.0" prefWidth="119.0" text="Choose Some Proffessions" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="30.0" top="10.0" />
-                                 </GridPane.margin>
-                                 <items>
-                                    <CustomMenuItem mnemonicParsing="false" text="Unspecified Action">
-                                       <graphic>
-                                          <ListView prefHeight="200.0" prefWidth="200.0" />
-                                       </graphic>
-                                    </CustomMenuItem>
-                                 </items>
-                              </MenuButton>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="30.0" left="20.0" right="30.0" top="20.0" />
-                           </VBox.margin>
-                        </GridPane>
-                        <Label text="Call Info:">
-                           <VBox.margin>
-                              <Insets bottom="10.0" left="50.0" right="10.0" top="30.0" />
-                           </VBox.margin>
-                        </Label>
-                        <GridPane hgap="10.0" layoutX="30.0" layoutY="152.0" prefWidth="700.0" vgap="10.0">
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="140.0" prefWidth="197.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="700.0" minWidth="200.0" prefWidth="400.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                           <children>
-                              <Label text="Mobile Number:" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
-                                 <GridPane.margin>
-                                    <Insets right="10.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label prefHeight="17.0" prefWidth="96.0" text="Home Number:" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                 <GridPane.margin>
-                                    <Insets right="10.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label text="Work Number:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-                                 <GridPane.margin>
-                                    <Insets right="10.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label text="Address:" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
-                                 <GridPane.margin>
-                                    <Insets right="10.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label text="Birth Day:" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
-                                 <GridPane.margin>
-                                    <Insets right="10.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label text="Social Media:" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
-                                 <GridPane.margin>
-                                    <Insets right="10.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <JFXTextField fx:id="mobileNumberTF" GridPane.columnIndex="1">
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="30.0" />
-                                 </GridPane.margin>
-                              </JFXTextField>
-                              <JFXTextField fx:id="homeNumberTF" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="30.0" />
-                                 </GridPane.margin>
-                              </JFXTextField>
-                              <JFXTextField fx:id="workNumberTF" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="30.0" />
-                                 </GridPane.margin>
-                              </JFXTextField>
-                              <JFXTextField fx:id="socialMediaTF" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="30.0" />
-                                 </GridPane.margin>
-                              </JFXTextField>
-                              <JFXTextArea fx:id="addressTA" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="30.0" />
-                                 </GridPane.margin>
-                              </JFXTextArea>
-                              <DatePicker fx:id="birthdayDP" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                                 <GridPane.margin>
-                                    <Insets left="10.0" right="30.0" />
-                                 </GridPane.margin>
-                              </DatePicker>
-                              <MenuButton fx:id="privacyMenuBtn" contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="24.0" prefWidth="473.0" text="Choose an status" GridPane.columnIndex="1" GridPane.rowIndex="6">
-                                 <items>
-                                    <RadioMenuItem mnemonicParsing="false" text="Only me">
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="Privacy" />
-                                       </toggleGroup>
-                                    </RadioMenuItem>
-                                    <RadioMenuItem mnemonicParsing="false" text="My Connections" toggleGroup="$Privacy" />
-                                    <RadioMenuItem mnemonicParsing="false" text="Further Connections" toggleGroup="$Privacy" />
-                                    <RadioMenuItem mnemonicParsing="false" text="Everyone" toggleGroup="$Privacy" />
-                                 </items>
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="30.0" />
-                                 </GridPane.margin>
-                              </MenuButton>
-                              <Label text="Who can see Call info?" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="30.0" left="20.0" right="30.0" top="20.0" />
+                              <Insets bottom="30.0" left="20.0" right="30.0" top="10.0" />
                            </VBox.margin>
                         </GridPane>
                      </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" top="10.0" />
+                     </VBox.margin>
                   </VBox>
-               </content>
-            </ScrollPane>
-         </center>
-      </BorderPane>
+                  <VBox alignment="TOP_CENTER" fillWidth="false" spacing="10.0">
+                     <children>
+                        <Label text="Profile">
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin></Label>
+                        <GridPane hgap="10.0" vgap="10.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="200.0" prefWidth="400.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label text="Bio:" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label text="Country:" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label text="City:" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label text="Profession:" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label text="Status:" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <JFXTextArea fx:id="bioTA" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin>
+                              </JFXTextArea>
+                              <JFXComboBox fx:id="professionCB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin></JFXComboBox>
+                              <JFXComboBox fx:id="statusCB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin></JFXComboBox>
+                              <JFXComboBox fx:id="countryCB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin></JFXComboBox>
+                              <JFXComboBox fx:id="cityCB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin></JFXComboBox>
+                           </children>
+                        </GridPane>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" top="10.0" />
+                     </VBox.margin>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" fillWidth="false" spacing="10.0">
+                     <children>
+                        <Label text="Call Information">
+                           <VBox.margin>
+                              <Insets bottom="30.0" />
+                           </VBox.margin></Label>
+                        <GridPane hgap="10.0" vgap="10.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="160.0" prefWidth="160.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="200.0" prefWidth="400.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label text="Mobile Number:" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label text="Home Number:" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label text="Work Number:" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label text="Address:" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label text="Birth Day:" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label text="Social Media:" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <JFXTextField fx:id="mobileNumberTF" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin>
+                              </JFXTextField>
+                              <JFXTextField fx:id="homeNumberTF" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin>
+                              </JFXTextField>
+                              <JFXTextField fx:id="workNumberTF" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin>
+                              </JFXTextField>
+                              <JFXTextField fx:id="socialMediaTF" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin>
+                              </JFXTextField>
+                              <JFXTextArea fx:id="addressTA" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin>
+                              </JFXTextArea>
+                              <DatePicker fx:id="birthdayDP" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                 <GridPane.margin>
+                                    <Insets top="5.0" />
+                                 </GridPane.margin>
+                              </DatePicker>
+                              <Label text="Who can see Call info?" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <JFXComboBox fx:id="privacyCB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin></JFXComboBox>
+                           </children>
+                        </GridPane>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" top="10.0" />
+                     </VBox.margin>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" fillWidth="false" spacing="10.0">
+                     <children>
+                        <Label text="Education">
+                           <VBox.margin>
+                              <Insets bottom="30.0" />
+                           </VBox.margin></Label>
+                        <GridPane hgap="10.0" vgap="10.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="200.0" prefWidth="400.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label text="Institute:" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label text="Field:" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label text="Start Date:" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label text="End Date:" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label text="Grade:" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label text="Activities:" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <JFXTextField fx:id="instituteTF" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin>
+                              </JFXTextField>
+                              <JFXTextField fx:id="fieldTF" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin>
+                              </JFXTextField>
+                              <JFXTextField fx:id="gradeTF" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin>
+                              </JFXTextField>
+                              <DatePicker fx:id="startDateDP" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <GridPane.margin>
+                                    <Insets top="5.0" />
+                                 </GridPane.margin>
+                              </DatePicker>
+                              <DatePicker fx:id="endDateDP" editable="false" layoutX="170.0" layoutY="90.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                 <GridPane.margin>
+                                    <Insets top="5.0" />
+                                 </GridPane.margin>
+                              </DatePicker>
+                              <Label layoutX="10.0" layoutY="224.0" text="About:" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <JFXTextArea fx:id="aboutTA" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin>
+                              </JFXTextArea>
+                              <JFXTextArea fx:id="activitiesTA" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin>
+                              </JFXTextArea>
+                              <Label text="Skills:" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="BOTTOM" />
+                              <Label text="Skill 1:" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="BOTTOM" />
+                              <Label layoutX="63.0" layoutY="344.0" text="Skill 2:" GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.valignment="BOTTOM" />
+                              <Label text="Skill 3:" GridPane.halignment="CENTER" GridPane.rowIndex="10" GridPane.valignment="BOTTOM" />
+                              <JFXTextArea fx:id="skill1TA" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin>
+                              </JFXTextArea>
+                              <JFXTextArea fx:id="skill2TA" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin>
+                              </JFXTextArea>
+                              <JFXTextArea fx:id="skill3TA" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </GridPane.margin>
+                              </JFXTextArea>
+                           </children>
+                        </GridPane>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" top="10.0" />
+                     </VBox.margin>
+                  </VBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
    </center>
-   <top>
-      <BorderPane minWidth="300.0" prefHeight="37.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-         <left>
-            <JFXButton fx:id="CancelBtn" text="Cancel" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </BorderPane.margin>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </JFXButton>
-         </left>
-         <right>
-            <JFXButton fx:id="saveBtn" text="Save" textAlignment="CENTER" BorderPane.alignment="CENTER">
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-               <BorderPane.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </BorderPane.margin>
-            </JFXButton>
-         </right>
-         <center>
-            <Label text="Edit Profile" BorderPane.alignment="CENTER">
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </Label>
-         </center>
-      </BorderPane>
-   </top>
 </BorderPane>
