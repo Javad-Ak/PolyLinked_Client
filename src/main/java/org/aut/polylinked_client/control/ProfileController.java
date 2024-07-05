@@ -6,6 +6,8 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -15,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import org.aut.polylinked_client.PolyLinked;
 import javafx.stage.FileChooser;
 import org.aut.polylinked_client.SceneManager;
 import org.aut.polylinked_client.model.*;
@@ -364,8 +367,23 @@ public class ProfileController {
     }
 
     private void setUpEdit(Button editButton, String userId) {
+        editButton.setOnAction((ActionEvent event) -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(PolyLinked.class.getResource("fxmls/editProfile.fxml"));
+                Parent parent = loader.load();
 
+                EditProfileController controller = loader.getController();
+                controller.setData(userId);
+
+                SceneManager.switchRoot(parent, controller.isSwitched());
+
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                System.exit(1);
+            }
+        });
     }
+
 
     private void setUpImagePicker(String userId) {
         avatarButton.setOnAction((e) -> {
