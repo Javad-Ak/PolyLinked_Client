@@ -4,6 +4,7 @@ import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CallInfo implements JsonSerializable {
@@ -33,6 +34,7 @@ public class CallInfo implements JsonSerializable {
 
     public CallInfo(JSONObject jsonObject) throws NotAcceptableException {
         try {
+            if (jsonObject == null) throw new NotAcceptableException("JSON could not be parsed");
             userId = jsonObject.getString("userId");
             email = jsonObject.getString("emailAddress");
             mobileNumber = jsonObject.getString("mobileNumber");
@@ -86,17 +88,16 @@ public class CallInfo implements JsonSerializable {
 
     @Override
     public String toString() {
-        return '{' +
-                "userId: " + userId +
-                ", emailAddress: " + email +
-                ", mobileNumber: " + mobileNumber +
-                ", homeNumber: " + homeNumber +
-                ", workNumber: " + workNumber +
-                ", Address: " + address +
-                ", birthDay: " + birthDay.getTime() +
-                ", privacyPolitics: " + privacyPolitics +
-                ", socialMedia: " + socialMedia +
-                '}';
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(birthDay);
+
+        return "emailAddress: " + email +
+                "\n    mobileNumber: " + mobileNumber +
+                "\n    homeNumber: " + homeNumber +
+                "\n    workNumber: " + workNumber +
+                "\n    Address: " + address +
+                "\n    birthDay: " + date +
+                "\n    privacyPolitics: " + privacyPolitics +
+                "\n    socialMedia: " + socialMedia;
     }
 
     @Override

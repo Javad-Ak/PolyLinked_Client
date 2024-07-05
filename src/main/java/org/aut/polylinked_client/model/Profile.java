@@ -28,6 +28,7 @@ public class Profile implements MediaLinked {
 
     public Profile(JSONObject profile) throws NotAcceptableException {
         try {
+            if (profile == null) throw new NotAcceptableException("JSON could not be parsed");
             userId = profile.getString("userId");
             bio = profile.getString("bio");
             country = profile.getString("country");

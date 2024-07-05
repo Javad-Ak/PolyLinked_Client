@@ -48,12 +48,7 @@ public class Skill implements JsonSerializable {
 
     @Override
     public String toString() {
-        return '{' +
-                "skillId:" + skillId +
-                ", userId:" + userId +
-                ", educationId:" + educationId +
-                ", text:" + text +
-                '}';
+        return "Skill: " + text;
     }
 
     @Override

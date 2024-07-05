@@ -32,7 +32,7 @@ import java.util.Date;
 
 public class ContentController {
     private final static String fileId = "content"; // content.css file reference
-    private final static Path defaultFace = Path.of("src/main/resources/org/aut/polylinked_client/images/face.jpg");
+    private final static Path defaultAvatar = Path.of("src/main/resources/org/aut/polylinked_client/images/avatar.png");
 
     @FXML
     private GNAvatarView avatar;
@@ -101,7 +101,7 @@ public class ContentController {
         dateLabel.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date));
 
         setUpLike(post);
-        setUpFollow(post);
+        ProfileController.setUpFollow(followButton, post.getUserId());
         setUpRepost(post, user);
 
         commentsLink.setOnAction(this::commentPressed);
@@ -175,57 +175,6 @@ public class ContentController {
 
     }
 
-    void setUpFollow(Post post) {
-        if (post.getUserId().equals(DataAccess.getUserId())) {
-            followButton.setDisable(true);
-            followButton.setVisible(false);
-            return;
-        }
-
-        JSONObject followedHeader = RequestBuilder.buildHeadRequest("follows/" + post.getUserId(), JsonHandler.createJson("Authorization", DataAccess.getJWT()));
-        if (followedHeader != null && followedHeader.getString("Exists") != null && followedHeader.getString("Exists").equalsIgnoreCase("true")) {
-            followButton.setText("Unfollow");
-        } else {
-            followButton.setText("  Follow  ");
-        }
-
-        followButton.setOnAction((ActionEvent event) -> {
-            String method;
-            String newText = followButton.getText();
-            if (newText.contains("Follow")) {
-                method = "POST";
-                newText = "Unfollow";
-            } else {
-                method = "DELETE";
-                newText = "  Follow  ";
-            }
-
-            String finalNewText = newText;
-            new Thread(() -> {
-                try {
-                    RequestBuilder.sendJsonRequest(
-                            method, "follows",
-                            JsonHandler.createJson("Authorization", DataAccess.getJWT()),
-                            new Follow(DataAccess.getUserId(), post.getUserId()).toJson());
-
-                    Platform.runLater(() -> {
-                        followButton.setText(finalNewText);
-                    });
-                } catch (NotAcceptableException e) {
-                    Platform.runLater(() -> {
-                        SceneManager.showNotification("Failure", "Request failed.", 3);
-                    });
-                } catch (UnauthorizedException e) {
-                    Platform.runLater(() -> {
-                        SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
-                        SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
-                    });
-                }
-            }).start();
-        });
-    }
-
-
     void setUpLike(Post post) {
         FontIcon likeIcon = new FontIcon("mdi-thumb-up-outline");
         likeIcon.setId("icon");
@@ -297,7 +246,7 @@ public class ContentController {
         if (file != null && type == DataAccess.FileType.IMAGE)
             avatar.setImage(new Image(file.toURI().toString()));
         else
-            avatar.setImage(new Image(defaultFace.toUri().toString()));
+            avatar.setImage(new Image(defaultAvatar.toUri().toString()));
 
         if (media != null && media.length() > 0) {
             MediaWrapper viewer = MediaWrapper.getMediaViewer(media, 0.45);
