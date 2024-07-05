@@ -23,6 +23,14 @@
     -fx-font-size: 1em;
 }
 
+.jfx-password-field {
+    -jfx-focus-color: #64B5F6;
+    -jfx-unfocus-color: #BDBDBD;
+    -fx-prompt-text-fill: #BDBDBD;
+    -fx-text-fill: white;
+    -fx-font-size: 1em;
+}
+
 .jfx-text-area {
     -jfx-focus-color: #64B5F6;
     -jfx-unfocus-color: #BDBDBD;
