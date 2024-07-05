@@ -30,7 +30,7 @@
                      <children>
                         <GNAvatarView fx:id="avatar" prefHeight="89.0" prefWidth="600.0" type="CIRCLE">
                            <image>
-                              <Image url="@../images/default-avatar.png" />
+                              <Image url="@../images/avatar.png" />
                            </image>
                            <VBox.margin>
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
