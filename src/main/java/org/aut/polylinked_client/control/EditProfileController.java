@@ -7,38 +7,25 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import org.aut.polylinked_client.SceneManager;
-import org.aut.polylinked_client.model.CallInfo;
-import org.aut.polylinked_client.model.Comment;
-import org.aut.polylinked_client.model.Profile;
-import org.aut.polylinked_client.model.User;
+import org.aut.polylinked_client.model.*;
 import org.aut.polylinked_client.utils.DataAccess;
 import org.aut.polylinked_client.utils.JsonHandler;
 import org.aut.polylinked_client.utils.RequestBuilder;
 import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
-import org.aut.polylinked_client.view.ContentCell;
-import org.aut.polylinked_client.view.MapListView;
 import org.json.JSONObject;
 import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 public class EditProfileController {
     private final static String fileId = "editProfile";
@@ -76,7 +63,7 @@ public class EditProfileController {
     private JFXComboBox<String> countryCB;
 
     @FXML
-    private JFXComboBox<String> cityCB;
+    private JFXTextField cityTF;
 
     @FXML
     private JFXComboBox<String> professionCB;
@@ -127,13 +114,7 @@ public class EditProfileController {
     private JFXTextArea aboutTA;
 
     @FXML
-    private JFXTextArea skill1TA;
-
-    @FXML
-    private JFXTextArea skill2TA;
-
-    @FXML
-    private JFXTextArea skill3TA;
+    private JFXTextArea skillTA;
 
     @FXML
     void initialize() {
@@ -141,6 +122,18 @@ public class EditProfileController {
         SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
             SceneManager.activateTheme(root, fileId);
         });
+
+        countryCB.setItems(FXCollections.observableList(List.of("Iran", "USA", "UK", "Turkey", "Iraq")));
+        countryCB.getSelectionModel().select(0);
+
+        professionCB.setItems(FXCollections.observableList(List.of("DOCTOR", "TEACHER", "ENGINEER", "LAWYER", "MECHANIC")));
+        professionCB.getSelectionModel().select(0);
+
+        statusCB.setItems(FXCollections.observableList(List.of("RECRUITER", "SERVICE_PROVIDER", "JOB_SEARCHER")));
+        statusCB.getSelectionModel().select(0);
+
+        privacyCB.setItems(FXCollections.observableList(List.of("ONLY_ME", "MY_CONNECTIONS", "FURTHER_CONNECTIONS", "EVERYONE")));
+        statusCB.getSelectionModel().select(0);
     }
 
     void setData(String userId) {
@@ -182,7 +175,7 @@ public class EditProfileController {
                     if (initialUser != null && initialProfile != null) {
                         bioTA.setText(initialProfile.getBio());
                         countryCB.setValue(initialProfile.getCountry());
-                        cityCB.setValue(initialProfile.getCity());
+                        cityTF.setText(initialProfile.getCity());
                         professionCB.setValue(initialProfile.getProfession());
                         statusCB.setValue(initialProfile.getStatus());
                     }
@@ -218,9 +211,6 @@ public class EditProfileController {
             SceneManager.showNotification("Info", "Not Found!", 3);
             return;
         }
-
-        String profileMethod;
-        String callInfoMethod = null;
 
         if (personalChanged()) {
             if (firstNameTF.getText().isEmpty() || lastNameTF.getText().isEmpty() || (emailTF.getText().isEmpty()) || passwordTF.getText().isEmpty() || confirmPasswordTF.getText().isEmpty()) {
@@ -263,129 +253,135 @@ public class EditProfileController {
             return;
         }
 
-
-        if (initialProfile != null && profileChanged()) {
-            profileMethod = "PUT";
-        } else if (initialProfile == null && !profileIsEmpty()) {
-            profileMethod = "POST";
-        } else {
-            profileMethod = null;
-        }
-
-        if (!(mobileNumberTF.getText().trim().isEmpty() || mobileNumberTF.getText().matches("\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}") &&
-                homeNumberTF.getText().trim().isEmpty() || homeNumberTF.getText().matches("\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}") &&
-                workNumberTF.getText().trim().isEmpty() || workNumberTF.getText().matches("\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}"))) {
-            SceneManager.showNotification("Info", "Phone number is invalid", 3);
-            return;
-        } else if (initialCallInfo != null && callInfoChanged()) {
-            callInfoMethod = "PUT";
-        } else if (initialCallInfo == null && !callInfoIsEmpty()) {
-            callInfoMethod = "POST";
-        }
-
-
         initialUser.setFirstName(firstNameTF.getText());
         initialUser.setLastName(lastNameTF.getText());
         initialUser.setAdditionalName(additionalNameTF.getText());
         initialUser.setEmail(emailTF.getText());
         initialUser.setPassword(passwordTF.getText());
 
+        JSONObject header = JsonHandler.createJson("Authorization", DataAccess.getJWT());
         new Thread(() -> {
             try {
-                JSONObject headers = new JSONObject();
-                headers.put("Content-Type", "application/json");
-                HttpURLConnection con = RequestBuilder.buildConnection("PUT", "users",
-                        headers, true);
-                JSONObject jsonObj = initialUser.toJson();
-                OutputStream os = con.getOutputStream();
-                JsonHandler.sendObject(os, jsonObj);
-                os.close();
-                if (!(con.getResponseCode() / 100 == 2)) {
-                    throw new NotAcceptableException("Invalid PUT request");
-                }
-            } catch (IOException | NotAcceptableException e) {
+                RequestBuilder.sendJsonRequest("PUT", "users", header, initialUser.toJson());
                 Platform.runLater(() -> {
-                    SceneManager.showNotification("Info", "Something went wrong.", 3);
-                    return;
+                    SceneManager.showNotification("Success", "Personal info Added.", 3);
+                });
+            } catch (UnauthorizedException e) {
+                Platform.runLater(() -> {
+                    SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                    SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
+                });
+            } catch (NotAcceptableException e) {
+                Platform.runLater(() -> {
+                    SceneManager.showNotification("Failure", "Request failed. Try Again", 3);
                 });
             }
         }).start();
 
-        if(profileMethod != null) {
+        new Thread(() -> {
             try {
+                if (isProfileFilled()) {
+                    Profile profile = new Profile(initialUser.getUserId(), bioTA.getText(), countryCB.getValue(),
+                            cityTF.getText(), Profile.Status.valueOf(statusCB.getValue()),
+                            Profile.Profession.valueOf(professionCB.getValue()), 1);
 
-                JSONObject profile = new Profile(initialUser.getUserId(), bioTA.getText(), countryCB.getValue(), cityCB.getValue(), Profile.Status.valueOf(statusCB.getValue()), Profile.Profession.valueOf(professionCB.getValue()), 1).toJson();
-                new Thread(() -> {
-                    try {
-                        JSONObject headers = JsonHandler.createJson("Authorization", DataAccess.getJWT());
-                        RequestBuilder.sendJsonRequest(profileMethod, "users/profiles/", headers, profile);
-                    } catch (NotAcceptableException e) {
-                        Platform.runLater(() -> {
-                            SceneManager.showNotification("Info", "Something went wrong.", 3);
-                            return;
-                        });
-                    } catch (UnauthorizedException e) {
-                        Platform.runLater(() -> {
-                            SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
-                            SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
-                        });
-                    }
-                }).start();
-            } catch (NotAcceptableException e){
+                    RequestBuilder.sendJsonRequest("POST", "users/profiles", header, profile.toJson());
+                    Platform.runLater(() -> {
+                        SceneManager.showNotification("Success", "Profile info added.", 3);
+                    });
+                }
+            } catch (UnauthorizedException e) {
                 Platform.runLater(() -> {
-                    SceneManager.showNotification("Info", "Something went wrong.", 3);
-                    return;
+                    SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                    SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
+                });
+            } catch (NotAcceptableException e) {
+                Platform.runLater(() -> {
+                    SceneManager.showNotification("Failure", "Request failed. Try Again", 3);
                 });
             }
-        }
+        }).start();
 
-        if(callInfoMethod != null) {
+        new Thread(() -> {
             try {
-                JSONObject callInfo = new CallInfo(initialUser.getUserId(), initialUser.getEmail(), mobileNumberTF.getText(), homeNumberTF.getText() , workNumberTF.getText() , addressTA.getText() , Date.from(birthdayDP.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()) , CallInfo.PrivacyPolitics.valueOf(privacyCB.getValue()), socialMediaTF.getText()).toJson();
-                new Thread(() -> {
-                    try {
-                        JSONObject headers = JsonHandler.createJson("Authorization", DataAccess.getJWT());
-                        RequestBuilder.sendJsonRequest(profileMethod, "users/callInfo/", headers, callInfo);
-                    } catch (NotAcceptableException e) {
-                        Platform.runLater(() -> {
-                            SceneManager.showNotification("Info", "Something went wrong.", 3);
-                            return;
-                        });
-                    } catch (UnauthorizedException e) {
-                        Platform.runLater(() -> {
-                            SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
-                            SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
-                        });
-                    }
-                }).start();
-            } catch (NotAcceptableException e){
+                if (isCallInfoFilled()) {
+                    CallInfo callInfo = new CallInfo(initialUser.getUserId(), initialUser.getEmail(),
+                            mobileNumberTF.getText(), homeNumberTF.getText(), workNumberTF.getText(), addressTA.getText(),
+                            Date.from(birthdayDP.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                            CallInfo.PrivacyPolitics.valueOf(privacyCB.getValue()), socialMediaTF.getText());
+
+                    RequestBuilder.sendJsonRequest("POST", "users/callInfo", header, callInfo.toJson());
+                    Platform.runLater(() -> {
+                        SceneManager.showNotification("Success", "Call Info Added", 3);
+                    });
+                }
+            } catch (UnauthorizedException e) {
                 Platform.runLater(() -> {
-                    SceneManager.showNotification("Info", "Something went wrong.", 3);
-                    return;
+                    SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                    SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
+                });
+            } catch (NotAcceptableException e) {
+                Platform.runLater(() -> {
+                    SceneManager.showNotification("Failure", "Request failed. Try Again", 3);
                 });
             }
-        }
+        }).start();
 
+        new Thread(() -> {
+            try {
+                if (isEducationFilled()) {
+                    Education education = new Education(initialUser.getUserId(), instituteTF.getText(), fieldTF.getText(),
+                            Date.from(startDateDP.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                            Date.from(startDateDP.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                            Integer.parseInt(gradeTF.getText()), activitiesTA.getText(), aboutTA.getText());
+
+                    RequestBuilder.sendJsonRequest("POST", "users/educations", header, education.toJson());
+
+                    if (skillTA.getText() != null) {
+                        Skill skill = new Skill(initialUser.getUserId(), education.getEducationId(), skillTA.getText());
+
+                        RequestBuilder.sendJsonRequest("POST", "users/skills", header, skill.toJson());
+                        Platform.runLater(() -> {
+                            SceneManager.showNotification("Success", "Education Added", 3);
+                        });
+                    }
+
+                    Platform.runLater(() -> {
+                        SceneManager.showNotification("Success", "Education Added", 3);
+                    });
+                }
+            } catch (UnauthorizedException e) {
+                Platform.runLater(() -> {
+                    SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                    SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
+                });
+            } catch (NotAcceptableException e) {
+                Platform.runLater(() -> {
+                    SceneManager.showNotification("Failure", "Request failed. Try Again", 3);
+                });
+            }
+        }).start();
+
+        switched.set(true);
     }
 
-    private boolean educationIsEmpty() {
-        return instituteTF.getText().trim().isEmpty() && fieldTF.getText().trim().isEmpty() &&
-                startDateDP.getValue() == null && endDateDP.getValue() == null && gradeTF.getText().trim().isEmpty() &&
-                activitiesTA.getText().trim().isEmpty() && aboutTA.getText().trim().isEmpty() &&
-                skill1TA.getText().trim().isEmpty() && skill2TA.getText().trim().isEmpty() && skill3TA.getText().trim().isEmpty();
+    private boolean isEducationFilled() {
+        return instituteTF.getText() != null && fieldTF.getText() != null &&
+                startDateDP.getValue() != null && endDateDP.getValue() != null && gradeTF.getText() != null &&
+                activitiesTA.getText() != null && aboutTA.getText() != null &&
+                skillTA.getText() != null;
     }
 
-    private boolean profileIsEmpty() {
-        return bioTA.getText().trim().isEmpty() && countryCB.getValue().trim().isEmpty() &&
-                cityCB.getValue().trim().isEmpty() && professionCB.getValue().trim().isEmpty() &&
-                statusCB.getValue().trim().isEmpty();
+    private boolean isProfileFilled() {
+        return bioTA.getText() != null && countryCB.getValue() != null &&
+                cityTF.getText() != null && professionCB != null &&
+                statusCB.getValue() != null;
     }
 
-    private boolean callInfoIsEmpty() {
-        return mobileNumberTF.getText().trim().isEmpty() && homeNumberTF.getText().trim().isEmpty() &&
-                workNumberTF.getText().trim().isEmpty() && addressTA.getText().trim().isEmpty() &&
-                birthdayDP.getValue() == null && socialMediaTF.getText().trim().isEmpty() &&
-                privacyCB.getValue().trim().isEmpty();
+    private boolean isCallInfoFilled() {
+        return mobileNumberTF.getText() != null && homeNumberTF.getText() != null &&
+                workNumberTF.getText() != null && addressTA.getText() != null &&
+                birthdayDP.getValue() != null && socialMediaTF.getText() != null;
     }
 
     private boolean personalChanged() {
@@ -393,26 +389,6 @@ public class EditProfileController {
                 additionalNameTF.getText().equals(initialUser.getAdditionalName()) && emailTF.getText().equals(initialUser.getEmail()) &&
                 passwordTF.getText().equals(initialUser.getPassword()));
     }
-
-    private boolean callInfoChanged() {
-        if (initialCallInfo == null) {
-            return true;
-        }
-        return !(mobileNumberTF.getText().equals(initialCallInfo.getMobileNumber()) && homeNumberTF.getText().equals(initialCallInfo.getHomeNumber()) &&
-                workNumberTF.getText().equals(initialCallInfo.getWorkNumber()) && addressTA.getText().equals(initialCallInfo.getAddress()) &&
-                birthdayDP.getValue().isEqual(LocalDate.ofInstant(Instant.ofEpochMilli(initialCallInfo.getBirthDay()), ZoneId.systemDefault())) &&
-                socialMediaTF.getText().equals(initialCallInfo.getSocialMedia()) && privacyCB.getValue().equals(initialCallInfo.getPrivacyPolitics()));
-    }
-
-    private boolean profileChanged() {
-        if (initialProfile == null) {
-            return true;
-        }
-        return !(bioTA.getText().equals(initialProfile.getBio()) && countryCB.getValue().equals(initialProfile.getCountry()) &&
-                cityCB.getValue().equals(initialProfile.getCity()) && professionCB.getValue().equals(initialProfile.getProfession()) &&
-                statusCB.getValue().equals(initialProfile.getStatus()));
-    }
-
 
     public BooleanProperty isSwitched() {
         return switched;

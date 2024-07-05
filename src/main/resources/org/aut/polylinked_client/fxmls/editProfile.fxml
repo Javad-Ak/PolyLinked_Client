@@ -38,7 +38,7 @@
       </AnchorPane>
    </top>
    <center>
-      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="620.0" prefWidth="644.0" BorderPane.alignment="TOP_CENTER">
+      <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="TOP_CENTER">
          <content>
             <VBox alignment="TOP_CENTER" prefHeight="1625.0" prefWidth="642.0" spacing="30.0">
                <padding>
@@ -196,10 +196,7 @@
                                  <GridPane.margin>
                                     <Insets bottom="5.0" />
                                  </GridPane.margin></JFXComboBox>
-                              <JFXComboBox fx:id="cityCB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                 <GridPane.margin>
-                                    <Insets bottom="5.0" />
-                                 </GridPane.margin></JFXComboBox>
+                              <JFXTextField fx:id="cityTF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                      </children>
@@ -323,9 +320,6 @@
                               <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
@@ -399,21 +393,8 @@
                                     <Insets bottom="5.0" />
                                  </GridPane.margin>
                               </JFXTextArea>
-                              <Label text="Skills:" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="BOTTOM" />
-                              <Label text="Skill 1:" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="BOTTOM" />
-                              <Label layoutX="63.0" layoutY="344.0" text="Skill 2:" GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.valignment="BOTTOM" />
-                              <Label text="Skill 3:" GridPane.halignment="CENTER" GridPane.rowIndex="10" GridPane.valignment="BOTTOM" />
-                              <JFXTextArea fx:id="skill1TA" GridPane.columnIndex="1" GridPane.rowIndex="8">
-                                 <GridPane.margin>
-                                    <Insets bottom="5.0" />
-                                 </GridPane.margin>
-                              </JFXTextArea>
-                              <JFXTextArea fx:id="skill2TA" GridPane.columnIndex="1" GridPane.rowIndex="9">
-                                 <GridPane.margin>
-                                    <Insets bottom="5.0" />
-                                 </GridPane.margin>
-                              </JFXTextArea>
-                              <JFXTextArea fx:id="skill3TA" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                              <Label text="Skill" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="BOTTOM" />
+                              <JFXTextArea fx:id="skillTA" GridPane.columnIndex="1" GridPane.rowIndex="7">
                                  <GridPane.margin>
                                     <Insets bottom="5.0" />
                                  </GridPane.margin>

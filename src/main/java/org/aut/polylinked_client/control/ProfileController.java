@@ -376,7 +376,6 @@ public class ProfileController {
                 controller.setData(userId);
 
                 SceneManager.switchRoot(parent, controller.isSwitched());
-
             } catch (Exception e) {
                 System.err.println(e.getMessage());
                 System.exit(1);
