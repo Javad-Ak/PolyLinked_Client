@@ -25,11 +25,13 @@ import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
 import org.aut.polylinked_client.view.MediaWrapper;
 import org.json.JSONObject;
 import org.kordamp.ikonli.javafx.FontIcon;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class ContentController {
     private final static String fileId = "content"; // content.css file reference
@@ -98,6 +100,7 @@ public class ContentController {
 
         likesLink.setText(post.getLikesCount() + " likes");
         commentsLink.setText(post.getCommentsCount() + " comments");
+        commentsLink.setOnAction(this::commentPressed);
         textArea.setText(post.getText());
 
         Date date = new Date(post.getDate());
@@ -106,8 +109,6 @@ public class ContentController {
         setUpLike(post);
         ProfileController.setUpFollow(followButton, post.getUserId());
         setUpRepost(post, user);
-
-        commentsLink.setOnAction(this::commentPressed);
     }
 
     private void setData(Comment comment, User user) {
@@ -233,6 +234,23 @@ public class ContentController {
                 }
             }).start();
         });
+
+        likesLink.setOnAction((ActionEvent event) -> {
+            new Thread(() -> {
+                try {
+                    List<User> users = RequestBuilder.arrayFromGetRequest(User.class, "likes/" + post.getPostId(), JsonHandler.createJson("Authorization", DataAccess.getJWT()));
+                    if (users.isEmpty()) return;
+
+                    UserListController userListController = new UserListController(users);
+                    UserListController.initiatePage(userListController.getListView());
+                } catch (UnauthorizedException e) {
+                    Platform.runLater(() -> {
+                        SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                        SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
+                    });
+                }
+            }).start();
+        });
     }
 
     private void deleteRows() {
@@ -248,7 +266,7 @@ public class ContentController {
 
     private void setUpMedias(File file, File media) {
         DataAccess.FileType type = DataAccess.getFileType(file);
-        if (file != null && file.length()> 0 && type == DataAccess.FileType.IMAGE)
+        if (file != null && file.length() > 0 && type == DataAccess.FileType.IMAGE)
             avatar.setImage(new Image(file.toURI().toString()));
         else
             avatar.setImage(new Image(defaultAvatar.toUri().toString()));
@@ -316,7 +334,7 @@ public class ContentController {
                     ProfileController profileController = loader.getController();
                     profileController.setData(user.getUserId());
                     profileController.activateBackButton();
-                    Platform.runLater(()->{
+                    Platform.runLater(() -> {
                         SceneManager.switchRoot(root, profileController.isSwitched());
                     });
                 } catch (IOException e) {

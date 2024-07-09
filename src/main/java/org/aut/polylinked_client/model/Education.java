@@ -35,6 +35,20 @@ public class Education implements JsonSerializable {
         this.about = about;
     }
 
+    public Education(String educationId, String userId, String institute, String field, Date start, Date end, int grade, String activities, String about) throws NotAcceptableException {
+        validateFields(institute, field, start, end, grade, activities, about);
+
+        this.educationId = educationId;
+        this.userId = userId;
+        this.institute = institute;
+        this.field = field;
+        this.start = start;
+        this.end = end;
+        this.grade = grade;
+        this.activities = activities;
+        this.about = about;
+    }
+
     public Education(JSONObject jsonObject) throws NotAcceptableException {
         try {
             educationId = jsonObject.getString("educationId");
@@ -56,12 +70,12 @@ public class Education implements JsonSerializable {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
         return "institute: " + institute +
-                "\n    field: " + field +
-                "\n    start: " + format.format(start) +
-                "\n    end: " + format.format(end) +
-                "\n    grade: " + grade +
-                "\n    activities: " + activities +
-                "\n    about: " + about + "\n";
+                "\nfield: " + field +
+                "\nstart: " + format.format(start) +
+                "\nend: " + format.format(end) +
+                "\ngrade: " + grade +
+                "\nactivities: " + activities +
+                "\nabout: " + about + "\n";
     }
 
     @Override

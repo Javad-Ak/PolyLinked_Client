@@ -10,6 +10,25 @@
     -fx-text-fill: white;
 }
 
+.hyperlink {
+    -fx-font-size: 0.85em;
+    -fx-text-fill: white;
+    -fx-underline: false;
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.hyperlink:hover {
+    -fx-text-fill: #0A74DA;
+}
+
+.hyperlink:pressed {
+    -fx-text-fill: #0A74DA;
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+}
+
 .button {
     -fx-background-color: transparent;
     -fx-text-fill: white;

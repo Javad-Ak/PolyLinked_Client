@@ -40,7 +40,7 @@ public class CallInfo implements JsonSerializable {
             mobileNumber = jsonObject.getString("mobileNumber");
             homeNumber = jsonObject.getString("homeNumber");
             workNumber = jsonObject.getString("workNumber");
-            address = jsonObject.getString("Address");
+            address = jsonObject.getString("address");
             birthDay = new Date(jsonObject.getLong("birthDay"));
             privacyPolitics = PrivacyPolitics.valueOf(jsonObject.getString("privacyPolitics"));
             socialMedia = jsonObject.getString("socialMedia");
@@ -79,7 +79,7 @@ public class CallInfo implements JsonSerializable {
     }
 
     public String getPrivacyPolitics() {
-        return privacyPolitics.toString();
+        return privacyPolitics.value;
     }
 
     public String getSocialMedia() {
@@ -91,13 +91,13 @@ public class CallInfo implements JsonSerializable {
         String date = new SimpleDateFormat("yyyy-MM-dd").format(birthDay);
 
         return "emailAddress: " + email +
-                "\n    mobileNumber: " + mobileNumber +
-                "\n    homeNumber: " + homeNumber +
-                "\n    workNumber: " + workNumber +
-                "\n    Address: " + address +
-                "\n    birthDay: " + date +
-                "\n    privacyPolitics: " + privacyPolitics +
-                "\n    socialMedia: " + socialMedia;
+                "\nmobileNumber: " + mobileNumber +
+                "\nhomeNumber: " + homeNumber +
+                "\nworkNumber: " + workNumber +
+                "\naddress: " + address +
+                "\nbirthDay: " + date +
+                "\nprivacyPolitics: " + privacyPolitics +
+                "\nsocialMedia: " + socialMedia;
     }
 
     @Override
@@ -108,9 +108,9 @@ public class CallInfo implements JsonSerializable {
         jsonObject.put("mobileNumber", mobileNumber);
         jsonObject.put("homeNumber", homeNumber);
         jsonObject.put("workNumber", workNumber);
-        jsonObject.put("Address", address);
+        jsonObject.put("address", address);
         jsonObject.put("birthDay", birthDay.getTime());
-        jsonObject.put("privacyPolitics", privacyPolitics);
+        jsonObject.put("privacyPolitics", privacyPolitics.value);
         jsonObject.put("socialMedia", socialMedia);
         return jsonObject;
     }

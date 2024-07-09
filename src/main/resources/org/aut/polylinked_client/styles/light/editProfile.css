@@ -169,3 +169,9 @@
     -fx-background-color: #0A74DA;
     -fx-text-fill: white;
 }
+
+#combo * {
+    -fx-text-fill: black;
+    -fx-background-color: #bbbbbb;
+}
+

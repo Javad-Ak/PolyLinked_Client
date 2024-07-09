@@ -89,7 +89,7 @@ public class SceneManager {
 
     public static void setScene(SceneLevel sceneLevel) {
         if (stage == null) {
-            System.out.println("Primary stage not set");
+            System.err.println("Primary stage not set");
             System.exit(1);
         }
 

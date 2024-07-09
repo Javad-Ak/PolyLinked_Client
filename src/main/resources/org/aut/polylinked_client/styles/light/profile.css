@@ -26,13 +26,14 @@
     -fx-text-fill: #0A74DA; /* Blue text color */
 }
 
-.hyperlink {
-    -fx-text-fill: #0A74DA; /* Primary blue color */
-    -fx-font-size: 1em; /* Relative font size */
+.hyperlink:hover {
+    -fx-text-fill: darkblue;
 }
 
-.hyperlink:hover {
-    -fx-text-fill: #084B8A; /* Darker blue on hover */
+.hyperlink:pressed {
+    -fx-text-fill: darkblue;
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
 }
 
 .button {

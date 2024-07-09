@@ -105,7 +105,6 @@ public class Profile implements MediaLinked {
     }
 
 
-
     @Override
     public String getMediaURL() {
         return MediaLinked.SERVER_PREFIX + "backgrounds/bg" + userId;

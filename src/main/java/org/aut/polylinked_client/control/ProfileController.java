@@ -8,14 +8,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.aut.polylinked_client.PolyLinked;
 import javafx.stage.FileChooser;
@@ -26,13 +24,14 @@ import org.aut.polylinked_client.utils.JsonHandler;
 import org.aut.polylinked_client.utils.RequestBuilder;
 import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
 import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
+import org.aut.polylinked_client.view.ContentCell;
+import org.aut.polylinked_client.view.MapListView;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class ProfileController {
     private final static String fileId = "profile";
@@ -40,6 +39,12 @@ public class ProfileController {
     private final static Path defaultBG = Path.of("src/main/resources/org/aut/polylinked_client/images/background.jpeg");
 
     private final BooleanProperty switched = new SimpleBooleanProperty(false);
+
+    private User user = null;
+    private Profile profile = null;
+    private CallInfo callInfo = null;
+    private Education education = null;
+    private Skill skill = null;
 
     @FXML
     private GNAvatarView avatar;
@@ -102,7 +107,7 @@ public class ProfileController {
     private ScrollPane root;
 
     @FXML
-    private Text skillsText;
+    private VBox postBox;
 
     @FXML
     void initialize() {
@@ -137,33 +142,37 @@ public class ProfileController {
             try {
                 JSONObject headers = JsonHandler.createJson("Authorization", DataAccess.getJWT());
 
-                User userX = null;
                 try {
-                    userX = new User(RequestBuilder.jsonFromGetRequest("users/" + userId, headers));
+                    this.user = new User(RequestBuilder.jsonFromGetRequest("users/" + userId, headers));
+                } catch (NotAcceptableException e) {
+                    return;
+                }
+
+                try {
+                    this.profile = new Profile(RequestBuilder.jsonFromGetRequest("users/profiles/" + userId, headers));
                 } catch (NotAcceptableException ignored) {
                 }
 
-                Profile profileX = null;
                 try {
-                    profileX = new Profile(RequestBuilder.jsonFromGetRequest("users/profiles/" + userId, headers));
-                } catch (NotAcceptableException ignored) {
-                }
-
-                CallInfo callInfoX = null;
-                try {
-                    callInfoX = new CallInfo(RequestBuilder.jsonFromGetRequest("users/callInfo/" + userId, headers));
+                    this.callInfo = new CallInfo(RequestBuilder.jsonFromGetRequest("users/callInfo/" + userId, headers));
                 } catch (NotAcceptableException ignored) {
                 }
 
                 List<Education> educations = RequestBuilder.arrayFromGetRequest(Education.class, "users/educations/" + userId, headers);
                 List<Skill> skills = RequestBuilder.arrayFromGetRequest(Skill.class, "users/skills/" + userId, headers);
+
                 List<User> followers = RequestBuilder.arrayFromGetRequest(User.class, "users/followers/" + userId, headers);
                 List<User> followings = RequestBuilder.arrayFromGetRequest(User.class, "users/followings/" + userId, headers);
                 List<User> connections = RequestBuilder.arrayFromGetRequest(User.class, "connections/" + userId, headers);
+                List<Post> posts = RequestBuilder.arrayFromGetRequest(Post.class, "posts/user/" + userId, headers);
 
-                User user = userX;
-                Profile profile = profileX;
-                CallInfo callInfo = callInfoX;
+                if (!educations.isEmpty()) this.education = educations.getFirst();
+                if (!skills.isEmpty()) this.skill = skills.getFirst();
+
+                User user = this.user;
+                Profile profile = this.profile;
+                Skill skill = this.skill;
+                CallInfo callInfo = this.callInfo;
                 Platform.runLater(() -> {
                     if (user != null) {
                         File image = DataAccess.getFile(userId, user.getMediaURL());
@@ -191,12 +200,16 @@ public class ProfileController {
 
                     if (callInfo != null) callInfoText.setText(callInfo.toString());
 
-                    for (int i = 1; i <= educations.size(); i++)
-                        educationText.setText(i + ". " + educations.get(i - 1).toString() + "\n");
-
-                    for (int i = 1; i <= skills.size(); i++)
-                        skillsText.setText(i + ". " + skills.get(i - 1).toString() + "\n");
-
+                    StringBuilder builder = new StringBuilder();
+                    if (!educations.isEmpty() && educations.getFirst() != null) {
+                        this.education = educations.getFirst();
+                        builder.append(education.toString());
+                    }
+                    if (!skills.isEmpty() && skills.getFirst() != null) {
+                        this.skill = skills.getFirst();
+                        builder.append(skill.toString());
+                    }
+                    educationText.setText(builder.toString());
                     followersLink.setText(followers.size() + " Followers");
                     followingsLink.setText(followings.size() + " Followings");
                     connectionsLink.setText(connections.size() + " Connections");
@@ -234,6 +247,25 @@ public class ProfileController {
                             }
                         }).start();
                     });
+
+                    if (!posts.isEmpty()) {
+                        ListView<ContentCell<Post>> postsListView = new ListView<>();
+                        new Thread(() -> {
+                            TreeMap<Post, User> postsData = new TreeMap<>();
+                            posts.forEach(value -> postsData.put(value, user));
+
+                            ArrayList<Post> sortedKeys = new ArrayList<>(postsData.keySet().stream().toList());
+                            sortedKeys.sort(Comparator.comparing(Post::getDate).reversed());
+                            MapListView<Post> mapListView = new MapListView<>(postsListView, postsData, sortedKeys);
+                            mapListView.activate(10);
+                        }).start();
+
+                        postBox.getChildren().clear();
+                        postBox.getChildren().add(postsListView);
+                    } else {
+                        postBox.getChildren().clear();
+                        postBox.getChildren().add(new Label("No posts found"));
+                    }
 
                     if (!connections.isEmpty()) connectionsLink.setOnAction((ActionEvent event) -> {
                         new Thread(() -> {
@@ -373,12 +405,11 @@ public class ProfileController {
                 Parent parent = loader.load();
 
                 EditProfileController controller = loader.getController();
-                controller.setData(userId);
+                controller.setData(user, profile, callInfo, education, skill);
 
                 SceneManager.switchRoot(parent, controller.isSwitched());
             } catch (Exception e) {
-                System.err.println(e.getMessage());
-                System.exit(1);
+                throw new RuntimeException(e);
             }
         });
     }

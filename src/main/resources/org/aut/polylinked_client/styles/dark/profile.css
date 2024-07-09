@@ -9,6 +9,25 @@
     -fx-background-color: transparent;
 }
 
+.hyperlink {
+    -fx-font-size: 0.85em;
+    -fx-text-fill: white;
+    -fx-underline: false;
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.hyperlink:hover {
+    -fx-text-fill: #0A74DA;
+}
+
+.hyperlink:pressed {
+    -fx-text-fill: #0A74DA;
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+}
+
 .header-label {
     -fx-text-fill: #0A74DA; /* Blue text color */
     -fx-font-size: 2em; /* Increased font size for profile header */
@@ -24,15 +43,6 @@
     -fx-font-size: 1em; /* Relative font size */
     -fx-font-weight: bold;
     -fx-text-fill: #0A74DA; /* Blue text color */
-}
-
-.hyperlink {
-    -fx-text-fill: #0A74DA; /* Primary blue color */
-    -fx-font-size: 1em; /* Relative font size */
-}
-
-.hyperlink:hover {
-    -fx-text-fill: #084B8A; /* Darker blue on hover */
 }
 
 .button {

@@ -184,15 +184,15 @@
                                     <Insets bottom="5.0" />
                                  </GridPane.margin>
                               </JFXTextArea>
-                              <JFXComboBox fx:id="professionCB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              <JFXComboBox id="combo" fx:id="professionCB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <GridPane.margin>
                                     <Insets bottom="5.0" />
                                  </GridPane.margin></JFXComboBox>
-                              <JFXComboBox fx:id="statusCB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                              <JFXComboBox id="combo" fx:id="statusCB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                  <GridPane.margin>
                                     <Insets bottom="5.0" />
                                  </GridPane.margin></JFXComboBox>
-                              <JFXComboBox fx:id="countryCB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <JFXComboBox id="combo" fx:id="countryCB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets bottom="5.0" />
                                  </GridPane.margin></JFXComboBox>
@@ -290,7 +290,7 @@
                                     <Insets right="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <JFXComboBox fx:id="privacyCB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                              <JFXComboBox id="combo" fx:id="privacyCB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="6">
                                  <GridPane.margin>
                                     <Insets bottom="5.0" />
                                  </GridPane.margin></JFXComboBox>

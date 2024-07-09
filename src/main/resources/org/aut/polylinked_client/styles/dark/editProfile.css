@@ -37,7 +37,7 @@
     -fx-prompt-text-fill: #BDBDBD;
     -fx-text-fill: white;
     -fx-font-size: 1em;
-    -fx-border-color: #64B5F6 ;
+    -fx-border-color: #64B5F6;
     -fx-border-width: 1px;
 }
 
@@ -168,5 +168,10 @@
 .date-picker-popup .day-cell:selected {
     -fx-background-color: #64B5F6;
     -fx-text-fill: black;
+}
+
+#combo * {
+    -fx-text-fill: white;
+    -fx-background-color: #616161;
 }
 

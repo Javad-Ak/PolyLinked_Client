@@ -10,6 +10,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.BorderPane;
 import org.aut.polylinked_client.SceneManager;
@@ -26,95 +27,102 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class EditProfileController {
     private final static String fileId = "editProfile";
     private final BooleanProperty switched = new SimpleBooleanProperty(false);
 
-    private User initialUser;
-    private Profile initialProfile;
-    private CallInfo initialCallInfo;
-
-    @FXML
-    private BorderPane root;
-
-    @FXML
-    private JFXTextField firstNameTF;
-
-    @FXML
-    private JFXTextField lastNameTF;
-
-    @FXML
-    private JFXTextField emailTF;
-
-    @FXML
-    private JFXTextField additionalNameTF;
-
-    @FXML
-    private JFXPasswordField passwordTF;
-
-    @FXML
-    private JFXPasswordField confirmPasswordTF;
-
-    @FXML
-    private JFXTextArea bioTA;
-
-    @FXML
-    private JFXComboBox<String> countryCB;
-
-    @FXML
-    private JFXTextField cityTF;
-
-    @FXML
-    private JFXComboBox<String> professionCB;
-
-    @FXML
-    private JFXComboBox<String> statusCB;
-
-    @FXML
-    private JFXTextField mobileNumberTF;
-
-    @FXML
-    private JFXTextField homeNumberTF;
-
-    @FXML
-    private JFXTextField workNumberTF;
-
-    @FXML
-    private JFXTextArea addressTA;
-
-    @FXML
-    private DatePicker birthdayDP;
-
-    @FXML
-    private JFXTextField socialMediaTF;
-
-    @FXML
-    private JFXComboBox<String> privacyCB;
-
-    @FXML
-    private JFXTextField instituteTF;
-
-    @FXML
-    private JFXTextField fieldTF;
-
-    @FXML
-    private DatePicker startDateDP;
-
-    @FXML
-    private DatePicker endDateDP;
-
-    @FXML
-    private JFXTextField gradeTF;
-
-    @FXML
-    private JFXTextArea activitiesTA;
+    private User user;
+    private Education education;
+    private Skill skill;
 
     @FXML
     private JFXTextArea aboutTA;
 
     @FXML
+    private JFXTextArea activitiesTA;
+
+    @FXML
+    private JFXTextField additionalNameTF;
+
+    @FXML
+    private JFXTextArea addressTA;
+
+    @FXML
+    private JFXTextArea bioTA;
+
+    @FXML
+    private DatePicker birthdayDP;
+
+    @FXML
+    private Button cancelBtn;
+
+    @FXML
+    private JFXTextField cityTF;
+
+    @FXML
+    private JFXPasswordField confirmPasswordTF;
+
+    @FXML
+    private JFXComboBox<String> countryCB;
+
+    @FXML
+    private JFXTextField emailTF;
+
+    @FXML
+    private DatePicker endDateDP;
+
+    @FXML
+    private JFXTextField fieldTF;
+
+    @FXML
+    private JFXTextField firstNameTF;
+
+    @FXML
+    private JFXTextField gradeTF;
+
+    @FXML
+    private JFXTextField homeNumberTF;
+
+    @FXML
+    private JFXTextField instituteTF;
+
+    @FXML
+    private JFXTextField lastNameTF;
+
+    @FXML
+    private JFXTextField mobileNumberTF;
+
+    @FXML
+    private JFXPasswordField passwordTF;
+
+    @FXML
+    private JFXComboBox<String> privacyCB;
+
+    @FXML
+    private JFXComboBox<String> professionCB;
+
+    @FXML
+    private BorderPane root;
+
+    @FXML
+    private Button saveBtn;
+
+    @FXML
     private JFXTextArea skillTA;
+
+    @FXML
+    private JFXTextField socialMediaTF;
+
+    @FXML
+    private DatePicker startDateDP;
+
+    @FXML
+    private JFXComboBox<String> statusCB;
+
+    @FXML
+    private JFXTextField workNumberTF;
 
     @FXML
     void initialize() {
@@ -123,81 +131,62 @@ public class EditProfileController {
             SceneManager.activateTheme(root, fileId);
         });
 
-        countryCB.setItems(FXCollections.observableList(List.of("Iran", "USA", "UK", "Turkey", "Iraq")));
-        countryCB.getSelectionModel().select(0);
+        countryCB.setItems(FXCollections.observableList(List.of("IRAN", "USA", "UK", "TURKEY", "IRAQ")));
+        countryCB.setValue("IRAN");
 
         professionCB.setItems(FXCollections.observableList(List.of("DOCTOR", "TEACHER", "ENGINEER", "LAWYER", "MECHANIC")));
-        professionCB.getSelectionModel().select(0);
+        professionCB.setValue("ENGINEER");
 
         statusCB.setItems(FXCollections.observableList(List.of("RECRUITER", "SERVICE_PROVIDER", "JOB_SEARCHER")));
-        statusCB.getSelectionModel().select(0);
+        statusCB.setValue("JOB_SEARCHER");
 
         privacyCB.setItems(FXCollections.observableList(List.of("ONLY_ME", "MY_CONNECTIONS", "FURTHER_CONNECTIONS", "EVERYONE")));
-        statusCB.getSelectionModel().select(0);
+        privacyCB.setValue("EVERYONE");
     }
 
-    void setData(String userId) {
-        new Thread(() -> {
-            try {
-                JSONObject headers = JsonHandler.createJson("Authorization", DataAccess.getJWT());
+    public void setData(User user, Profile profile, CallInfo callInfo, Education education, Skill skill) {
+        if (user == null) return;
 
-                User userX = null;
-                try {
-                    userX = new User(RequestBuilder.jsonFromGetRequest("users/" + userId, headers));
-                } catch (NotAcceptableException ignored) {
-                }
+        this.user = user;
+        firstNameTF.setText(user.getFirstName());
+        lastNameTF.setText(user.getLastName());
+        additionalNameTF.setText(user.getAdditionalName());
+        emailTF.setText(user.getEmail());
+        passwordTF.setText(user.getPassword());
 
-                CallInfo callInfoX = null;
-                try {
-                    callInfoX = new CallInfo(RequestBuilder.jsonFromGetRequest("users/callInfo/" + userId, headers));
-                } catch (NotAcceptableException ignored) {
-                }
+        if (profile != null) {
+            bioTA.setText(profile.getBio());
+            countryCB.setValue(profile.getCountry());
+            cityTF.setText(profile.getCity());
+            professionCB.setValue(profile.getProfession());
+            statusCB.setValue(profile.getStatus());
+        }
 
-                Profile profileX = null;
-                try {
-                    profileX = new Profile(RequestBuilder.jsonFromGetRequest("users/profiles/" + userId, headers));
-                } catch (NotAcceptableException ignored) {
-                }
+        if (callInfo != null) {
+            mobileNumberTF.setText(callInfo.getMobileNumber());
+            homeNumberTF.setText(callInfo.getHomeNumber());
+            workNumberTF.setText(callInfo.getWorkNumber());
+            addressTA.setText(callInfo.getAddress());
+            birthdayDP.setValue(LocalDate.ofInstant(Instant.ofEpochMilli(callInfo.getBirthDay()), ZoneId.systemDefault()));
+            socialMediaTF.setText(callInfo.getSocialMedia());
+            privacyCB.setValue(callInfo.getPrivacyPolitics());
+        }
 
+        if (education != null) {
+            this.education = education;
+            instituteTF.setText(education.getInstitute());
+            fieldTF.setText(education.getField());
+            startDateDP.setValue(Instant.ofEpochMilli(education.getStart()).atZone(ZoneId.systemDefault()).toLocalDate());
+            endDateDP.setValue(Instant.ofEpochMilli(education.getEnd()).atZone(ZoneId.systemDefault()).toLocalDate());
+            gradeTF.setText(String.valueOf(education.getGrade()));
+            activitiesTA.setText(education.getActivities());
+            aboutTA.setText(education.getAbout());
+        }
 
-                initialUser = userX;
-                initialProfile = profileX;
-                initialCallInfo = callInfoX;
-                Platform.runLater(() -> {
-                    if (initialUser != null) {
-                        firstNameTF.setText(initialUser.getFirstName());
-                        lastNameTF.setText(initialUser.getLastName());
-                        additionalNameTF.setText(initialUser.getAdditionalName());
-                        emailTF.setText(initialUser.getEmail());
-                        passwordTF.setText(initialUser.getPassword());
-                    }
-
-                    if (initialUser != null && initialProfile != null) {
-                        bioTA.setText(initialProfile.getBio());
-                        countryCB.setValue(initialProfile.getCountry());
-                        cityTF.setText(initialProfile.getCity());
-                        professionCB.setValue(initialProfile.getProfession());
-                        statusCB.setValue(initialProfile.getStatus());
-                    }
-
-                    if (initialCallInfo != null) {
-                        mobileNumberTF.setText(initialCallInfo.getMobileNumber());
-                        homeNumberTF.setText(initialCallInfo.getHomeNumber());
-                        workNumberTF.setText(initialCallInfo.getWorkNumber());
-                        addressTA.setText(initialCallInfo.getAddress());
-                        birthdayDP.setValue(LocalDate.ofInstant(Instant.ofEpochMilli(initialCallInfo.getBirthDay()), ZoneId.systemDefault()));
-                        socialMediaTF.setText(initialCallInfo.getSocialMedia());
-                        privacyCB.setValue(initialCallInfo.getPrivacyPolitics());
-                    }
-                });
-
-            } catch (UnauthorizedException e) {
-                Platform.runLater(() -> {
-                    SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
-                    SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
-                });
-            }
-        }).start();
+        if (skill != null) {
+            this.skill = skill;
+            skillTA.setText(skill.getText());
+        }
     }
 
     @FXML
@@ -207,8 +196,9 @@ public class EditProfileController {
 
     @FXML
     void saveBtnPressed(ActionEvent event) {
-        if (initialUser == null) {
+        if (user == null) {
             SceneManager.showNotification("Info", "Not Found!", 3);
+            switched.set(true);
             return;
         }
 
@@ -253,16 +243,16 @@ public class EditProfileController {
             return;
         }
 
-        initialUser.setFirstName(firstNameTF.getText());
-        initialUser.setLastName(lastNameTF.getText());
-        initialUser.setAdditionalName(additionalNameTF.getText());
-        initialUser.setEmail(emailTF.getText());
-        initialUser.setPassword(passwordTF.getText());
+        user.setFirstName(firstNameTF.getText());
+        user.setLastName(lastNameTF.getText());
+        user.setAdditionalName(additionalNameTF.getText());
+        user.setEmail(emailTF.getText());
+        user.setPassword(passwordTF.getText());
 
         JSONObject header = JsonHandler.createJson("Authorization", DataAccess.getJWT());
         new Thread(() -> {
             try {
-                RequestBuilder.sendJsonRequest("PUT", "users", header, initialUser.toJson());
+                RequestBuilder.sendJsonRequest("PUT", "users", header, user.toJson());
                 Platform.runLater(() -> {
                     SceneManager.showNotification("Success", "Personal info Added.", 3);
                 });
@@ -278,17 +268,16 @@ public class EditProfileController {
             }
         }).start();
 
+        AtomicBoolean bool = new AtomicBoolean(false);
         new Thread(() -> {
             try {
                 if (isProfileFilled()) {
-                    Profile profile = new Profile(initialUser.getUserId(), bioTA.getText(), countryCB.getValue(),
+                    Profile newProfile = new Profile(user.getUserId(), bioTA.getText(), countryCB.getValue(),
                             cityTF.getText(), Profile.Status.valueOf(statusCB.getValue()),
                             Profile.Profession.valueOf(professionCB.getValue()), 1);
 
-                    RequestBuilder.sendJsonRequest("POST", "users/profiles", header, profile.toJson());
-                    Platform.runLater(() -> {
-                        SceneManager.showNotification("Success", "Profile info added.", 3);
-                    });
+                    RequestBuilder.sendJsonRequest("POST", "users/profiles", header, newProfile.toJson());
+                    bool.set(true);
                 }
             } catch (UnauthorizedException e) {
                 Platform.runLater(() -> {
@@ -305,15 +294,13 @@ public class EditProfileController {
         new Thread(() -> {
             try {
                 if (isCallInfoFilled()) {
-                    CallInfo callInfo = new CallInfo(initialUser.getUserId(), initialUser.getEmail(),
+                    CallInfo newCallInfo = new CallInfo(user.getUserId(), user.getEmail(),
                             mobileNumberTF.getText(), homeNumberTF.getText(), workNumberTF.getText(), addressTA.getText(),
                             Date.from(birthdayDP.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                             CallInfo.PrivacyPolitics.valueOf(privacyCB.getValue()), socialMediaTF.getText());
 
-                    RequestBuilder.sendJsonRequest("POST", "users/callInfo", header, callInfo.toJson());
-                    Platform.runLater(() -> {
-                        SceneManager.showNotification("Success", "Call Info Added", 3);
-                    });
+                    RequestBuilder.sendJsonRequest("POST", "users/callInfo", header, newCallInfo.toJson());
+                    bool.set(true);
                 }
             } catch (UnauthorizedException e) {
                 Platform.runLater(() -> {
@@ -330,25 +317,31 @@ public class EditProfileController {
         new Thread(() -> {
             try {
                 if (isEducationFilled()) {
-                    Education education = new Education(initialUser.getUserId(), instituteTF.getText(), fieldTF.getText(),
-                            Date.from(startDateDP.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                            Date.from(startDateDP.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                            Integer.parseInt(gradeTF.getText()), activitiesTA.getText(), aboutTA.getText());
-
-                    RequestBuilder.sendJsonRequest("POST", "users/educations", header, education.toJson());
+                    Education newEducation;
+                    if (education == null) {
+                        newEducation = new Education(user.getUserId(), instituteTF.getText(), fieldTF.getText(),
+                                Date.from(startDateDP.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                                Date.from(startDateDP.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                                Integer.parseInt(gradeTF.getText()), activitiesTA.getText(), aboutTA.getText());
+                    } else {
+                        newEducation = new Education(this.education.getEducationId(), user.getUserId(), instituteTF.getText(), fieldTF.getText(),
+                                Date.from(startDateDP.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                                Date.from(startDateDP.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                                Integer.parseInt(gradeTF.getText()), activitiesTA.getText(), aboutTA.getText());
+                    }
+                    RequestBuilder.sendJsonRequest("POST", "users/educations", header, newEducation.toJson());
 
                     if (skillTA.getText() != null) {
-                        Skill skill = new Skill(initialUser.getUserId(), education.getEducationId(), skillTA.getText());
+                        Skill newSkill;
+                        if (skill == null) {
+                            newSkill = new Skill(user.getUserId(), newEducation.getEducationId(), skillTA.getText());
+                        } else {
+                            newSkill = new Skill(this.skill.getSkillId(), user.getUserId(), newEducation.getEducationId(), skillTA.getText());
+                        }
 
-                        RequestBuilder.sendJsonRequest("POST", "users/skills", header, skill.toJson());
-                        Platform.runLater(() -> {
-                            SceneManager.showNotification("Success", "Education Added", 3);
-                        });
+                        RequestBuilder.sendJsonRequest("POST", "users/skills", header, newSkill.toJson());
                     }
-
-                    Platform.runLater(() -> {
-                        SceneManager.showNotification("Success", "Education Added", 3);
-                    });
+                    bool.set(true);
                 }
             } catch (UnauthorizedException e) {
                 Platform.runLater(() -> {
@@ -362,6 +355,7 @@ public class EditProfileController {
             }
         }).start();
 
+        if (bool.get()) SceneManager.showNotification("Success", "Profile updated.", 3);
         switched.set(true);
     }
 
@@ -373,8 +367,8 @@ public class EditProfileController {
     }
 
     private boolean isProfileFilled() {
-        return bioTA.getText() != null && countryCB.getValue() != null &&
-                cityTF.getText() != null && professionCB != null &&
+        return bioTA.getText() != null || countryCB.getValue() != null ||
+                cityTF.getText() != null || professionCB != null ||
                 statusCB.getValue() != null;
     }
 
@@ -385,9 +379,9 @@ public class EditProfileController {
     }
 
     private boolean personalChanged() {
-        return !(firstNameTF.getText().equals(initialUser.getFirstName()) && lastNameTF.getText().equals(initialUser.getLastName()) &&
-                additionalNameTF.getText().equals(initialUser.getAdditionalName()) && emailTF.getText().equals(initialUser.getEmail()) &&
-                passwordTF.getText().equals(initialUser.getPassword()));
+        return !(firstNameTF.getText().equals(user.getFirstName()) && lastNameTF.getText().equals(user.getLastName()) &&
+                additionalNameTF.getText().equals(user.getAdditionalName()) && emailTF.getText().equals(user.getEmail()) &&
+                passwordTF.getText().equals(user.getPassword()));
     }
 
     public BooleanProperty isSwitched() {

@@ -87,48 +87,6 @@
                </padding>
             </VBox>
          </center>
-         <bottom>
-            <TabPane prefHeight="150.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-              <tabs>
-                <Tab text="Education">
-                     <content>
-                        <VBox>
-                           <children>
-                              <Text id="info" fx:id="educationText" strokeType="OUTSIDE" strokeWidth="0.0" />
-                           </children>
-                           <padding>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </padding>
-                        </VBox>
-                     </content>
-                  </Tab>
-                <Tab text="Call Info">
-                     <content>
-                        <VBox>
-                           <children>
-                              <Text id="info" fx:id="callInfoText" strokeType="OUTSIDE" strokeWidth="0.0" />
-                           </children>
-                           <padding>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </padding>
-                        </VBox>
-                     </content>
-                  </Tab>
-                  <Tab text="Skills">
-                     <content>
-                        <VBox>
-                           <children>
-                              <Text id="info" fx:id="skillsText" strokeType="OUTSIDE" strokeWidth="0.0" />
-                           </children>
-                           <padding>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </padding>
-                        </VBox>
-                     </content>
-                  </Tab>
-              </tabs>
-            </TabPane>
-         </bottom>
          <right>
             <HBox fx:id="buttonBox" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
@@ -151,6 +109,41 @@
                </padding>
             </HBox>
          </right>
+         <bottom>
+            <TabPane prefHeight="450.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+              <tabs>
+                <Tab text="Education">
+                     <content>
+                        <VBox>
+                           <children>
+                              <Text id="info" fx:id="educationText" strokeType="OUTSIDE" strokeWidth="0.0" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </content>
+                  </Tab>
+                <Tab text="Call Info">
+                     <content>
+                        <VBox>
+                           <children>
+                              <Text id="info" fx:id="callInfoText" strokeType="OUTSIDE" strokeWidth="0.0" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </content>
+                  </Tab>
+                  <Tab text="Posts">
+                     <content>
+                        <VBox fx:id="postBox" alignment="TOP_CENTER" />
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+         </bottom>
       </BorderPane>
    </content>
 </ScrollPane>
