@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -62,7 +63,10 @@ public class ContentController {
     private Hyperlink repostLink;
 
     @FXML
-    private GridPane root;
+    private GridPane pane;
+
+    @FXML
+    private VBox root;
 
     @FXML
     private Text textArea;
@@ -72,11 +76,11 @@ public class ContentController {
 
     @FXML
     void initialize() {
-        SceneManager.activateTheme(root, fileId);
+        SceneManager.activateTheme(pane, fileId);
 
         // theme observation
         SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
-            SceneManager.activateTheme(root, fileId);
+            SceneManager.activateTheme(pane, fileId);
         });
     }
 
@@ -92,7 +96,7 @@ public class ContentController {
     // fill data into fxml using fxmlLoader.getController
     private void setData(Post post, User user) {
         if (post == null || user == null) return;
-        root.setUserData(post);
+        pane.setUserData(post);
 
         // fill data into fxml
         nameLink.setText(user.getFirstName() + " " + user.getLastName());
@@ -130,7 +134,12 @@ public class ContentController {
     private void setData(Message message, User user) {
         if (message == null || user == null) return;
         deleteRows();
-        root.getChildren().removeIf(node -> GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) == 0);
+        pane.getChildren().removeIf(node -> GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) == 0);
+
+        if (message.getSenderId().equals(DataAccess.getUserId()))
+            root.setPadding(new Insets(0, 0, 0, 100));
+        else
+            root.setPadding(new Insets(0, 100, 0, 0));
 
         nameLink.setText(user.getFirstName() + " " + user.getLastName());
         setUpProfileLink(user, nameLink);
@@ -151,7 +160,7 @@ public class ContentController {
             Parent parent = loader.load();
 
             CommentsController controller = loader.getController();
-            Post post = (Post) root.getUserData();
+            Post post = (Post) pane.getUserData();
             controller.setData(post);
 
             SceneManager.switchRoot(parent, controller.isSwitched());
@@ -168,17 +177,12 @@ public class ContentController {
     @FXML
     void repostPressed(ActionEvent event) {
         try {
-            Post post = (Post) root.getUserData();
+            Post post = (Post) pane.getUserData();
             Post rePost = post.repost(DataAccess.getUserId());
             HomeController.sendPost(rePost, DataAccess.getFile(post.getPostId(), post.getMediaURL()));
         } catch (NotAcceptableException e) {
             SceneManager.showNotification("Failure", "Post Couldn't be added. Please try again later.", 3);
         }
-    }
-
-    @FXML
-    void sendPressed(ActionEvent event) {
-
     }
 
     void setUpLike(Post post) {
@@ -254,7 +258,7 @@ public class ContentController {
     }
 
     private void deleteRows() {
-        root.getChildren().removeIf(node -> GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) >= 2 &&
+        pane.getChildren().removeIf(node -> GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) >= 2 &&
                 !(node.getId() != null && node.getId().equals("date")));
 
         VBox vBox = (VBox) nameLink.getParent();

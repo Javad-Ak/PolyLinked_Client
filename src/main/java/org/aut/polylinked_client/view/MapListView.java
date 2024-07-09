@@ -5,8 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import org.aut.polylinked_client.model.MediaLinked;
 import org.aut.polylinked_client.model.User;
-
-import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 
 public class MapListView<T extends MediaLinked> implements LazyLoaderList {
@@ -16,13 +15,13 @@ public class MapListView<T extends MediaLinked> implements LazyLoaderList {
 
     private final ObservableList<ContentCell<T>> observableCells = FXCollections.observableArrayList();
 
-    private final ArrayList<T> sortedKeys;
+    private final List<T> sortedKeys;
 
     private int index = 0;
 
     private int bufferCount = 0;
 
-    public MapListView(ListView<ContentCell<T>> listView, TreeMap<T, User> dataTree, ArrayList<T> sortedKeys) {
+    public MapListView(ListView<ContentCell<T>> listView, TreeMap<T, User> dataTree, List<T> sortedKeys) {
         this.listView = listView;
         this.dataTree = dataTree;
         this.sortedKeys = sortedKeys;

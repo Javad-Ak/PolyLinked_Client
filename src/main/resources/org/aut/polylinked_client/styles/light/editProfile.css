@@ -107,11 +107,6 @@
     -fx-padding: 20px;
 }
 
-.gn-avatar-view {
-    -fx-background-color: white;
-    -fx-padding: 20px;
-}
-
 .date-picker {
     -fx-background-color: white;
     -fx-border-color: #0A74DA;

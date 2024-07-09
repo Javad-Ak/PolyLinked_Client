@@ -4,6 +4,11 @@
     -fx-font-size: 1em;
 }
 
+#pane {
+    -fx-border-width: 0 0 0 3px;
+    -fx-border-color: #b2b2b2;
+}
+
 .toggle-button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;

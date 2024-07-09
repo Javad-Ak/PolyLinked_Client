@@ -95,12 +95,6 @@
     -fx-background-color: #1f1f1f;
 }
 
-.gnavatar-view {
-    -fx-background-color: #353535;
-    -fx-border-color: #64B5F6;
-    -fx-border-width: 2px;
-}
-
 .vbox {
     -fx-spacing: 10px;
     -fx-padding: 20px;
