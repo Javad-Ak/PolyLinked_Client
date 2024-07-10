@@ -92,6 +92,7 @@ public class LoginController {
         if (con.getResponseCode() / 100 == 2) {
             InputStream inputStream = con.getInputStream();
             JSONObject jsonObject1 = JsonHandler.getObject(inputStream);
+
             DataAccess.setJWT(jsonObject1.getString("Authorization"));
             DataAccess.setUserId(jsonObject1.getString("userId"));
             DataAccess.setFullName(jsonObject1.getString("fullName"));

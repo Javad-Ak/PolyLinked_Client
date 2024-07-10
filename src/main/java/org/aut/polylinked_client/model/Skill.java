@@ -21,6 +21,15 @@ public class Skill implements JsonSerializable {
         this.text = text;
     }
 
+    public Skill(String skillId, String profileId, String educationId, String text) throws NotAcceptableException {
+        if (text == null || text.length() > 40) throw new NotAcceptableException("Invalid Arguments");
+
+        this.skillId = skillId;
+        this.userId = profileId;
+        this.educationId = educationId;
+        this.text = text;
+    }
+
     public Skill(JSONObject jsonObject) throws NotAcceptableException {
         this.skillId = jsonObject.getString("skillId");
         this.userId = jsonObject.getString("userId");
@@ -48,12 +57,7 @@ public class Skill implements JsonSerializable {
 
     @Override
     public String toString() {
-        return '{' +
-                "skillId:" + skillId +
-                ", userId:" + userId +
-                ", educationId:" + educationId +
-                ", text:" + text +
-                '}';
+        return "Skill: " + text;
     }
 
     @Override

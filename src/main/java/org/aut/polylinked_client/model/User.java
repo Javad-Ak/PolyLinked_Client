@@ -112,6 +112,10 @@ public class User implements MediaLinked {
         return MediaLinked.SERVER_PREFIX + "profiles/" + userId;
     }
 
+    public String getBannerURL() {
+        return MediaLinked.SERVER_PREFIX + "backgrounds/bg" + userId;
+    }
+
     private static void validateFields(String email, String password, String firstName, String lastName, String additionalName) throws NotAcceptableException {
         if ((firstName == null || lastName == null || email == null || password == null || additionalName == null) ||
                 (!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) ||
@@ -128,5 +132,17 @@ public class User implements MediaLinked {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public void setAdditionalName(String additionalName) {
+        this.additionalName = additionalName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

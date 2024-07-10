@@ -89,7 +89,7 @@ public class SceneManager {
 
     public static void setScene(SceneLevel sceneLevel) {
         if (stage == null) {
-            System.out.println("Primary stage not set");
+            System.err.println("Primary stage not set");
             System.exit(1);
         }
 
@@ -175,5 +175,9 @@ public class SceneManager {
 
     public static ReadOnlyDoubleProperty getWidthProperty() {
         return stage.widthProperty();
+    }
+
+    public static ReadOnlyDoubleProperty getHeightProperty() {
+        return stage.heightProperty();
     }
 }

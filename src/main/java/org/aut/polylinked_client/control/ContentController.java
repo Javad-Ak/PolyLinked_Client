@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -25,14 +26,17 @@ import org.aut.polylinked_client.utils.exceptions.UnauthorizedException;
 import org.aut.polylinked_client.view.MediaWrapper;
 import org.json.JSONObject;
 import org.kordamp.ikonli.javafx.FontIcon;
+
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class ContentController {
     private final static String fileId = "content"; // content.css file reference
-    private final static Path defaultFace = Path.of("src/main/resources/org/aut/polylinked_client/images/face.jpg");
+    private final static Path defaultAvatar = Path.of("src/main/resources/org/aut/polylinked_client/images/avatar.png");
 
     @FXML
     private GNAvatarView avatar;
@@ -59,7 +63,10 @@ public class ContentController {
     private Hyperlink repostLink;
 
     @FXML
-    private GridPane root;
+    private GridPane pane;
+
+    @FXML
+    private VBox root;
 
     @FXML
     private Text textArea;
@@ -69,11 +76,11 @@ public class ContentController {
 
     @FXML
     void initialize() {
-        SceneManager.activateTheme(root, fileId);
+        SceneManager.activateTheme(pane, fileId);
 
         // theme observation
         SceneManager.getThemeProperty().addListener((observable, oldValue, newValue) -> {
-            SceneManager.activateTheme(root, fileId);
+            SceneManager.activateTheme(pane, fileId);
         });
     }
 
@@ -89,22 +96,23 @@ public class ContentController {
     // fill data into fxml using fxmlLoader.getController
     private void setData(Post post, User user) {
         if (post == null || user == null) return;
-        root.setUserData(post);
+        pane.setUserData(post);
 
         // fill data into fxml
         nameLink.setText(user.getFirstName() + " " + user.getLastName());
+        setUpProfileLink(user, nameLink);
+
         likesLink.setText(post.getLikesCount() + " likes");
         commentsLink.setText(post.getCommentsCount() + " comments");
+        commentsLink.setOnAction(this::commentPressed);
         textArea.setText(post.getText());
 
         Date date = new Date(post.getDate());
         dateLabel.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date));
 
         setUpLike(post);
-        setUpFollow(post);
+        ProfileController.setUpFollow(followButton, post.getUserId());
         setUpRepost(post, user);
-
-        commentsLink.setOnAction(this::commentPressed);
     }
 
     private void setData(Comment comment, User user) {
@@ -112,6 +120,7 @@ public class ContentController {
         deleteRows();
 
         nameLink.setText(user.getFirstName() + " " + user.getLastName());
+        setUpProfileLink(user, nameLink);
         textArea.setText(comment.getText());
 
         Date date = comment.getCreateDate();
@@ -125,9 +134,15 @@ public class ContentController {
     private void setData(Message message, User user) {
         if (message == null || user == null) return;
         deleteRows();
-        root.getChildren().removeIf(node -> GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) == 0);
+        pane.getChildren().removeIf(node -> GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) == 0);
+
+        if (message.getSenderId().equals(DataAccess.getUserId()))
+            root.setPadding(new Insets(0, 0, 0, 100));
+        else
+            root.setPadding(new Insets(0, 100, 0, 0));
 
         nameLink.setText(user.getFirstName() + " " + user.getLastName());
+        setUpProfileLink(user, nameLink);
         textArea.setText(message.getText());
 
         Date date = new Date(message.getDate());
@@ -145,7 +160,7 @@ public class ContentController {
             Parent parent = loader.load();
 
             CommentsController controller = loader.getController();
-            Post post = (Post) root.getUserData();
+            Post post = (Post) pane.getUserData();
             controller.setData(post);
 
             SceneManager.switchRoot(parent, controller.isSwitched());
@@ -162,69 +177,13 @@ public class ContentController {
     @FXML
     void repostPressed(ActionEvent event) {
         try {
-            Post post = (Post) root.getUserData();
+            Post post = (Post) pane.getUserData();
             Post rePost = post.repost(DataAccess.getUserId());
             HomeController.sendPost(rePost, DataAccess.getFile(post.getPostId(), post.getMediaURL()));
         } catch (NotAcceptableException e) {
             SceneManager.showNotification("Failure", "Post Couldn't be added. Please try again later.", 3);
         }
     }
-
-    @FXML
-    void sendPressed(ActionEvent event) {
-
-    }
-
-    void setUpFollow(Post post) {
-        if (post.getUserId().equals(DataAccess.getUserId())) {
-            followButton.setDisable(true);
-            followButton.setVisible(false);
-            return;
-        }
-
-        JSONObject followedHeader = RequestBuilder.buildHeadRequest("follows/" + post.getUserId(), JsonHandler.createJson("Authorization", DataAccess.getJWT()));
-        if (followedHeader != null && followedHeader.getString("Exists") != null && followedHeader.getString("Exists").equalsIgnoreCase("true")) {
-            followButton.setText("Unfollow");
-        } else {
-            followButton.setText("  Follow  ");
-        }
-
-        followButton.setOnAction((ActionEvent event) -> {
-            String method;
-            String newText = followButton.getText();
-            if (newText.contains("Follow")) {
-                method = "POST";
-                newText = "Unfollow";
-            } else {
-                method = "DELETE";
-                newText = "  Follow  ";
-            }
-
-            String finalNewText = newText;
-            new Thread(() -> {
-                try {
-                    RequestBuilder.sendJsonRequest(
-                            method, "follows",
-                            JsonHandler.createJson("Authorization", DataAccess.getJWT()),
-                            new Follow(DataAccess.getUserId(), post.getUserId()).toJson());
-
-                    Platform.runLater(() -> {
-                        followButton.setText(finalNewText);
-                    });
-                } catch (NotAcceptableException e) {
-                    Platform.runLater(() -> {
-                        SceneManager.showNotification("Failure", "Request failed.", 3);
-                    });
-                } catch (UnauthorizedException e) {
-                    Platform.runLater(() -> {
-                        SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
-                        SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
-                    });
-                }
-            }).start();
-        });
-    }
-
 
     void setUpLike(Post post) {
         FontIcon likeIcon = new FontIcon("mdi-thumb-up-outline");
@@ -279,10 +238,27 @@ public class ContentController {
                 }
             }).start();
         });
+
+        likesLink.setOnAction((ActionEvent event) -> {
+            new Thread(() -> {
+                try {
+                    List<User> users = RequestBuilder.arrayFromGetRequest(User.class, "likes/" + post.getPostId(), JsonHandler.createJson("Authorization", DataAccess.getJWT()));
+                    if (users.isEmpty()) return;
+
+                    UserListController userListController = new UserListController(users);
+                    UserListController.initiatePage(userListController.getListView());
+                } catch (UnauthorizedException e) {
+                    Platform.runLater(() -> {
+                        SceneManager.setScene(SceneManager.SceneLevel.LOGIN);
+                        SceneManager.showNotification("Info", "Your Authorization has failed or expired.", 3);
+                    });
+                }
+            }).start();
+        });
     }
 
     private void deleteRows() {
-        root.getChildren().removeIf(node -> GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) >= 2 &&
+        pane.getChildren().removeIf(node -> GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) >= 2 &&
                 !(node.getId() != null && node.getId().equals("date")));
 
         VBox vBox = (VBox) nameLink.getParent();
@@ -294,10 +270,10 @@ public class ContentController {
 
     private void setUpMedias(File file, File media) {
         DataAccess.FileType type = DataAccess.getFileType(file);
-        if (file != null && type == DataAccess.FileType.IMAGE)
+        if (file != null && file.length() > 0 && type == DataAccess.FileType.IMAGE)
             avatar.setImage(new Image(file.toURI().toString()));
         else
-            avatar.setImage(new Image(defaultFace.toUri().toString()));
+            avatar.setImage(new Image(defaultAvatar.toUri().toString()));
 
         if (media != null && media.length() > 0) {
             MediaWrapper viewer = MediaWrapper.getMediaViewer(media, 0.45);
@@ -326,6 +302,8 @@ public class ContentController {
                         vBox.getChildren().clear();
                         vBox.getChildren().addAll(nameLink, repostLink);
                     });
+
+                    setUpProfileLink(ownerUser, repostLink);
                 } catch (NotAcceptableException e) {
                     System.err.println(e.getMessage());
                     System.exit(1);
@@ -349,5 +327,25 @@ public class ContentController {
                 setUpMedias(file, mediaFile);
             });
         }).start();
+    }
+
+    private void setUpProfileLink(User user, Hyperlink repostLink) {
+        repostLink.setOnAction((ActionEvent event) -> {
+            new Thread(() -> {
+                FXMLLoader loader = new FXMLLoader(PolyLinked.class.getResource("fxmls/profile.fxml"));
+                try {
+                    Parent root = loader.load();
+                    ProfileController profileController = loader.getController();
+                    profileController.setData(user.getUserId());
+                    profileController.activateBackButton();
+                    Platform.runLater(() -> {
+                        SceneManager.switchRoot(root, profileController.isSwitched());
+                    });
+                } catch (IOException e) {
+                    System.err.println("Failed to load profile fxml");
+                    System.exit(1);
+                }
+            }).start();
+        });
     }
 }

@@ -7,9 +7,9 @@ module org.aut.polylinked_client {
     requires org.jetbrains.annotations;
     requires java.net.http;
     requires GNAvatarView;
+    requires org.kordamp.ikonli.javafx;
     requires org.controlsfx.controls;
     requires javafx.media;
-    requires org.kordamp.ikonli.javafx;
 
 
     opens org.aut.polylinked_client.control to javafx.fxml;

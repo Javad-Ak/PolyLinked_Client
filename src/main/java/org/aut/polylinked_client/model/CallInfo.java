@@ -4,6 +4,7 @@ import org.aut.polylinked_client.utils.exceptions.NotAcceptableException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CallInfo implements JsonSerializable {
@@ -33,12 +34,13 @@ public class CallInfo implements JsonSerializable {
 
     public CallInfo(JSONObject jsonObject) throws NotAcceptableException {
         try {
+            if (jsonObject == null) throw new NotAcceptableException("JSON could not be parsed");
             userId = jsonObject.getString("userId");
             email = jsonObject.getString("emailAddress");
             mobileNumber = jsonObject.getString("mobileNumber");
             homeNumber = jsonObject.getString("homeNumber");
             workNumber = jsonObject.getString("workNumber");
-            address = jsonObject.getString("Address");
+            address = jsonObject.getString("address");
             birthDay = new Date(jsonObject.getLong("birthDay"));
             privacyPolitics = PrivacyPolitics.valueOf(jsonObject.getString("privacyPolitics"));
             socialMedia = jsonObject.getString("socialMedia");
@@ -77,7 +79,7 @@ public class CallInfo implements JsonSerializable {
     }
 
     public String getPrivacyPolitics() {
-        return privacyPolitics.toString();
+        return privacyPolitics.value;
     }
 
     public String getSocialMedia() {
@@ -86,17 +88,16 @@ public class CallInfo implements JsonSerializable {
 
     @Override
     public String toString() {
-        return '{' +
-                "userId: " + userId +
-                ", emailAddress: " + email +
-                ", mobileNumber: " + mobileNumber +
-                ", homeNumber: " + homeNumber +
-                ", workNumber: " + workNumber +
-                ", Address: " + address +
-                ", birthDay: " + birthDay.getTime() +
-                ", privacyPolitics: " + privacyPolitics +
-                ", socialMedia: " + socialMedia +
-                '}';
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(birthDay);
+
+        return "emailAddress: " + email +
+                "\nmobileNumber: " + mobileNumber +
+                "\nhomeNumber: " + homeNumber +
+                "\nworkNumber: " + workNumber +
+                "\naddress: " + address +
+                "\nbirthDay: " + date +
+                "\nprivacyPolitics: " + privacyPolitics +
+                "\nsocialMedia: " + socialMedia;
     }
 
     @Override
@@ -107,9 +108,9 @@ public class CallInfo implements JsonSerializable {
         jsonObject.put("mobileNumber", mobileNumber);
         jsonObject.put("homeNumber", homeNumber);
         jsonObject.put("workNumber", workNumber);
-        jsonObject.put("Address", address);
+        jsonObject.put("address", address);
         jsonObject.put("birthDay", birthDay.getTime());
-        jsonObject.put("privacyPolitics", privacyPolitics);
+        jsonObject.put("privacyPolitics", privacyPolitics.value);
         jsonObject.put("socialMedia", socialMedia);
         return jsonObject;
     }
